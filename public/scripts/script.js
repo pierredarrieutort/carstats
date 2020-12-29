@@ -1,4 +1,4 @@
-export default function test () {
+export default function test() {
     console.log('test successfully loaded')
 }
 test()
