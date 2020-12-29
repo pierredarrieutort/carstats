@@ -16,8 +16,7 @@ app.use(sassMiddleware({
     sourceMap: true
 }))
 
-app.use(express.static('styles'))
-app.use(express.static('scripts'))
+app.use(express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
