@@ -1,4 +1,4 @@
 node_modules
 package-lock.json
 *.map
-public/styles*.css
+public/styles/*.css
