@@ -10,12 +10,12 @@
     <% if (typeof _staticFiles_ !== 'undefined') {
         if (_staticFiles_.styles.length) {
         _staticFiles_.styles.forEach(path => { %>
-            <link rel="stylesheet" href="styles/<%= path %>">
+            <link rel="stylesheet" href="/styles/<%= path %>">
         <% })} %>
         
         <% if (_staticFiles_.scripts.length) {
         _staticFiles_.scripts.forEach(path => { %>
-            <script src="scripts/<%= path %>" type="module" defer></script>
+            <script src="/scripts/<%= path %>" type="module" defer></script>
         <% })}
      } %>
 </head>
