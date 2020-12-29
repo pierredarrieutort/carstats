@@ -7,12 +7,12 @@
     <title>Carstats</title>
     <link rel="icon" type="image/png" sizes="512x512" href="/images/logo.png">
     
-    <% if (_staticFiles_?.styles.length) {
+    <% if (typeof _staticFiles_ !== 'undefined' && _staticFiles_.styles.length) {
     _staticFiles_.styles.forEach(path => { %>
-        <link rel="stylesheet" href="<%= path %>">
+        <link rel="stylesheet" href="styles/<%= path %>">
     <% })} %>
     
-    <% if (_staticFiles_?.scripts.length) {
+    <% if (typeof _staticFiles_ !== 'undefined' && _staticFiles_.scripts.length) {
     _staticFiles_.scripts.forEach(path => { %>
         <script src="scripts/<%= path %>" defer></script>
     <% })} %>
