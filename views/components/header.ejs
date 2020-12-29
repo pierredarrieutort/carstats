@@ -9,7 +9,7 @@
     
     <% if (_staticFiles_?.styles.length) {
     _staticFiles_.styles.forEach(path => { %>
-        <link rel="stylesheet" href="styles/<%= path %>">
+        <link rel="stylesheet" href="<%= path %>">
     <% })} %>
     
     <% if (_staticFiles_?.scripts.length) {

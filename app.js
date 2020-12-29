@@ -12,14 +12,12 @@ app.use(sassMiddleware({
     src: path.join(__dirname, 'public/styles'),
     dest: path.join(__dirname, 'public/styles'),
     indentedSyntax: false,
-    sourceMap: true
+    outputStyle: 'compressed'
 }))
-
 app.use(express.static('public'))
 
 const port = 3000
-app.listen(port, () => console.log(`http://localhost:${port}`))
-
+app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 
 app.get('/', (req, res) => res.render('index'))
 
