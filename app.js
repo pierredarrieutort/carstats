@@ -1,16 +1,16 @@
 import express from 'express'
 import path from 'path'
-import sassMiddleware from 'sass-middleware'
+import sassMiddleware from 'node-sass-middleware'
 import authRouter from './routes/auth'
 
 const app = express()
 
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
 app.use(sassMiddleware({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
+    src: path.join(__dirname, 'public/styles'),
+    dest: path.join(__dirname, 'public/styles'),
     indentedSyntax: false,
     sourceMap: true
 }))
@@ -28,7 +28,6 @@ app.post('/', (req, res) => {
         res.send('pas de message')
     }
 })
-
 
 
 app.use('/auth', authRouter)

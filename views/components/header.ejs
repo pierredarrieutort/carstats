@@ -4,8 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="icon" type="image/png" sizes="512x512" href="images/logo.png">
+    <title>Carstats</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/logo.png">
+    
+    <% if (_staticFiles_?.styles.length) {
+    _staticFiles_.styles.forEach(path => { %>
+        <link rel="stylesheet" href="styles/<%= path %>">
+    <% })} %>
+    
+    <% if (_staticFiles_?.scripts.length) {
+    _staticFiles_.scripts.forEach(path => { %>
+        <script src="scripts/<%= path %>" defer></script>
+    <% })} %>
 </head>
 
 <body id="<%= _pageIdentifier_ %>">
