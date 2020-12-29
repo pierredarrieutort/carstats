@@ -1,7 +1,6 @@
 import express from 'express'
 import path from 'path'
 import sassMiddleware from 'sass-middleware'
-import bodyParser from 'body-parser'
 import authRouter from './routes/auth'
 
 const app = express()
@@ -17,9 +16,6 @@ app.use(sassMiddleware({
 }))
 
 app.use(express.static('public'))
-
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 
 const port = 3000
 app.listen(port, () => console.log(`http://localhost:${port}`))
