@@ -1,0 +1,18 @@
+<%- include('../components/header.ejs', {_pageIdentifier_: 'page-sign-up'}) %>
+
+    <section>
+        <form id="sign-up">
+            <label for="email">Email adress</label>
+            <input type="email" name="email">
+            <label for="username">Username</label>
+            <input type="text" name="username">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+            <label for="passwordConfirm">Password confirmation</label>
+            <input type="password" name="passwordConfirm">
+            <input type="submit" value="Sign up">
+        </form>
+        <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
+    </section>
+
+<%- include('../components/footer.ejs') %>

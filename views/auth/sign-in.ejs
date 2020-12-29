@@ -1,0 +1,15 @@
+<%- include('../components/header.ejs', { _pageIdentifier_: 'page-sign-in' }) %>
+
+    <section>
+        <form id="sign-in">
+            <label for="username">Email adress or username</label>
+            <input type="text" name="username">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+            <input type="submit" value="Sign in">
+        </form>
+        <p>Not registered ? <a href="./sign-up">Sign up</a></p>
+        <p>Forgotten password ? <a href="./forgot-password">Retrieve-it</a></p>
+    </section>
+
+    <%- include('../components/footer.ejs') %>
