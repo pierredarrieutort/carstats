@@ -1,4 +1,11 @@
-<%- include('../components/header.ejs', { _pageIdentifier_: 'page-sign-in' }) %>
+<%- include('../components/header.ejs', {
+    _pageIdentifier_: 'page-sign-in',
+    _staticFiles_: {
+        scripts: [
+            'signIn.js'
+        ]
+    }
+    }) %>
 
     <section>
         <form id="sign-in">
