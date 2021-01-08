@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import sassMiddleware from 'node-sass-middleware'
 import authRouter from './routes/auth'
+import appRouter from './routes/app'
 
 const app = express()
 
@@ -9,8 +10,8 @@ app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
 app.use(sassMiddleware({
-    src: path.join(__dirname, 'public/styles'),
-    dest: path.join(__dirname, 'public/styles'),
+    src: path.resolve('public/styles'),
+    dest: path.resolve('public/styles'),
     indentedSyntax: false,
     outputStyle: 'compressed'
 }))
@@ -21,11 +22,5 @@ app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 
 app.get('/', (req, res) => res.render('index'))
 
-app.post('/', (req, res) => {
-    if (req.body.message === undefined || req.body.message === '') {
-        res.send('pas de message')
-    }
-})
-
-
 app.use('/auth', authRouter)
+app.use('/', appRouter)

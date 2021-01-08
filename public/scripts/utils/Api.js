@@ -1,25 +1,29 @@
+import Cookie from './Cookie.js'
+
 export default class Api {
     constructor(data) {
-        this.data = JSON.stringify(data)
-        console.log('here')
+        this.data = data
     }
 
     async authenticate() {
         await fetch('https://carstats.herokuapp.com/auth/local', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: this.data,
+            body: JSON.stringify(this.data),
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(this.debug)
+            .then(data => {
+                this.debug(data)
+                this.injectJwt(data.jwt)
+            })
     }
 
     async register() {
         await fetch('https://carstats.herokuapp.com/users', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: this.data,
+            body: JSON.stringify(this.data),
             redirect: 'follow'
         })
             .then(res => res.json())
@@ -30,7 +34,7 @@ export default class Api {
         await fetch('https://carstats.herokuapp.com/auth/forgot-password', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: this.data,
+            body: JSON.stringify(this.data),
             redirect: 'follow'
         })
             .then(res => res.json())
@@ -41,11 +45,19 @@ export default class Api {
         await fetch('https://carstats.herokuapp.com/auth/reset-password', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: this.data,
+            body: JSON.stringify(this.data),
             redirect: 'follow'
         })
             .then(res => res.json())
             .then(this.debug)
+    }
+
+    injectJwt(jwt) {
+        new Cookie().set('jwt', jwt, { path: '/', days: 30 })
+    }
+
+    disconnect() {
+        new Cookie().delete('jwt')
     }
 
     debug(e) {

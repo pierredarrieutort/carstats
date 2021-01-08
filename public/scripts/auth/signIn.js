@@ -1,9 +1,9 @@
-import Api from './Api.js'
+import Api from '../utils/Api.js'
 
 export default function signInInit() {
     const signIn = document.getElementById('sign-in')
 
-    signIn.addEventListener('submit', (e) => {
+    signIn.addEventListener('submit', e => {
         e.preventDefault()
 
         const

@@ -1,4 +1,4 @@
-import Api from './Api.js'
+import Api from '../utils/Api.js'
 
 export default function signUpInit() {
     const signUp = document.getElementById('sign-up')

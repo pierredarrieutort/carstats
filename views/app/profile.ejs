@@ -1,0 +1,16 @@
+<%- include('../components/header.ejs', {
+    _pageIdentifier_: 'page-profile',
+    _staticFiles_: {
+        styles: [
+            'style.css'
+        ],
+        scripts: [
+            'app/profile.js'
+        ]
+    }
+}) %>
+
+<p>Welcome <%= username %>, you're connected!</p>
+<button id="disconnect">10connect</button>
+
+<%- include('../components/footer.ejs') %>
