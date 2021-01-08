@@ -58,6 +58,7 @@ export default class Api {
 
     disconnect() {
         new Cookie().delete('jwt')
+        location.reload()
     }
 
     debug(e) {

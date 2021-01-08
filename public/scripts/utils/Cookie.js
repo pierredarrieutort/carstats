@@ -1,10 +1,17 @@
 export default class Cookie {
-    get(name, cookiesString = document.cookie) {
+    get(name, cookiesString) {
+
+        if (typeof document !== 'undefined') {
+            cookiesString = document.cookie
+        } else if (typeof cookiesString === 'undefined') {
+            return false
+        }
+
         const cookies = cookiesString.split(';').map(cookie => {
             const [name, ...value] = cookie.split('=')
             return { [name.trim()]: decodeURIComponent(value.join('=')) }
         })
-        
+
         return cookies[name] ?? cookies[0][name]
     }
 
