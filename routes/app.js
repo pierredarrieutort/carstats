@@ -2,9 +2,13 @@ import express from 'express'
 import Cookie from '../public/scripts/utils/Cookie'
 import ServerApi from '../public/scripts/utils/ServerApi'
 
-const authRouter = express()
+const appRouter = express()
 
-authRouter.get('/profile', (req, res, next) => {
+
+appRouter.get('/map', (req, res, next) => res.render('app/map'))
+appRouter.get('/statistics', (req, res, next) => res.render('app/statistics'))
+
+appRouter.get('/profile', (req, res, next) => {
 
     const JWT = new Cookie().get('jwt', req.headers.cookie)
 
@@ -18,4 +22,6 @@ authRouter.get('/profile', (req, res, next) => {
         })
 })
 
-export default authRouter
+appRouter.get('/settings', (req, res, next) => res.render('app/settings'))
+
+export default appRouter
