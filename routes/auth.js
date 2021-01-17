@@ -12,5 +12,4 @@ authRouter.post('/forgot-password', (req, res, next) => console.log(req.body))
 
 authRouter.get('/reset-password', (req, res, next) => res.render('auth/reset-password'))
 
-
 export default authRouter

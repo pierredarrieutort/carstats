@@ -14,8 +14,9 @@ app.use(sassMiddleware({
     dest: path.resolve('public/styles'),
     indentedSyntax: false,
     outputStyle: 'compressed'
-}))
-app.use(express.static('public'))
+}), express.static('public'))
+
+// app.use(express.static('public'))
 
 const port = 3000
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
@@ -23,4 +24,5 @@ app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 app.get('/', (req, res) => res.render('index'))
 
 app.use('/auth', authRouter)
+
 app.use('/', appRouter)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,6 @@
         _staticFiles_.styles.forEach(path => { %>
             <link rel="stylesheet" href="/styles/<%= path %>">
         <% })} %>
-        
         <% if (_staticFiles_.scripts?.length) {
         _staticFiles_.scripts.forEach(path => { %>
             <script src="/scripts/<%= path %>" type="module" defer></script>
