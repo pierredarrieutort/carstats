@@ -10,13 +10,13 @@ app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
 app.use(sassMiddleware({
-    src: path.resolve('public/styles'),
-    dest: path.resolve('public/styles'),
+    src: path.resolve('public'),
+    dest: path.resolve('public'),
     indentedSyntax: false,
     outputStyle: 'compressed'
-}), express.static('public'))
+}))
 
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 const port = 3000
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
