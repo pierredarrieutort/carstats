@@ -1,6 +1,8 @@
 import express from 'express'
 import path from 'path'
 import sassMiddleware from 'node-sass-middleware'
+import browserSync from 'browser-sync'
+
 import authRouter from './routes/auth'
 import appRouter from './routes/app'
 
@@ -20,6 +22,15 @@ app.use(express.static('public'))
 
 const port = 3000
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
+
+browserSync({
+    files: ['**/**.{ejs,js,scss}'],
+    online: false,
+    open: true,
+    port: port + 1,
+    proxy: 'localhost:' + port,
+    ui: false
+})
 
 app.get('/', (req, res) => res.render('index'))
 
