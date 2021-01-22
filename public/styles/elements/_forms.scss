@@ -1,0 +1,38 @@
+.auth {
+    form {
+        margin: s(2) 0;
+        label {
+            font-size: f(0.9);
+            margin-bottom: s(0.5);
+        }
+        input {
+            width: 100%;
+            margin-bottom: s(1);
+            padding: s(1);
+            border-radius: 6px;
+            border: 1px solid $c-white;
+            &::placeholder {
+                color: $c-darkGray;
+                font-family: $f-text;
+            }
+            &:focus {
+                border: 1px solid $c-primary;
+            }
+            &[type=submit] {
+                background: $c-primary;
+                border: none;
+                color: $c-white;
+                margin: s(1) 0 0;
+                cursor: pointer;
+            }
+        }
+    }
+    p {
+        &:not(:last-of-type) {
+            margin-bottom: s(0.5);
+        }
+        a {
+            color: $c-primary;
+        }
+    }
+}

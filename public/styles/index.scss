@@ -1,3 +1,20 @@
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+@import 'settings/colors';
+@import 'settings/sizes';
+@import 'settings/fonts';
+@import 'settings/container';
+
+@import 'tools/functions';
+@import 'tools/mixins';
+
+@import 'generic/reset';
+
+@import 'elements/pages';
+@import 'elements/blocs';
+@import 'elements/headings';
+@import 'elements/texts';
+@import 'elements/links';
+@import 'elements/forms';
+@import 'elements/borders';
+
+@import 'objects/layouts';
+@import 'objects/animations';

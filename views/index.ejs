@@ -1,19 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('components/header.ejs', {
+    _pageTitle_: 'Home',
+    _pageIdentifier_: 'page-home',
+    _staticFiles_: {
+        styles: [
+            'index.css'
+        ]
+    }
+}) %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carstats - Home</title>
-    <link rel="icon" type="image/png" sizes="512x512" href="/images/logo.png">
-</head>
+    <h1>Home</h1>
 
-<body>
+    <ul>
+        <li><a href="auth/sign-up">Sign up</a></li>
+        <li><a href="auth/sign-in">Sign in</a></li>
+        <li><a href="auth/forgot-password">Forgot password</a></li>
+        <li><a href="auth/reset-password">Reset password</a></li>
+        <li><a href="profile">Profile</a></li>
+    </ul>
 
-    <p>Home</p>
-    <a href="auth/sign-up">Sign up</a>
-    <a href="auth/sign-in">Sign in</a>
-
-</body>
-
-</html>
+    <%- include('components/footer.ejs') %>

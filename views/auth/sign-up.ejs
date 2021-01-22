@@ -1,25 +1,42 @@
 <%- include('../components/header.ejs', {
+    _pageTitle_: 'Sign up',
     _pageIdentifier_: 'page-sign-up',
     _staticFiles_: {
+        styles: [
+            'index.css'
+        ],
         scripts: [
             'auth/signUp.js'
         ]
     }
 }) %>
 
-    <section>
-        <form id="sign-up">
-            <label for="email">Email adress</label>
-            <input type="email" name="email">
-            <label for="username">Username</label>
-            <input type="text" name="username">
-            <label for="password">Password</label>
-            <input type="password" name="password">
-            <label for="passwordConfirm">Password confirmation</label>
-            <input type="password" name="passwordConfirm">
-            <input type="submit" value="Sign up">
-        </form>
-        <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
+    <section class="auth bloc-full">
+        <div class="container">
+
+            <h1>Sign up</h1>
+
+            <form id="sign-up">
+                <label for="email">Email adress</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email adress" required>
+
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter your username" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="6">
+
+                <label for="passwordConfirm">Password confirmation</label>
+                <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Enter your password again" required minlength="6">
+
+                <input type="submit" value="Sign up">
+            </form>
+            
+            <span class="border"></span>
+
+            <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
+
+        </div>
     </section>
 
-<%- include('../components/footer.ejs') %>
+    <%- include('../components/footer.ejs') %>
