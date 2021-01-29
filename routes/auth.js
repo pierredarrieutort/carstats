@@ -29,7 +29,15 @@ authRouter.use((req, res, next) => {
     function triggerSwitch(r) {
         switch (req.url) {
             case '/sign-in':
-                res.render('auth/sign-in')
+                switch (req.method) {
+                    case 'GET':
+                        res.render('auth/sign-in')
+                        break;
+                
+                    case 'POST':
+                        
+                        break;
+                }
                 break;
             case '/sing-up':
                 res.render('auth/sign-up')
