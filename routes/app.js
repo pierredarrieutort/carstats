@@ -30,7 +30,7 @@ appRouter.use((req, res, next) => {
                 res.render('app/settings')
                 break;
             default:
-                res.redirect('/app/map')
+                res.redirect('app/map')
                 break;
         }
     }

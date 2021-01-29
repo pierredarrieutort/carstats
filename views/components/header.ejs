@@ -18,5 +18,14 @@
         <% })}
     } %>
 </head>
-
+<% if (typeof _useAppMenu_ !== 'undefined') { %>
+    <header id="main-menu">
+        <nav>
+            <a href="app/map">map</a>
+            <a href="app/statistics">stats</a>
+            <a href="app/profile">profile</a>
+            <a href="app/settings">settings</a>
+        </nav>
+    </header>
+<% } %>
 <body id="<%= _pageIdentifier_ %>">
