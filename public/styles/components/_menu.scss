@@ -1,0 +1,50 @@
+#main-menu {
+    position: fixed;
+    bottom: 1.5em;
+    left: 5vw;
+    border-radius: 100px;
+    background: $c-white;
+    color: $c-bg;
+    z-index: 2;
+
+    ul {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 1em 0 0.8em;
+    }
+
+    a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: .5em;
+        margin: 0;
+        font-size: .8em;
+
+        svg {
+            width: 1.2em;
+            height: 1.2em;
+            display: block;
+        }
+    }
+}
+
+#page {
+    @mixin currentPage {
+        background: red;
+    }
+
+    &-map #main-menu [href*=map] {
+        @include currentPage;
+    }
+    &-statistics #main-menu [href*=statistics] {
+        @include currentPage;
+    }
+    &-profile #main-menu [href*=profile] {
+        @include currentPage;
+    }
+    &-settings #main-menu [href*=settings] {
+        @include currentPage;
+    }
+}
