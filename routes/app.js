@@ -4,21 +4,36 @@ import ServerApi from '../public/scripts/utils/ServerApi'
 
 const appRouter = express()
 
-appRouter.get('/map', (req, res, next) => res.render('app/map'))
-
-appRouter.get('/statistics', (req, res, next) => res.render('app/statistics'))
-
-appRouter.get('/profile', (req, res, next) => {
-    const JWT = new Cookie().get('jwt', req.headers.cookie)
-
-    new ServerApi({ bearer: JWT })
+appRouter.use((req, res, next) => {
+    new ServerApi({
+        bearer: new Cookie().get('jwt', req.headers.cookie)
+    })
         .whoAmI()
-        .then(({ error, username }) => {
-            if (!error) res.render('app/profile', { username: username })
-            else res.redirect('/')
+        .then(r => {
+            !r.error
+                ? triggerSwitch(r)
+                : res.redirect('/')
         })
-})
 
-appRouter.get('/settings', (req, res, next) => res.render('app/settings'))
+    function triggerSwitch(r) {
+        switch (req.url) {
+            case '/map':
+                res.render('app/map')
+                break;
+            case '/statistics':
+                res.render('app/statistics')
+                break;
+            case '/profile':
+                res.render('app/profile', { username: r.username })
+                break;
+            case '/settings':
+                res.render('app/settings')
+                break;
+            default:
+                res.redirect('/app/map')
+                break;
+        }
+    }
+})
 
 export default appRouter
