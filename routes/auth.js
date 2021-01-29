@@ -47,5 +47,4 @@ authRouter.use((req, res, next) => {
     }
 })
 
-
 export default authRouter
