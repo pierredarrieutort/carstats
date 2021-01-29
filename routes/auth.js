@@ -4,17 +4,6 @@ import ServerApi from '../public/scripts/utils/ServerApi'
 
 const authRouter = express()
 
-// authRouter.get('/sign-in', (req, res, next) => res.render('auth/sign-in'))
-
-// authRouter.get('/sign-up', (req, res, next) => res.render('auth/sign-up'))
-
-// authRouter.get('/forgot-password', (req, res, next) => res.render('auth/forgot-password'))
-
-// authRouter.post('/forgot-password', (req, res, next) => console.log(req.body))
-
-// authRouter.get('/reset-password', (req, res, next) => res.render('auth/reset-password'))
-
-
 authRouter.use((req, res, next) => {
     new ServerApi({
         bearer: new Cookie().get('jwt', req.headers.cookie)
@@ -23,19 +12,15 @@ authRouter.use((req, res, next) => {
         .then(r => {
             !r.error
                 ? res.redirect('/app/map')
-                : triggerSwitch(r)
+                : triggerSwitch()
         })
 
-    function triggerSwitch(r) {
+    function triggerSwitch() {
         switch (req.url) {
             case '/sign-in':
                 switch (req.method) {
                     case 'GET':
                         res.render('auth/sign-in')
-                        break;
-                
-                    case 'POST':
-                        
                         break;
                 }
                 break;
