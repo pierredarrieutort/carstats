@@ -11,7 +11,8 @@ appRouter.get('/statistics', (req, res, next) => res.render('app/statistics'))
 appRouter.get('/profile', (req, res, next) => {
     const JWT = new Cookie().get('jwt', req.headers.cookie)
 
-    new ServerApi({ bearer: JWT }).whoAmI()
+    new ServerApi({ bearer: JWT })
+        .whoAmI()
         .then(({ error, username }) => {
             if (!error) res.render('app/profile', { username: username })
             else res.redirect('/')

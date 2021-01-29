@@ -26,7 +26,7 @@ app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 browserSync({
     files: ['**/**.{ejs,js,scss}'],
     online: false,
-    open: true,
+    open: false,
     port: port + 1,
     proxy: 'localhost:' + port,
     ui: false
@@ -36,4 +36,4 @@ app.get('/', (req, res) => res.render('index'))
 
 app.use('/auth', authRouter)
 
-app.use('/', appRouter)
+app.use('/app', appRouter)

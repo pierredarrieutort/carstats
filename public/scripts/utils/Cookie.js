@@ -28,6 +28,6 @@ export default class Cookie {
     }
 
     delete(name) {
-        this.set(name, '', { 'max-age': -1 })
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
     }
 }
