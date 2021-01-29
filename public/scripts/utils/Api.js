@@ -13,9 +13,11 @@ export default class Api {
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(data => {
-                this.debug(data)
-                this.injectJwt(data.jwt)
+            .then(({ jwt }) => {
+                if (jwt) {
+                    this.injectJwt(jwt)
+                    location.href = '/app'
+                }
             })
     }
 
@@ -27,7 +29,10 @@ export default class Api {
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(this.debug)
+            .then(() => {
+                if (!res.error)
+                    location.href = '/auth/sign-in'
+            })
     }
 
     async forgotPassword() {
@@ -38,7 +43,6 @@ export default class Api {
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(this.debug)
     }
 
     async resetPassword() {
@@ -49,7 +53,10 @@ export default class Api {
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(this.debug)
+            .then(() => {
+                if (!res.error)
+                    location.href = '/auth/sign-in'
+            })
     }
 
     injectJwt(jwt) {
@@ -59,11 +66,5 @@ export default class Api {
     disconnect() {
         new Cookie().delete('jwt')
         location.reload()
-    }
-
-    debug(e) {
-        e.statusCode
-            ? console.error(e)
-            : console.info(e)
     }
 }

@@ -12,13 +12,17 @@ authRouter.use((req, res, next) => {
         .then(r => {
             !r.error
                 ? res.redirect('/app/map')
-                : triggerSwitch(r)
+                : triggerSwitch()
         })
 
-    function triggerSwitch(r) {
+    function triggerSwitch() {
         switch (req.url) {
             case '/sign-in':
-                res.render('auth/sign-in')
+                switch (req.method) {
+                    case 'GET':
+                        res.render('auth/sign-in')
+                        break;
+                }
                 break;
             case '/sing-up':
                 res.render('auth/sign-up')
