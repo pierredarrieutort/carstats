@@ -8,6 +8,13 @@ import appRouter from './routes/app'
 
 const app = express()
 
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+
+io.on('connection', socket => {
+    console.log('test socket')
+})
+
 app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
@@ -21,7 +28,7 @@ app.use(sassMiddleware({
 app.use(express.static('public'))
 
 const port = 3000
-app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
+server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 
 browserSync({
     files: ['**/**.{ejs,js,scss}'],
