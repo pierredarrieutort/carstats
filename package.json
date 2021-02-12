@@ -5,8 +5,9 @@
 	"description": "the new driving experience.",
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
-		"preclient": "rimraf dist",
-		"client": "parcel watch build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps"
+		"client": "parcel watch public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps",
+		"preclientprod": "rimraf dist",
+		"clientprod": "parcel build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps"
 	},
 	"license": "ISC",
 	"devDependencies": {
