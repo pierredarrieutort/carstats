@@ -1,12 +1,10 @@
 import barba from '@barba/core'
-import { gsap } from 'gsap'
 
 export default function initbarbaEngine() {
     barba.hooks.after(document.querySelector('[autofocus]')?.focus)
 
     barba.init({
         preventRunning: true,
-        sync: true,
         prevent: ({ event, href }) => {
             if (event.type === 'click') {
                 if (href === location.href) {
@@ -27,9 +25,9 @@ export default function initbarbaEngine() {
         },
         transitions: [
             {
-                enter: ({ next }) => gsap.from(next.container, { duration: .2, autoAlpha: 0, ease: 'expo.in' }),
-                leave: ({ current }) => gsap.to(current.container, { duration: .2, autoAlpha: 0, ease: 'expo.out' }),
-                once: () => {/* Keep to trigger Once's hooks */ }
+                once: () => { /* Keep to trigger Once's hooks */ },
+                beforeLeave: () => { /* Keep to trigger beforeLeave's hooks */ },
+                beforeEnter: () => { /* Keep to trigger beforeEnter's hooks */ }
             }
         ]
     })

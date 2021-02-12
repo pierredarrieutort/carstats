@@ -1,14 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Settings',
     _pageIdentifier_: 'page-settings',
-    _staticFiles_: {
-        styles: [
-            'index.css'
-        ],
-        scripts: [
-            'app/settings.js'
-        ]
-    },
     _useAppMenu_: true
 }) %>
 
@@ -22,4 +14,10 @@
         </div>
     </section>
 
-    <%- include('../components/footer.ejs') %>
+    <%- include('../components/footer.ejs', {
+        _staticFiles_: {
+            scripts: [
+                'app/settings.js'
+            ]
+        }
+    }) %>

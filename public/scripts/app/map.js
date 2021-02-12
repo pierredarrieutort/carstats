@@ -29,6 +29,8 @@ function getPosition(position) {
         style: 'mapbox://styles/mathieudaix/ckkie2bdw0saz17pbidyjsgb4',
         center: [longitude, latitude],
         zoom: 18,
+        minZoom: 14,
+        maxZoom: 20
     })
 
     const geojson = {

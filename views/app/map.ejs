@@ -1,14 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Map',
     _pageIdentifier_: 'page-map',
-    _staticFiles_: {
-        styles: [
-            'index.css'
-        ],
-        scripts: [
-            'app/map.js',
-        ]
-    },
     _useAppMenu_: true
 }) %>
 
@@ -18,4 +10,10 @@
 
     </section>
 
-    <%- include('../components/footer.ejs') %>
+    <%- include('../components/footer.ejs', {
+        _staticFiles_: {
+            scripts: [
+                'app/map.js'
+            ]
+        }
+    }) %>

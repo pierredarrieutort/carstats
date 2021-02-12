@@ -1,14 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Sign up',
-    _pageIdentifier_: 'page-sign-up',
-    _staticFiles_: {
-        styles: [
-            'index.css'
-        ],
-        scripts: [
-            'auth/signUp.js'
-        ]
-    }
+    _pageIdentifier_: 'page-sign-up'
 }) %>
 
     <section class="auth bloc-full">
@@ -37,4 +29,10 @@
         </div>
     </section>
 
-    <%- include('../components/footer.ejs') %>
+    <%- include('../components/footer.ejs', {
+        _staticFiles_: {
+            scripts: [
+                'auth/signUp.js'
+            ]
+        }
+    }) %>
