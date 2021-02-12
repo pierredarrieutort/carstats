@@ -5,7 +5,7 @@
 	"description": "the new driving experience.",
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
-		"client": "parcel watch public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps",
+		"client": "parcel watch public/images/* public/scripts/**/* public/styles/index.scss",
 		"preclientprod": "rimraf dist",
 		"clientprod": "parcel build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps"
 	},
@@ -24,6 +24,8 @@
 		"socket.io": "^3.1.1"
 	},
 	"dependencies": {
+		"@barba/core": "^2.9.7",
+		"gsap": "^3.6.0",
 		"mapbox-gl": "^2.1.1",
 		"regenerator-runtime": "^0.13.7",
 		"socket.io-client": "^3.1.1"
