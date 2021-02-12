@@ -1,10 +1,21 @@
+import { io } from 'socket.io-client'
+io()
+
 mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw';
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getPosition);
+        navigator.geolocation.getCurrentPosition(getPosition, error, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        })
     } else {
         console.log('Geolocation is not supported by this browser.')
+    }
+
+    function error(err) {
+        console.warn(`ERREUR (${err.code}): ${err.message}`);
     }
 }
 
