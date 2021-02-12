@@ -1,3 +1,4 @@
+import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
 export default function signInInit() {
