@@ -11,7 +11,7 @@ authRouter.use((req, res, next) => {
         .whoAmI()
         .then(r => {
             !r.error
-                ? res.redirect('/app/map')
+                ? res.redirect('/app')
                 : triggerSwitch()
         })
 
