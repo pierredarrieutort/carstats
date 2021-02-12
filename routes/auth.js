@@ -24,7 +24,7 @@ authRouter.use((req, res, next) => {
                         break;
                 }
                 break;
-            case '/sing-up':
+            case '/sign-up':
                 res.render('auth/sign-up')
                 break;
             case '/forgot-password':
