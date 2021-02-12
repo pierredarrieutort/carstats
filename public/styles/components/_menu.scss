@@ -47,19 +47,19 @@
         }
     }
 
-    &-map #main-menu [href*=map] {
+    &-map+#main-menu [href*=map] {
         @include currentPage;
     }
 
-    &-statistics #main-menu [href*=statistics] {
+    &-statistics+#main-menu [href*=statistics] {
         @include currentPage;
     }
 
-    &-profile #main-menu [href*=profile] {
+    &-profile+#main-menu [href*=profile] {
         @include currentPage;
     }
 
-    &-settings #main-menu [href*=settings] {
+    &-settings+#main-menu [href*=settings] {
         @include currentPage;
     }
 }
