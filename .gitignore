@@ -1,5 +1,7 @@
-node_modules
+/node_modules
 package-lock.json
 *.map
-public/styles/*.css
+/public/styles/*.css
 .DS_Store
+/.cache
+/dist

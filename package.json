@@ -5,7 +5,8 @@
 	"description": "the new driving experience.",
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
-		"client": "parcel public/index.ejs"
+		"preclient": "rimraf dist",
+		"client": "parcel watch build public/fonts/* public/images/* public/scripts/**/* public/styles/index.scss"
 	},
 	"license": "ISC",
 	"devDependencies": {
@@ -17,6 +18,8 @@
 		"node-fetch": "^2.6.1",
 		"nodemon": "^2.0.7",
 		"parcel-bundler": "^1.12.4",
+		"rimraf": "^3.0.2",
+		"sass": "^1.32.7",
 		"socket.io": "^3.1.1"
 	},
 	"dependencies": {
