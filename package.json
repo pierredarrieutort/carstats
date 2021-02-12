@@ -4,23 +4,23 @@
 	"author": "pierredarrieutort, mathieudaix",
 	"description": "the new driving experience.",
 	"scripts": {
-		"start": "nodemon --exec babel-node server.js"
+		"server": "nodemon --exec babel-node server.js",
+		"client": "parcel public/index.ejs"
 	},
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/core": "^7.12.13",
-		"@babel/node": "^7.12.13",
-		"@babel/preset-env": "^7.12.13",
-		"browser-sync": "^2.26.14",
-		"ejs": "^3.1.5",
+		"@babel/core": "^7.12.16",
+		"@babel/node": "^7.12.16",
+		"@babel/preset-env": "^7.12.16",
+		"ejs": "^3.1.6",
 		"express": "5.0.0-alpha.8",
-		"node-sass-middleware": "^0.11.0",
-		"nodemon": "^2.0.7"
+		"node-fetch": "^2.6.1",
+		"nodemon": "^2.0.7",
+		"parcel-bundler": "^1.12.4",
+		"socket.io": "^3.1.1"
 	},
 	"dependencies": {
-		"mapbox-gl": "^2.1.0",
-		"node-fetch": "^2.6.1",
-		"socket.io": "^3.1.1",
-		"socket.io-client": "^2.4.0"
+		"mapbox-gl": "^2.1.1",
+		"socket.io-client": "^3.1.1"
 	}
 }

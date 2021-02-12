@@ -1,7 +1,3 @@
-// import { io } from "socket.io-client";
-
-// const socket = io()
-
 mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw';
 
 function getLocation() {
