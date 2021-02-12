@@ -12,4 +12,10 @@
         </div>
     </section>
 
-    <%- include('../components/footer.ejs') %>
+    <%- include('../components/footer.ejs', {
+        _staticFiles_: {
+            scripts: [
+                'app/barbaRouter.js'
+            ]
+        }
+    }) %>
