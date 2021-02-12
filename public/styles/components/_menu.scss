@@ -10,8 +10,10 @@
     ul {
         display: grid;
         grid-template: auto / repeat(4, 1fr);
-        padding: 1em 1.6em;
+        padding: 0 1.6em;
+        height: 4.5rem;
         gap: .2em;
+        align-items: center;
     }
 
     a {

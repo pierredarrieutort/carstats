@@ -1,4 +1,7 @@
 .bloc {
+    &-default {
+        padding: s(2) 0;
+    }
     &-full {
         height: 100vh;
         display: flex;

@@ -4,15 +4,31 @@
     _staticFiles_: {
         styles: [
             'index.css'
-        ],
-        scripts: [
-            'app/profile.js'
         ]
     },
     _useAppMenu_: true
 }) %>
 
-    <p>Welcome <%= username %>, you're connected!</p>
-    <button id="disconnect">Log out</button>
+    <section class="auth bloc-default">
+        <div class="container">
+
+            <h1>Hello <%= username %>!</h1>
+
+            <h2>Personal statistics</h2>
+            <div>
+                <img src="" alt="">
+                <p>Vitesse maximum</p>
+                <p>180 km/h</p>
+            </div>
+            <div>
+                <img src="" alt="">
+                <p>Vitesse maximum</p>
+                <p>180 km/h</p>
+            </div>
+
+            <h2>Latest travels</h2>
+
+        </div>
+    </section>
 
     <%- include('../components/footer.ejs') %>

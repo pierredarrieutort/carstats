@@ -9,10 +9,11 @@ import appRouter from './routes/app'
 const app = express()
 
 const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const options = {}
+const io = require('socket.io')(server, options)
 
 io.on('connection', socket => {
-    console.log('test socket')
+    console.log('e')
 })
 
 app.set('views', path.resolve('views'))

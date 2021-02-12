@@ -6,6 +6,8 @@ body {
     font-family: $f-text;
     background: $c-bg;
     color: $c-white;
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
 }
 
 .container {
