@@ -1,6 +1,20 @@
 import barba from '@barba/core'
 
+import { initSettings } from "./settings"
+import { initProfile } from "./profile"
+
+function jsInitialization() {
+    window.app = {
+        settings: initSettings,
+        profile: initProfile
+    }
+}
+
 export default function initbarbaEngine() {
+    barba.hooks.beforeOnce(jsInitialization)
+
+    barba.hooks.afterEnter(() => window.app[document.querySelector('main').id.replace('page-', '')]())
+
     barba.hooks.after(document.querySelector('[autofocus]')?.focus)
 
     barba.init({
