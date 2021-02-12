@@ -1,7 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Statistics',
-    _pageIdentifier_: 'page-statistics',
-    _useAppMenu_: true
+    _pageIdentifier_: 'page-statistics'
 }) %>
 
     <section class="bloc-default">
@@ -13,6 +12,7 @@
     </section>
 
     <%- include('../components/footer.ejs', {
+        _useAppMenu_: true,
         _staticFiles_: {
             scripts: [
                 'app/barbaRouter.js'

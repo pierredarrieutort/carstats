@@ -1,7 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Profile',
-    _pageIdentifier_: 'page-profile',
-    _useAppMenu_: true
+    _pageIdentifier_: 'page-profile'
 }) %>
 
     <section class="auth bloc-default">
@@ -27,6 +26,7 @@
     </section>
 
     <%- include('../components/footer.ejs', {
+        _useAppMenu_: true,
         _staticFiles_: {
             scripts: [
                 'app/barbaRouter.js'
