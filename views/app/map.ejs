@@ -1,7 +1,6 @@
 <%- include('../components/header.ejs', {
     _pageTitle_: 'Map',
-    _pageIdentifier_: 'page-map',
-    _useAppMenu_: true
+    _pageIdentifier_: 'page-map'
 }) %>
 
     <section class="bloc-full">
@@ -11,6 +10,7 @@
     </section>
 
     <%- include('../components/footer.ejs', {
+        _useAppMenu_: true,
         _staticFiles_: {
             scripts: [
                 'app/barbaRouter.js',
