@@ -6,7 +6,7 @@
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
 		"preclient": "rimraf dist",
-		"client": "parcel watch build public/fonts/* public/images/* public/scripts/**/* public/styles/index.scss"
+		"client": "parcel watch build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps"
 	},
 	"license": "ISC",
 	"devDependencies": {

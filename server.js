@@ -10,7 +10,7 @@ app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
 
-app.use(express.static('public'))
+app.use(express.static('dist'))
 
 const port = 3000
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
