@@ -12,7 +12,6 @@
         display: grid;
         grid-template: auto / repeat(4, 1fr);
         padding: 0 1.6em;
-        height: 4.5rem;
         gap: .2em;
         align-items: center;
     }
@@ -26,6 +25,7 @@
         margin: 0;
         font-size: .8em;
         border-radius: 30em;
+        height: 4.5rem;
 
         svg {
             width: 1.2em;
