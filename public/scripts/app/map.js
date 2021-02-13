@@ -1,3 +1,7 @@
+window.app.map = function initMap() {
+    console.log('ici la map')
+}
+
 import { io } from 'socket.io-client'
 io()
 

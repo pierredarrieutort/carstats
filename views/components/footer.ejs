@@ -1,4 +1,11 @@
-    </main>
+<% if (typeof _staticFiles_ !== 'undefined') {
+    if (_staticFiles_.scripts?.length) {
+        _staticFiles_.scripts.forEach(path => { %>
+
+            <script class='treatableScript' src="/scripts/<%= path %>" defer></script>
+            
+<% })}} %>
+</main>
 
 <% if (typeof _useAppMenu_ !== 'undefined') { %>
 <header id="main-menu">
@@ -44,8 +51,6 @@
     </nav>
 </header>
 <% } %>
-
-<script src="/scripts/app/barbaRouter.js" defer></script>
 
 </body>
 

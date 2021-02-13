@@ -1,21 +1,10 @@
 import barba from '@barba/core'
 
-import { initSettings } from "./settings"
-import { initProfile } from "./profile"
-
-function jsInitialization() {
-    window.app = {
-        settings: initSettings,
-        profile: initProfile
-    }
-}
 
 export default function initbarbaEngine() {
-    barba.hooks.beforeOnce(jsInitialization)
+    barba.hooks.afterEnter(({ next }) => new ScriptInjectionManagement(next))
 
-    barba.hooks.afterEnter(() => window.app[document.querySelector('main').id.replace('page-', '')]())
-
-    barba.hooks.after(document.querySelector('[autofocus]')?.focus)
+    // barba.hooks.after(document.querySelector('[autofocus]')?.focus)
 
     barba.init({
         preventRunning: true,
@@ -48,3 +37,51 @@ export default function initbarbaEngine() {
 }
 
 addEventListener('DOMContentLoaded', initbarbaEngine)
+
+
+
+class ScriptInjectionManagement {
+    constructor(next) {
+        this.nextDocument = next.container
+        this.loaded = []
+        this.loadable = []
+        this.currentExecutable = this.nextDocument.id.replace('page-', '')
+
+        this.haveBeenAlreadyLoaded()
+    }
+
+    analyze() {
+        this.loaded = [...document.head.getElementsByTagName('script')].map(({ src }) => src)
+        this.loadable = [...this.nextDocument.getElementsByClassName('treatableScript')]
+
+        this.compare()
+    }
+
+    compare() {
+        this.loadable.forEach(({ src }) => {
+            if (!this.loaded.includes(src))
+                this.inject(src)
+        })
+    }
+
+    inject(src) {
+        const script = document.createElement('script')
+        script.src = src
+        script.setAttribute('defer', true)
+        script.setAttribute('onload', `
+            window.app[document.querySelector('main').id.replace('page-', '')]();
+            this.removeAttribute('onload')
+        `)
+        document.head.append(script)
+    }
+
+    execute() {
+        window.app[this.currentExecutable]()
+    }
+
+    haveBeenAlreadyLoaded() {
+        window.app[this.currentExecutable]
+            ? this.execute()
+            : this.analyze()
+    }
+}

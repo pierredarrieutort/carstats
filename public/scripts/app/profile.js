@@ -1,3 +1,3 @@
-export function initProfile() {
-    console.log('coucou ici le profil (pd va)')
+window.app.profile = function initProfile() {
+    console.log('profile heere')
 }

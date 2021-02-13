@@ -3,7 +3,6 @@ import Api from '../utils/Api.js'
 
 // document.getElementById('disconnect').onclick = new Api().disconnect
 
-
-export function initSettings() {
+window.app.settings = function initSettings() {
     console.log('wow ici settings')
 }
