@@ -17,11 +17,14 @@ app.use('/auth', authRouter)
 
 app.use('/app', appRouter)
 
-
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-io.on('connection', socket => console.log(socket))
+io.on('connection', socket => {
+    socket.on('chat message', msg => {
+        io.emit('chat message', msg)
+    })
+})
 
 const port = 3000
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
