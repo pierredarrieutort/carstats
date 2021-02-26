@@ -4,6 +4,9 @@ import path from 'path'
 import authRouter from './routes/auth'
 import appRouter from './routes/app'
 
+import Cookie from './public/scripts/utils/Cookie'
+import ServerApi from './public/scripts/utils/ServerApi'
+
 const app = express()
 
 app.set('views', path.resolve('views'))
@@ -20,13 +23,19 @@ app.use('/app', appRouter)
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-const posBox = []
+const posBox = {}
 
 io.on('connection', socket => {
   socket.on('sendPosition', coords => {
-    posBox.push(coords)
+    new ServerApi({
+      bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
+    })
+      .whoAmI()
+      .then(({ id }) => {
+        posBox[id] = coords
+        io.emit('receivePosition', posBox)
+      })
   })
-  io.emit('receivePosition', posBox)
 })
 
 const port = 3000

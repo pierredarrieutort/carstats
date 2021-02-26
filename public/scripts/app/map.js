@@ -43,7 +43,6 @@ function getPosition (position) {
   })
 
   socket.emit('sendPosition', [longitude, latitude])
-  createMarker([longitude, latitude])
 
   socket.on('sendPosition', coords => {
     var item = document.createElement('li')
@@ -52,14 +51,18 @@ function getPosition (position) {
   })
 
   socket.on('receivePosition', posBox => {
-    console.log('posBoxLength : ', posBox.length)
-    posBox.forEach(createMarker)
+    console.log(posBox)
+    for (const [key, value] of Object.entries(posBox)) {
+      // console.log(key, value)
+      createMarker(key, value)
+    }
   })
 
-  function createMarker (coords) {
+  function createMarker (id, coords) {
     console.log(coords)
     const el = document.createElement('div')
     el.className = 'marker'
+    el.title = id
 
     new mapboxgl.Marker(el)
       .setLngLat(coords)
