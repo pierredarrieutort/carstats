@@ -20,10 +20,13 @@ app.use('/app', appRouter)
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
+const posBox = []
+
 io.on('connection', socket => {
-    socket.on('chat message', msg => {
-        io.emit('chat message', msg)
-    })
+  socket.on('sendPosition', coords => {
+    posBox.push(coords)
+  })
+  io.emit('receivePosition', posBox)
 })
 
 const port = 3000
