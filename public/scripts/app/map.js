@@ -15,7 +15,7 @@ const socket = io()
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw';
 
-function getLocation () {
+function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition, error, {
       enableHighAccuracy: true,
@@ -26,12 +26,12 @@ function getLocation () {
     console.log('Geolocation is not supported by this browser.')
   }
 
-  function error (err) {
+  function error(err) {
     console.warn(`ERREUR (${err.code}): ${err.message}`);
   }
 }
 
-function getPosition (position) {
+function getPosition(position) {
   const { longitude, latitude } = position.coords
   const map = new mapboxgl.Map({
     container: 'map',
@@ -53,20 +53,26 @@ function getPosition (position) {
   socket.on('receivePosition', posBox => {
     console.log(posBox)
     for (const [key, value] of Object.entries(posBox)) {
-      // console.log(key, value)
       createMarker(key, value)
     }
   })
 
-  function createMarker (id, coords) {
-    console.log(coords)
-    const el = document.createElement('div')
-    el.className = 'marker'
-    el.title = id
+  function createMarker(id, coords) {
 
-    new mapboxgl.Marker(el)
-      .setLngLat(coords)
-      .addTo(map)
+    console.log(mapboxgl)
+    if (document.querySelector(`.mapboxgl-canvas-container > #id${id}`)) {
+      mapboxgl.Marker(el)
+        .setLngLat(coords)
+    } else {
+      const el = document.createElement('div')
+      el.className = 'marker'
+      el.id = 'id' + id
+
+      new mapboxgl.Marker(el)
+        .setLngLat(coords)
+        .addTo(map)
+    }
+
   }
 
 }
