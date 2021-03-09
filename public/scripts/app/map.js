@@ -1,5 +1,5 @@
 window.app.map = function initMap() {
-    console.log('ici la map')
+  // console.log('ici la map')
 }
 
 import { io } from 'socket.io-client'
@@ -54,29 +54,55 @@ function getPosition(position) {
     document.querySelector('#messages').appendChild(item)
   })
 
+  let posBoxHistory = {}
+  let deviceMarkers = []
+
   socket.on('receivePosition', posBox => {
-    console.log(posBox)
-    for (const [key, value] of Object.entries(posBox)) {
-      createMarker(key, value)
+    const posBoxHistoryLength = Object.keys(posBoxHistory).length
+    const posBoxLength = Object.keys(posBox).length
+
+    if (posBoxHistoryLength < posBoxLength) {
+      const idOccurences = {}
+
+      Object.keys(posBoxHistory).forEach(value => { idOccurences[value] = 1 })
+      Object.keys(posBox).forEach(value => { idOccurences[value] = idOccurences[value] + 1 || 1 })
+
+      const markersToCreate = Object.entries(idOccurences).filter(([_key, value]) => value === 1).map(v => v[0])
+
+      markersToCreate.forEach(marker => {
+        createMarker(marker, { 'lon': posBox[marker][0], 'lat': posBox[marker][1] })
+      })
+    } else if (posBoxHistoryLength > posBoxLength) {
+      const idOccurences = {}
+
+      Object.keys(posBoxHistory).forEach(value => { idOccurences[value] = 1 })
+      Object.keys(posBox).forEach(value => { idOccurences[value] = idOccurences[value] + 1 || 1 })
+
+      const markersToDelete = Object.entries(idOccurences).filter(([_key, value]) => value === 1).map(v => v[0])
+
+      deviceMarkers.forEach(device => {
+        markersToDelete.forEach(id => {
+          if (device._element.id === `marker${id}`) {
+            device.remove()
+          }
+        })
+      })
     }
+
+    posBoxHistory = posBox
   })
 
   function createMarker(id, coords) {
+    let el = document.createElement('div')
+    el.className = 'marker'
+    el.id = 'marker' + id
 
-    console.log(mapboxgl)
-    if (document.querySelector(`.mapboxgl-canvas-container > #id${id}`)) {
-      mapboxgl.Marker(el)
-        .setLngLat(coords)
-    } else {
-      const el = document.createElement('div')
-      el.className = 'marker'
-      el.id = 'id' + id
+    const marker = new mapboxgl
+      .Marker(el)
+      .setLngLat(coords)
+      .addTo(map)
 
-      new mapboxgl.Marker(el)
-        .setLngLat(coords)
-        .addTo(map)
-    }
-
+    deviceMarkers.push(marker)
   }
 
 }

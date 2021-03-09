@@ -36,6 +36,19 @@ io.on('connection', socket => {
         io.emit('receivePosition', posBox)
       })
   })
+  socket.on('disconnecting', reason => {
+    console.log(reason)
+    new ServerApi({
+      bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
+    })
+      .whoAmI()
+      .then(({ id }) => {
+        if (posBox[id]) {
+          delete posBox[id]
+          io.emit('receivePosition', posBox)
+        }
+      })
+  })
 })
 
 const port = 3000
