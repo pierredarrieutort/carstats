@@ -1,4 +1,29 @@
 window.app.map = function initMap () {
+  var baseLogFunction = console.error;
+  console.error = function () {
+    baseLogFunction.apply(console, arguments);
+
+    var args = Array.prototype.slice.call(arguments);
+    for (var i = 0; i < args.length; i++) {
+      var node = createLogNode(args[i]);
+      document.querySelector("#mylog").appendChild(node);
+    }
+
+  }
+
+  function createLogNode (message) {
+    var node = document.createElement("div");
+    var textNode = document.createTextNode(message);
+    node.innerHTML = ''
+    node.appendChild(textNode);
+    return node;
+  }
+
+  window.onerror = function (message, url, linenumber) {
+    console.error("JavaScript error: " + message + " on line " +
+      linenumber + " for " + url);
+  }
+
   new GPSHandler().getLocation()
 }
 
@@ -15,7 +40,7 @@ class GPSHandler {
   }
 
   error (err) {
-    console.error(`ERROR (${err.code}): ${err.message}`)
+    console.error(`ERROR (${err?.code}): ${err?.message}`)
   }
 
   getLocation () {
@@ -41,10 +66,23 @@ class GPSHandler {
       container: 'map',
       style: 'mapbox://styles/mathieudaix/ckkie2bdw0saz17pbidyjsgb4',
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
-      zoom: 3,
+      zoom: 10,
       // minZoom: 14,
       // maxZoom: 20
     })
+
+    //TODO Try to extract geoData from geolocate instead of navigator.geolocation
+    const geolocate = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    })
+
+    console.log(geolocate)
+
+    this.map.addControl(geolocate)
+    this.map.on('load', () => geolocate.trigger())
   }
 
   createMarker (id, coords) {
@@ -58,16 +96,15 @@ class GPSHandler {
       .addTo(this.map)
 
     this.deviceMarkers.push(glMarker)
+    console.log(this.deviceMarkers)
   }
 
   socketHandler () {
-    this.socket.emit('sendPosition', [this.gps.coords.longitude, this.gps.coords.latitude])
 
-    this.socket.on('sendPosition', coords => {
-      const item = document.createElement('li')
-      item.textContent = [this.gps.coords.longitude, this.gps.coords.latitude]
-      document.getElementById('messages').append(item)
-    })
+    //TODO Try to provide a better a smart alternative to setInterval
+    setInterval(() => {
+      this.socket.emit('sendPosition', [this.gps.coords.longitude, this.gps.coords.latitude])
+    }, 1000)
 
     this.socket.on('receivePosition', posBox => {
       const posBoxHistoryLength = Object.keys(this.posBoxHistory).length
@@ -82,6 +119,8 @@ class GPSHandler {
         })
 
         const markersToCreate = Object.entries(idOccurences).filter(([_key, value]) => value === 1).map(v => v[0])
+
+        //TODO markers to create ne doit pas exister, il faut remplacer this.createMarker par une autre méthode qui puisse gérer deleteMarker, updateMarker, createMarker
 
         markersToCreate.forEach(marker => {
           this.createMarker(marker, {

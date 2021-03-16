@@ -32,8 +32,20 @@ io.on('connection', socket => {
     })
       .whoAmI()
       .then(({ id }) => {
-        posBox[id] = coords
-        io.emit('receivePosition', posBox)
+
+        const isGeolocated = coords[0] + coords[1] !== 0
+
+        let filteredPosBox = posBox
+
+        if (isGeolocated) {
+          posBox[id] = coords
+
+          filteredPosBox = Object.assign({}, posBox)
+          delete filteredPosBox[id]
+        }
+        console.log(posBox)
+
+        io.emit('receivePosition', filteredPosBox)
       })
   })
   socket.on('disconnecting', reason => {
@@ -45,7 +57,7 @@ io.on('connection', socket => {
       .then(({ id }) => {
         if (posBox[id]) {
           delete posBox[id]
-          io.emit('receivePosition', posBox)
+          // io.emit('receivePosition', posBox)
         }
       })
   })

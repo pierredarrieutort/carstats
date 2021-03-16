@@ -6,7 +6,7 @@ export default class Api {
     }
 
     async authenticate() {
-        await fetch('https://carstats.herokuapp.com/auth/local', {
+        await fetch('https://carstatsbackend.herokuapp.com/auth/local', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
@@ -22,7 +22,7 @@ export default class Api {
     }
 
     async register() {
-        await fetch('https://carstats.herokuapp.com/users', {
+        await fetch('https://carstatsbackend.herokuapp.com/users', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
@@ -36,7 +36,7 @@ export default class Api {
     }
 
     async forgotPassword() {
-        await fetch('https://carstats.herokuapp.com/auth/forgot-password', {
+        await fetch('https://carstatsbackend.herokuapp.com/auth/forgot-password', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
@@ -46,7 +46,7 @@ export default class Api {
     }
 
     async resetPassword() {
-        await fetch('https://carstats.herokuapp.com/auth/reset-password', {
+        await fetch('https://carstatsbackend.herokuapp.com/auth/reset-password', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
