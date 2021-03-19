@@ -1,8 +1,8 @@
 import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
-export default function forgotPasswordInit() {
-    const forgotPassword = document.getElementById('forgot-password')
+window.app.forgotPassword = function initForgotPassword() {
+    const forgotPassword = document.getElementById('forgotPassword')
 
     forgotPassword.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -16,4 +16,3 @@ export default function forgotPasswordInit() {
         req.forgotPassword()
     })
 }
-forgotPasswordInit()

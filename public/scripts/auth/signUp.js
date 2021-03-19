@@ -1,8 +1,8 @@
 import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
-export default function signUpInit() {
-    const signUp = document.getElementById('sign-up')
+window.app.signUp = function initSignUp() {
+    const signUp = document.getElementById('signUp')
 
     signUp.addEventListener('submit', e => {
         e.preventDefault()
@@ -22,4 +22,3 @@ export default function signUpInit() {
         else console.error('Passwords are not identical')
     })
 }
-signUpInit()

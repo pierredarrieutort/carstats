@@ -1,15 +1,14 @@
 import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
-export default function resetPasswordInit() {
+window.app.resetPassword = function initresetPassword() {
+    const resetPassword = document.getElementById('resetPassword')
 
-    const signIn = document.getElementById('reset-password')
-
-    signIn.addEventListener('submit', e => {
+    resetPassword.addEventListener('submit', e => {
         e.preventDefault()
 
         const
-            data = new FormData(signIn),
+            data = new FormData(resetPassword),
             pass = data.get('password'),
             passConfirm = data.get('passwordConfirm'),
             currentURL = new URL(location),
@@ -22,4 +21,3 @@ export default function resetPasswordInit() {
         }).resetPassword()
     })
 }
-resetPasswordInit()

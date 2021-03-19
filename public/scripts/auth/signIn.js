@@ -1,8 +1,8 @@
 import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
-export default function signInInit() {
-    const signIn = document.getElementById('sign-in')
+window.app.signIn = function initSignIn() {
+    const signIn = document.getElementById('signIn')
 
     signIn.addEventListener('submit', e => {
         e.preventDefault()
@@ -17,4 +17,3 @@ export default function signInInit() {
         req.authenticate()
     })
 }
-signInInit()

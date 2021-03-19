@@ -2,11 +2,12 @@ import Cookie from './Cookie.js'
 
 export default class Api {
     constructor(data) {
+        this.strapiURL = 'https://carstatsbackend.herokuapp.com'
         this.data = data
     }
 
     async authenticate() {
-        await fetch('https://carstatsbackend.herokuapp.com/auth/local', {
+        await fetch(`${this.strapiURL}/auth/local`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
@@ -22,21 +23,22 @@ export default class Api {
     }
 
     async register() {
-        await fetch('https://carstatsbackend.herokuapp.com/users', {
+        await fetch(`${this.strapiURL}/users`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
             redirect: 'follow'
         })
             .then(res => res.json())
-            .then(() => {
+            .then(res => {
                 if (!res.error)
                     location.href = '/auth/sign-in'
             })
     }
 
     async forgotPassword() {
-        await fetch('https://carstatsbackend.herokuapp.com/auth/forgot-password', {
+        console.log(JSON.stringify(this.data))
+        await fetch(`${this.strapiURL}/auth/forgot-password`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
@@ -46,7 +48,7 @@ export default class Api {
     }
 
     async resetPassword() {
-        await fetch('https://carstatsbackend.herokuapp.com/auth/reset-password', {
+        await fetch(`${this.strapiURL}/auth/reset-password`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(this.data),
