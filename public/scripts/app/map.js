@@ -80,6 +80,15 @@ class GPSHandler {
     })
 
     this.map.addControl(geolocate)
+
+    
+    this.map.addControl(
+      new MapboxDirections({
+        accessToken: window.mapboxgl.accessToken
+      }),
+      'top-left'
+    )
+
     this.map.on('load', () => geolocate.trigger())
   }
 
