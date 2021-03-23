@@ -79,8 +79,6 @@ class GPSHandler {
       trackUserLocation: true
     })
 
-    console.log(geolocate)
-
     this.map.addControl(geolocate)
     this.map.on('load', () => geolocate.trigger())
   }
@@ -101,10 +99,12 @@ class GPSHandler {
 
   socketHandler () {
 
-    //TODO Try to provide a better a smart alternative to setInterval
-    setInterval(() => {
-      this.socket.emit('sendPosition', [this.gps.coords.longitude, this.gps.coords.latitude])
-    }, 1000)
+    navigator.geolocation.watchPosition(
+      () => this.socket.emit('sendPosition', [
+        this.gps.coords.longitude,
+        this.gps.coords.latitude
+      ])
+    )
 
     this.socket.on('receivePosition', posBox => {
       const posBoxHistoryLength = Object.keys(this.posBoxHistory).length
