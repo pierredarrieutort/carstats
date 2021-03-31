@@ -15,3 +15,101 @@
   border: 4px solid $c-white;
   cursor: pointer;
 }
+
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl {
+  margin: 0;
+}
+
+.mapboxgl-ctrl-top-right,
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+
+.mapbox-directions-origin,
+.directions-icon {
+  display: none;
+}
+
+.mapboxgl-ctrl-geocoder .geocoder-pin-right * {
+  z-index: 2;
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  display: none;
+}
+
+.mapboxgl-ctrl-geocoder .geocoder-pin-right *.active {
+  display: block;
+}
+
+.geocoder-icon-close {
+  cursor: pointer;
+  background: $c-white;
+  border: none;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgdmVyc2lvbj0iMS4xIiBoZWlnaHQ9IjIwIiB3aWR0aD0iMjAiPg0KICA8cGF0aCBkPSJtNSA1IDAgMS41IDMuNSAzLjUtMy41IDMuNSAwIDEuNSAxLjUgMCAzLjUtMy41IDMuNSAzLjUgMS41IDAgMC0xLjUtMy41LTMuNSAzLjUtMy41IDAtMS41LTEuNSAwLTMuNSAzLjUtMy41LTMuNS0xLjUgMHoiIGZpbGw9IiMwMDAiLz4NCjwvc3ZnPg==);
+  background-repeat: no-repeat;
+}
+
+.mapboxgl-ctrl-top-left {
+  position: initial;
+  width: 90vw;
+  max-width: 500px;
+  margin: 1.5em auto 0;
+}
+
+.mapboxgl-ctrl-directions {
+  width: 100%;
+}
+
+.mapboxgl-ctrl-geocoder input[type="text"] {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid $c-white;
+  &::placeholder {
+    color: $c-darkGray;
+    font-family: $f-text;
+  }
+}
+
+.suggestions {
+  background: $c-white;
+  border-radius: 6px;
+  margin-top: 5px;
+  color: $c-bg;
+  padding: 0.5rem;
+}
+
+.suggestions li {
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: background 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &:not(:last-of-type) {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $c-gray;
+  }
+  &:not(:first-of-type) {
+    padding-top: 0.5rem;
+  }
+  &:first-of-type {
+    padding-top: 0.5rem;
+  }
+  &:last-of-type {
+    padding-bottom: 0.5rem;
+  }
+  &:hover {
+    background: $c-gray;
+    border-radius: 6px;
+  }
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+}
