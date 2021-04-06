@@ -1,4 +1,4 @@
-window.app.map = function initMap() {
+window.app.map = function initMap () {
   var baseLogFunction = console.error;
   console.error = function () {
     baseLogFunction.apply(console, arguments);
@@ -11,7 +11,7 @@ window.app.map = function initMap() {
 
   }
 
-  function createLogNode(message) {
+  function createLogNode (message) {
     var node = document.createElement("div");
     var textNode = document.createTextNode(message);
     node.innerHTML = ''
@@ -30,7 +30,7 @@ window.app.map = function initMap() {
 import { io } from 'socket.io-client'
 
 class GPSHandler {
-  constructor() {
+  constructor () {
     window.mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw';
     this.gps = {}
     this.map = null
@@ -39,11 +39,11 @@ class GPSHandler {
     this.socket = io()
   }
 
-  error(err) {
+  error (err) {
     console.error(`ERROR (${err?.code}): ${err?.message}`)
   }
 
-  getLocation() {
+  getLocation () {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(this.gpsHandler.bind(this), this.error, {
         enableHighAccuracy: true,
@@ -54,14 +54,14 @@ class GPSHandler {
   }
 
 
-  gpsHandler(data) {
+  gpsHandler (data) {
     this.gps = data
     this.createMap()
     this.socketHandler()
     this.travelWatcher()
   }
 
-  createMap() {
+  createMap () {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mathieudaix/ckkie2bdw0saz17pbidyjsgb4',
@@ -134,7 +134,7 @@ class GPSHandler {
     this.map.on('load', () => geolocate.trigger())
   }
 
-  createMarker(id, coords) {
+  createMarker (id, coords) {
     const markerDOM = document.createElement('div')
     markerDOM.className = 'marker'
     markerDOM.id = `marker${id}`
@@ -145,10 +145,10 @@ class GPSHandler {
       .addTo(this.map)
 
     this.deviceMarkers.push(glMarker)
-    console.log(this.deviceMarkers)
+    // console.log(this.deviceMarkers)
   }
 
-  socketHandler() {
+  socketHandler () {
 
     navigator.geolocation.watchPosition(
       () => this.socket.emit('sendPosition', [
@@ -204,9 +204,11 @@ class GPSHandler {
     })
   }
 
-  travelWatcher() {
+  travelWatcher () {
     // Seems to work only on mobile
-    // console.log(this.gps.coords.speed)
+    navigator.geolocation.watchPosition(
+      () => document.getElementById('speedometer').textContent = parseInt(this.gps.coords.speed * 3.6)
+    )
 
     // From London to Arlington. Returns 5918.185064088764
     new distanceCalculator().distance(51.5, 0, 38.8, -77.1)
@@ -214,11 +216,11 @@ class GPSHandler {
 }
 
 class distanceCalculator {
-  degreesToRadians(degrees) {
+  degreesToRadians (degrees) {
     return degrees * Math.PI / 180
   }
 
-  distance(lat1, lon1, lat2, lon2) {
+  distance (lat1, lon1, lat2, lon2) {
     // Returns the distance in KM between Earth coordinates
     const earthRadiusKm = 6371
 
