@@ -43,13 +43,11 @@ io.on('connection', socket => {
           filteredPosBox = Object.assign({}, posBox)
           delete filteredPosBox[id]
         }
-        console.log(posBox)
 
         io.emit('receivePosition', filteredPosBox)
       })
   })
   socket.on('disconnecting', reason => {
-    console.log(reason)
     new ServerApi({
       bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
     })

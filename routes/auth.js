@@ -33,7 +33,6 @@ authRouter.use((req, res, next) => {
                         res.render('auth/forgot-password')
                         break;
                     case 'POST':
-                        console.log(req.body)
                         break;
                 }
                 break;

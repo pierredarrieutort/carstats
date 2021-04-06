@@ -1,4 +1,4 @@
-window.app.map = function initMap () {
+window.app.map = function initMap() {
   var baseLogFunction = console.error;
   console.error = function () {
     baseLogFunction.apply(console, arguments);
@@ -11,7 +11,7 @@ window.app.map = function initMap () {
 
   }
 
-  function createLogNode (message) {
+  function createLogNode(message) {
     var node = document.createElement("div");
     var textNode = document.createTextNode(message);
     node.innerHTML = ''
@@ -30,20 +30,21 @@ window.app.map = function initMap () {
 import { io } from 'socket.io-client'
 
 class GPSHandler {
-  constructor () {
+  constructor() {
     window.mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw';
     this.gps = {}
     this.map = null
     this.posBoxHistory = {}
     this.deviceMarkers = []
     this.socket = io()
+    this.mapDirections = null
   }
 
-  error (err) {
+  error(err) {
     console.error(`ERROR (${err?.code}): ${err?.message}`)
   }
 
-  getLocation () {
+  getLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(this.gpsHandler.bind(this), this.error, {
         enableHighAccuracy: true,
@@ -54,21 +55,35 @@ class GPSHandler {
   }
 
 
-  gpsHandler (data) {
+  gpsHandler(data) {
     this.gps = data
     this.createMap()
     this.socketHandler()
     this.travelWatcher()
   }
 
-  createMap () {
+  convertSecondsToDuration(timeInSeconds) {
+    let
+      hrs = ~~(timeInSeconds / 3600),
+      mins = ~~((timeInSeconds % 3600) / 60),
+      secs = ~~timeInSeconds % 60
+
+    let timerString = ''
+
+    if (hrs > 0)
+      timerString += `${hrs}h ${mins < 10 ? '0' : ''}`
+
+    timerString += `${mins}min ${secs < 10 ? '0' : ''}`
+
+    return timerString
+  }
+
+  createMap() {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mathieudaix/ckkie2bdw0saz17pbidyjsgb4',
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
-      zoom: 10,
-      // minZoom: 14,
-      // maxZoom: 20
+      zoom: 10
     })
 
     //TODO Try to extract geoData from geolocate instead of navigator.geolocation
@@ -81,12 +96,12 @@ class GPSHandler {
 
     this.map.addControl(geolocate)
 
-    this.map.addControl(
+    this.mapDirections =
       new MapboxDirections({
         accessToken: window.mapboxgl.accessToken,
         unit: 'metric',
         language: 'fr',
-        // interactive: false,
+        interactive: false,
         alternatives: true,
         placeholderOrigin: 'Adresse de départ',
         placeholderDestination: 'Adresse d\'arrivée',
@@ -95,6 +110,7 @@ class GPSHandler {
           profileSwitcher: false
         }
       })
+        .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
         .on('route', data => {
 
           // display step on route up
@@ -112,7 +128,7 @@ class GPSHandler {
 
           // total duration
           const duration = document.querySelector('.map-duration')
-          duration.innerText = data.route[0].duration + ' s'
+          duration.innerText = this.convertSecondsToDuration(data.route[0].duration)
 
           // step distance
           const stepDistance = document.querySelector('.map-step-distance')
@@ -128,13 +144,39 @@ class GPSHandler {
           stepInstruction.innerText = data.route[0].legs[0].steps[0].maneuver.instruction
 
         })
-        .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude]), 'top-left'
-    )
+
+    this.map.addControl(this.mapDirections, 'top-left')
+
+    const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
+
+    removeRouteButton.forEach(removeBtn => {
+      removeBtn.addEventListener('click', () => {
+        removeRouteButton[0].click()
+      })
+    })
+
+    document.querySelector('.mapbox-directions-destination input').addEventListener('input', this.directionsInputHandler.bind(this))
 
     this.map.on('load', () => geolocate.trigger())
   }
 
-  createMarker (id, coords) {
+  directionsInputHandler(e) {
+
+    const directionsOrigin = document.querySelector('.mapbox-directions-origin input')
+
+    if (e.target.value.length === 0) {
+      removeRouteButton.forEach(el => {
+        el.click()
+      })
+    }
+
+    if (directionsOrigin.value.length === 0) {
+      directionsOrigin.value = `${this.gps.coords.longitude}, ${this.gps.coords.latitude}`
+      this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+    }
+  }
+
+  createMarker(id, coords) {
     const markerDOM = document.createElement('div')
     markerDOM.className = 'marker'
     markerDOM.id = `marker${id}`
@@ -145,10 +187,9 @@ class GPSHandler {
       .addTo(this.map)
 
     this.deviceMarkers.push(glMarker)
-    // console.log(this.deviceMarkers)
   }
 
-  socketHandler () {
+  socketHandler() {
 
     navigator.geolocation.watchPosition(
       () => this.socket.emit('sendPosition', [
@@ -204,10 +245,10 @@ class GPSHandler {
     })
   }
 
-  travelWatcher () {
+  travelWatcher() {
     // Seems to work only on mobile
     navigator.geolocation.watchPosition(
-      () => document.getElementById('speedometer').textContent = parseInt(this.gps.coords.speed * 3.6)
+      () => document.getElementById('speedometer-value').textContent = parseInt(this.gps.coords.speed * 3.6)
     )
 
     // From London to Arlington. Returns 5918.185064088764
@@ -216,11 +257,11 @@ class GPSHandler {
 }
 
 class distanceCalculator {
-  degreesToRadians (degrees) {
+  degreesToRadians(degrees) {
     return degrees * Math.PI / 180
   }
 
-  distance (lat1, lon1, lat2, lon2) {
+  distance(lat1, lon1, lat2, lon2) {
     // Returns the distance in KM between Earth coordinates
     const earthRadiusKm = 6371
 

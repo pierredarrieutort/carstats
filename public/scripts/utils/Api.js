@@ -37,7 +37,6 @@ export default class Api {
     }
 
     async forgotPassword() {
-        console.log(JSON.stringify(this.data))
         await fetch(`${this.strapiURL}/auth/forgot-password`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
