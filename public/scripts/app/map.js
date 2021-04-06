@@ -86,15 +86,49 @@ class GPSHandler {
         accessToken: window.mapboxgl.accessToken,
         unit: 'metric',
         language: 'fr',
-        interactive: false,
+        // interactive: false,
+        alternatives: true,
         placeholderOrigin: 'Adresse de départ',
         placeholderDestination: 'Adresse d\'arrivée',
         controls: {
+          instructions: false,
           profileSwitcher: false
         }
       })
-        .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude]),
-      'top-left'
+        .on('route', data => {
+
+          // display step on route up
+          const step = document.querySelector('.map')
+          step.classList.add('active')
+
+          // total distance
+          const distance = document.querySelector('.map-distance')
+          let distanceValue = data.route[0].distance
+
+          if (distanceValue < '1000')
+            distance.innerText = `${distanceValue.toFixed(0)} m`
+          else
+            distance.innerText = `${(distanceValue / 1000).toFixed(1)} km`
+
+          // total duration
+          const duration = document.querySelector('.map-duration')
+          duration.innerText = data.route[0].duration + ' s'
+
+          // step distance
+          const stepDistance = document.querySelector('.map-step-distance')
+          let stepDistanceValue = data.route[0].legs[0].steps[0].distance
+
+          if (stepDistanceValue < '1000')
+            stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
+          else
+            stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
+
+          // instruction step
+          const stepInstruction = document.querySelector('.map-step-instruction')
+          stepInstruction.innerText = data.route[0].legs[0].steps[0].maneuver.instruction
+
+        })
+        .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude]), 'top-left'
     )
 
     this.map.on('load', () => geolocate.trigger())

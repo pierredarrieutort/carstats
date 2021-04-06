@@ -113,3 +113,60 @@
     -webkit-box-orient: vertical;
   }
 }
+
+.mapbox-directions-route-summary {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  gap: 0.5rem;
+  h1,
+  span {
+    font-size: 0.7rem;
+    font-family: $f-title;
+    font-weight: 400;
+    background: $c-bg;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+}
+
+.map {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  &-distance,
+  &-duration {
+    display: inline-block;
+    background: $c-bg;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+  }
+  &-distance {
+    margin-right: 1rem;
+  }
+  &-step {
+    background: $c-bg;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    margin-top: 0.5rem;
+    &-distance {
+      font-size: 1.6rem;
+      font-family: $f-title;
+      margin-bottom: 0.25rem;
+    }
+    &-instruction {
+      font-size: 0.9rem;
+    }
+  }
+}

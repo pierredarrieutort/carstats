@@ -8,6 +8,9 @@
 
 @import 'generic/reset';
 
+@import 'objects/layouts';
+@import 'objects/animations';
+
 @import 'elements/pages';
 @import 'elements/blocs';
 @import 'elements/headings';
@@ -16,9 +19,6 @@
 @import 'elements/forms';
 @import 'elements/borders';
 @import 'elements/buttons';
-
-@import 'objects/layouts';
-@import 'objects/animations';
 
 @import 'components/map';
 @import 'components/menu';
