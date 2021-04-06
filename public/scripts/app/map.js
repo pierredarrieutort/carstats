@@ -152,6 +152,8 @@ class GPSHandler {
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
         removeRouteButton[0].click()
+        const step = document.querySelector('.map')
+        step.classList.remove('active')
       })
     })
 
