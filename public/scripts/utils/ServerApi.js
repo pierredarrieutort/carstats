@@ -6,7 +6,7 @@ export default class ServerApi {
     }
 
     async whoAmI() {
-        const response = await nodeFetch('https://carstatsbackend.herokuapp.com/users/me', {
+        const response = await nodeFetch('https://carstats-backend.herokuapp.com/users/me', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

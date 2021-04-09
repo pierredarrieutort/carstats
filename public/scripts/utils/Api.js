@@ -2,7 +2,7 @@ import Cookie from './Cookie.js'
 
 export default class Api {
     constructor(data) {
-        this.strapiURL = 'https://carstatsbackend.herokuapp.com'
+        this.strapiURL = 'https://carstats-backend.herokuapp.com'
         this.data = data
     }
 
