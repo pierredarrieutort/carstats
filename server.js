@@ -44,6 +44,7 @@ io.on('connection', socket => {
           delete filteredPosBox[id]
         }
 
+        console.log(posBox)
         io.emit('receivePosition', filteredPosBox)
       })
   })

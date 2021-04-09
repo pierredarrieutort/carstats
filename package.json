@@ -5,29 +5,29 @@
 	"description": "the new driving experience.",
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
-		"client": "parcel watch public/images/* public/scripts/**/* public/styles/index.scss",
+		"client": "parcel watch public/images/* public/scripts/**/* public/styles/index.scss --hmr-port 8080",
 		"preclientprod": "rimraf dist",
-		"clientprod": "parcel build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps"
+		"clientprod": "parcel build public/images/* public/scripts/**/* public/styles/index.scss --no-source-maps --hmr-port 8080"
 	},
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/core": "^7.12.16",
-		"@babel/node": "^7.12.16",
-		"@babel/preset-env": "^7.12.16",
+		"@babel/core": "^7.13.15",
+		"@babel/node": "^7.13.13",
+		"@babel/preset-env": "^7.13.15",
 		"ejs": "^3.1.6",
 		"express": "5.0.0-alpha.8",
 		"node-fetch": "^2.6.1",
 		"nodemon": "^2.0.7",
-		"parcel-bundler": "^1.12.4",
+		"parcel-bundler": "^1.12.5",
 		"rimraf": "^3.0.2",
-		"sass": "^1.32.7",
-		"socket.io": "^3.1.1"
+		"sass": "^1.32.8",
+		"socket.io": "^4.0.1"
 	},
 	"dependencies": {
 		"@barba/core": "^2.9.7",
-		"gsap": "^3.6.0",
-		"mapbox-gl": "^2.1.1",
+		"gsap": "^3.6.1",
+		"mapbox-gl": "^2.2.0",
 		"regenerator-runtime": "^0.13.7",
-		"socket.io-client": "^3.1.1"
+		"socket.io-client": "^4.0.1"
 	}
 }
