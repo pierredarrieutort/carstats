@@ -23,8 +23,8 @@ appRouter.use((req, res, next) => {
             case '/statistics':
                 res.render('app/statistics')
                 break;
-            case '/profile':
-                res.render('app/profile', { username: r.username })
+            case '/driving':
+                res.render('app/driving', { username: r.username })
                 break;
             case '/settings':
                 res.render('app/settings')

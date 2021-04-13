@@ -55,7 +55,7 @@
         @include currentPage;
     }
 
-    &-profile+#main-menu [href*=profile] {
+    &-driving+#main-menu [href*=driving] {
         @include currentPage;
     }
 
