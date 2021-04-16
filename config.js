@@ -1,3 +1,3 @@
 module.exports = {
-  STRAPI_URL: 'http://localhost:1337'
+  STRAPI_URL: 'https://carstats-backend.herokuapp.com'
 }
