@@ -19,10 +19,7 @@ class Journey {
 
     const response = await fetch(`${this.strapiURL}/travels/me`, {
       method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwt}`
-      }),
+      headers: new Headers({ 'Authorization': `Bearer ${jwt}` }),
       redirect: 'follow'
     })
 
