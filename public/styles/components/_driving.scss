@@ -31,7 +31,7 @@
 }
 
 .driving-stats {
-  p {
+  > p {
     background: $c-gray;
     border-radius: 6px;
     padding: 1rem;
