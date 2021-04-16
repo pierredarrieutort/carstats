@@ -9,7 +9,7 @@ window.app.driving = async function initDriving () {
 class Journey {
   constructor () {
     this.strapiURL = 'https://carstats-backend.herokuapp.com'
-    this.strapiURL = 'http://localhost:1337'
+    this.strapiURL = 'https://carstats-backend.herokuapp.com'
     this.routes = []
   }
 
