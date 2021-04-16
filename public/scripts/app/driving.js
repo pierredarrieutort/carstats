@@ -6,6 +6,7 @@ window.app.driving = async function initDriving () {
   await journey.fetchGlobalStats()
   journey.debug()
   journey.displayRoutes()
+  journey.displayGlobalStats()
 }
 
 class Journey {
@@ -26,10 +27,20 @@ class Journey {
     this.globalStats = await this.statsApi.renderGlobalStats()
   }
 
+  displayGlobalStats() {
+    const totalKilometersElement = document.querySelector('.stats-kilometers')
+    const maxSpeedElement = document.querySelector('.stats-speed')
+
+    if (this.globalStats) {
+      totalKilometersElement.textContent = `${this.globalStats.totalDistance.toLocaleString()} km`
+      maxSpeedElement.textContent = `${(this.globalStats.vMax * 3.6).toFixed(0)} km/h`
+    }
+  }
+
   displayRoutes () {
     if (this.routes.length === 0) {
       const noData = document.createElement('p')
-      noData.innerText = 'No travels founds.'
+      noData.textContent = 'No travel found.'
       this.drivingStats.append(noData)
     } else {
     }
