@@ -1,5 +1,5 @@
 import config from '../../../config'
-import Cookie from './Cookie.js'
+import Cookie from '../utils/Cookie'
 
 export default class Api {
   /**
@@ -87,5 +87,30 @@ export class AuthApi extends Api {
   disconnect () {
     new Cookie().delete('jwt')
     window.location.reload()
+  }
+}
+
+
+export class StatsApi extends Api {
+  constructor () {
+    super()
+
+    this.cookies = new Cookie()
+    this.jwt = cookies.get('jwt')
+    this.authorization = {'Authorization': `Bearer ${this.jwt}`}
+  }
+
+  async renderLatestRoutes () {
+    return await this.request({
+      route: '/travels/me',
+      headersOverride: this.authorization
+    })
+  }
+
+  async renderGlobalStats () {
+    return await this.request({
+      route: '/users-global-stats/me',
+      headersOverride: this.authorization
+    })
   }
 }

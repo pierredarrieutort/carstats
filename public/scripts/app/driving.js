@@ -1,6 +1,6 @@
-import Cookie from '../utils/Cookie'
+import { StatsApi } from '../utils/Api'
 
-window.app.driving = async function initDriving() {
+window.app.driving = async function initDriving () {
   const journey = new Journey()
   await journey.fetchRoutes()
   await journey.fetchGlobalStats()
@@ -9,8 +9,8 @@ window.app.driving = async function initDriving() {
 }
 
 class Journey {
-  constructor() {
-    this.strapiURL = 'https://carstats-backend.herokuapp.com'
+  constructor () {
+    this.statsApi = new StatsApi()
 
     this.routes = []
     this.globalStats = []
@@ -18,33 +18,17 @@ class Journey {
     this.drivingStats = document.querySelector('.driving-stats')
   }
 
-  async fetchRoutes() {
-    const cookies = new Cookie()
-    const jwt = cookies.get('jwt')
-
-    const response = await fetch(`${this.strapiURL}/travels/me`, {
-      method: 'GET',
-      headers: new Headers({ 'Authorization': `Bearer ${jwt}` }),
-      redirect: 'follow'
-    })
-
+  async fetchRoutes () {
+    const response = await this.statsApi.renderLatestRoutes()
     this.routes = await response.json()
   }
 
-  async fetchGlobalStats() {
-    const cookies = new Cookie()
-    const jwt = cookies.get('jwt')
-
-    const response = await fetch(`${this.strapiURL}/users-global-stats/me`, {
-      method: 'GET',
-      headers: new Headers({ 'Authorization': `Bearer ${jwt}` }),
-      redirect: 'follow'
-    })
-
+  async fetchGlobalStats () {
+    const response = await this.statsApi.renderGlobalStats()
     this.globalStats = await response.json()
   }
 
-  displayRoutes() {
+  displayRoutes () {
     if (this.routes.length === 0) {
       const noData = document.createElement('p')
       noData.innerText = 'No travels founds.'
@@ -53,7 +37,7 @@ class Journey {
     }
   }
 
-  debug() {
+  debug () {
     console.log('routes', this.routes)
     console.log('globalStats', this.globalStats)
   }
