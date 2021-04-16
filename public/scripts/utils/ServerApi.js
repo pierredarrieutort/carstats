@@ -26,7 +26,7 @@ export default class ServerApi {
       reqAdditional
     )
 
-    const response = await nodeFetch(CONFIG.STRAPI_URL + route, options)
+    const response = await nodeFetch(CONFIG.DOMAIN_URL + route, options)
     return await response.json()
   }
 

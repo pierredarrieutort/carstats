@@ -29,7 +29,7 @@ export default class Api {
       _reqAdditional
     )
 
-    const response = await fetch(CONFIG.STRAPI_URL + route, options)
+    const response = await fetch(CONFIG.DOMAIN_URL + route, options)
     return await response.json()
   }
 }
