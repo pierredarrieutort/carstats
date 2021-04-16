@@ -26,11 +26,12 @@ const io = require('socket.io')(server)
 const posBox = {}
 
 io.on('connection', socket => {
+  const serverApi = new ServerApi()
+
   socket.on('sendPosition', coords => {
-    new ServerApi({
+    serverApi.whoAmI({
       bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
     })
-      .whoAmI()
       .then(({ id }) => {
 
         const isGeolocated = coords[0] + coords[1] !== 0
@@ -49,10 +50,9 @@ io.on('connection', socket => {
       })
   })
   socket.on('disconnecting', reason => {
-    new ServerApi({
+    serverApi.whoAmI({
       bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
     })
-      .whoAmI()
       .then(({ id }) => {
         if (posBox[id]) {
           delete posBox[id]

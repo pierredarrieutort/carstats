@@ -1,72 +1,91 @@
+import config from '../../../config'
 import Cookie from './Cookie.js'
 
 export default class Api {
-    constructor(data) {
-        this.strapiURL = 'https://carstats-backend.herokuapp.com'
-        this.strapiURL = 'https://carstats-backend.herokuapp.com'
-        this.data = data
-    }
+  /**
+   * @param  {String} method
+   * @param  {String} route
+   * @param  {Object} body
+   * @param  {Object} headersOverride
+   * @param  {Object} reqAdditional
+   */
+  async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
+    const _headers = new Headers(Object.assign(
+      { 'Content-Type': 'application/json' },
+      headersOverride
+    ))
 
-    async authenticate() {
-        await fetch(`${this.strapiURL}/auth/local`, {
-            method: 'POST',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify(this.data),
-            redirect: 'follow'
-        })
-            .then(res => res.json())
-            .then(({ jwt }) => {
-                if (jwt) {
-                    this.injectJwt(jwt)
-                    location.href = '/app'
-                }
-            })
-    }
+    const _reqAdditional = Object.assign(
+      { body: JSON.stringify(body) },
+      reqAdditional
+    )
 
-    async register() {
-        await fetch(`${this.strapiURL}/users`, {
-            method: 'POST',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify(this.data),
-            redirect: 'follow'
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.error)
-                    location.href = '/auth/sign-in'
-            })
-    }
+    const options = Object.assign(
+      {
+        method: method,
+        headers: _headers,
+        redirect: 'follow'
+      },
+      _reqAdditional
+    )
 
-    async forgotPassword() {
-        await fetch(`${this.strapiURL}/auth/forgot-password`, {
-            method: 'POST',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify(this.data),
-            redirect: 'follow'
-        })
-            .then(res => res.json())
-    }
+    const response = await fetch(config.STRAPI_URL + route, options)
+    return await response.json()
+  }
+}
 
-    async resetPassword() {
-        await fetch(`${this.strapiURL}/auth/reset-password`, {
-            method: 'POST',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify(this.data),
-            redirect: 'follow'
-        })
-            .then(res => res.json())
-            .then(() => {
-                if (!res.error)
-                    location.href = '/auth/sign-in'
-            })
-    }
+export class AuthApi extends Api {
+  constructor () {
+    super()
+  }
 
-    injectJwt(jwt) {
-        new Cookie().set('jwt', jwt, { path: '/', days: 30 })
-    }
+  async authenticate (data) {
+    const { jwt } = await this.request({
+      method: 'POST',
+      route: '/auth/local',
+      body: data
+    })
 
-    disconnect() {
-        new Cookie().delete('jwt')
-        location.reload()
+    if (jwt) {
+      new Cookie().set('jwt', jwt, { path: '/', days: 30 })
+      window.location.href = '/app'
     }
+  }
+
+  async register (data) {
+    const response = await this.request({
+      method: 'POST',
+      route: '/users',
+      body: data
+    })
+
+    if (!response.error) {
+      window.location.href = '/auth/sign-in'
+    }
+  }
+
+  async forgotPassword (data) {
+    await this.request({
+      method: 'POST',
+      route: '/auth/forgot-password',
+      body: data
+    })
+  }
+
+  async resetPassword (data) {
+    const response = await this.request({
+      method: 'POST',
+      route: '/auth/reset-password',
+      body: data
+    })
+
+    if (!response.error) {
+      window.location.href = '/auth/sign-in'
+    }
+  }
+
+  disconnect () {
+    new Cookie().delete('jwt')
+    window.location.reload()
+  }
 }

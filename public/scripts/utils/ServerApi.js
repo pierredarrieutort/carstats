@@ -1,19 +1,41 @@
+import config from '../../../config'
 import nodeFetch from 'node-fetch'
 
 export default class ServerApi {
-    constructor(data) {
-        this.data = data
-    }
+  /**
+   * @param  {String} method
+   * @param  {String} route
+   * @param  {Object} body
+   * @param  {Object} headersOverride
+   * @param  {Object} reqAdditional
+   */
+  async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
+    const _headers = Object.assign({ 'Content-Type': 'application/json' }, headersOverride)
 
-    async whoAmI() {
-        const response = await nodeFetch('https://carstats-backend.herokuapp.com/users/me', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.data.bearer}`
-            },
-            redirect: 'follow'
-        })
-        return await response.json()
-    }
+    const _reqAdditional = Object.assign(
+      { body: JSON.stringify(body) },
+      reqAdditional
+    )
+
+    const options = Object.assign(
+      {
+        method: method,
+        headers: _headers,
+        redirect: 'follow'
+      },
+      reqAdditional
+    )
+
+    const response = await nodeFetch(config.STRAPI_URL + route, options)
+    return await response.json()
+  }
+
+  async whoAmI (data) {
+    return await this.request({
+      route: '/users/me',
+      headersOverride: {
+        'Authorization': `Bearer ${data.bearer}`
+      }
+    })
+  }
 }

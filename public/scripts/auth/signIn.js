@@ -1,18 +1,17 @@
-import Api from '../utils/Api.js'
+import { AuthApi } from '../utils/Api.js'
 
-window.app.signIn = function initSignIn() {
-    const signIn = document.getElementById('signIn')
+window.app.signIn = function initSignIn () {
+  const signIn = document.getElementById('signIn')
 
-    signIn.addEventListener('submit', e => {
-        e.preventDefault()
+  signIn.addEventListener('submit', e => {
+    e.preventDefault()
 
-        const
-            data = new FormData(signIn),
-            req = new Api({
-                identifier: data.get('username'),
-                password: data.get('password')
-            })
+    const data = new FormData(signIn)
+    const authApi = new AuthApi()
 
-        req.authenticate()
+    authApi.authenticate({
+      identifier: data.get('username'),
+      password: data.get('password')
     })
+  })
 }
