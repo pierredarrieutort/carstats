@@ -51,19 +51,19 @@
         }
     }
 
-    &-map+#main-menu [href*=map] {
+    &-map #main-menu [href*=map] {
         @include currentPage;
     }
 
-    &-statistics+#main-menu [href*=statistics] {
+    &-statistics #main-menu [href*=statistics] {
         @include currentPage;
     }
 
-    &-driving+#main-menu [href*=driving] {
+    &-driving #main-menu [href*=driving] {
         @include currentPage;
     }
 
-    &-settings+#main-menu [href*=settings] {
+    &-settings #main-menu [href*=settings] {
         @include currentPage;
     }
 }
