@@ -1,10 +1,11 @@
+import CONFIG from '../../../../config'
 import DistanceCalculator from './DistanceCalculator'
 import MapSocket from './MapSocket'
 
 export default class GPSHandler {
 
   constructor() {
-    window.mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlldWRhaXgiLCJhIjoiY2tiOWI5ODgzMGNmYTJ6cGlnOTh5bjI5ZCJ9.061wCTnhLhD99yEEmz5Osw'
+    window.mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
     this.gps = {}
     this.gpsOptions = {
@@ -45,7 +46,7 @@ export default class GPSHandler {
   createMap() {
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mathieudaix/ckkie2bdw0saz17pbidyjsgb4',
+      style: CONFIG.MAPBOXGL.STYLE,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       zoom: 10
     })
@@ -68,7 +69,7 @@ export default class GPSHandler {
   addMapDirections() {
     this.mapDirections =
       new MapboxDirections({
-        accessToken: window.mapboxgl.accessToken,
+        accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
         unit: 'metric',
         language: 'fr',
         interactive: false,

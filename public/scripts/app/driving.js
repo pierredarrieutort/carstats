@@ -19,13 +19,11 @@ class Journey {
   }
 
   async fetchRoutes () {
-    const response = await this.statsApi.renderLatestRoutes()
-    this.routes = await response.json()
+    this.routes = await this.statsApi.renderLatestRoutes()
   }
 
   async fetchGlobalStats () {
-    const response = await this.statsApi.renderGlobalStats()
-    this.globalStats = await response.json()
+    this.globalStats = await this.statsApi.renderGlobalStats()
   }
 
   displayRoutes () {

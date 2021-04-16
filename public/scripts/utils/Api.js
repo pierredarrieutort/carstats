@@ -1,4 +1,4 @@
-import config from '../../../config'
+import CONFIG from '../../../config'
 import Cookie from '../utils/Cookie'
 
 export default class Api {
@@ -29,7 +29,7 @@ export default class Api {
       _reqAdditional
     )
 
-    const response = await fetch(config.STRAPI_URL + route, options)
+    const response = await fetch(CONFIG.STRAPI_URL + route, options)
     return await response.json()
   }
 }
@@ -96,7 +96,7 @@ export class StatsApi extends Api {
     super()
 
     this.cookies = new Cookie()
-    this.jwt = cookies.get('jwt')
+    this.jwt = this.cookies.get('jwt')
     this.authorization = {'Authorization': `Bearer ${this.jwt}`}
   }
 

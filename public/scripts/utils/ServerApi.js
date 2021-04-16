@@ -1,4 +1,4 @@
-import config from '../../../config'
+import CONFIG from '../../../config'
 import nodeFetch from 'node-fetch'
 
 export default class ServerApi {
@@ -26,7 +26,7 @@ export default class ServerApi {
       reqAdditional
     )
 
-    const response = await nodeFetch(config.STRAPI_URL + route, options)
+    const response = await nodeFetch(CONFIG.STRAPI_URL + route, options)
     return await response.json()
   }
 
