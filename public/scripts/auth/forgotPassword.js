@@ -1,4 +1,3 @@
-import regeneratorRuntime from 'regenerator-runtime'
 import Api from '../utils/Api.js'
 
 window.app.forgotPassword = function initForgotPassword() {
