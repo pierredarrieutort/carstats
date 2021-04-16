@@ -1,0 +1,44 @@
+.driving {
+  h2 {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem;
+  }
+}
+
+.stats-global {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  div {
+    border: 1px solid rgba($c-white, 0.4);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      &:first-of-type {
+        font-size: 0.9rem;
+      }
+      &:last-of-type {
+        font-size: 1.8rem;
+        font-family: $f-title;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+
+.driving-stats {
+  p {
+    background: $c-gray;
+    border-radius: 6px;
+    padding: 1rem;
+    color: $c-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+}
