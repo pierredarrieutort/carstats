@@ -44,7 +44,7 @@ class Journey {
       noData.textContent = 'No travel found.'
       this.drivingStats.append(noData)
     } else {
-      this.routes.forEach(route => {
+      this.routes.forEach(async route => {
         const routeElement = document.createElement('div')
         const travel = document.createElement('p')
 
@@ -54,18 +54,21 @@ class Journey {
         const startLatitude = route[0].x
         const startLongitude = route[0].y
 
-        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${startLongitude},${startLatitude}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
-          .then(res => res.json())
-          .then(data => console.log(data.features[0].text))
+        const startResponse = await this.reverseGeocoder(startLongitude, startLatitude)
+        console.log(startResponse.features[0].text)
 
         const endLatitude = route[route.length - 1].x
         const endLongitude = route[route.length - 1].y
 
-        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${endLongitude},${endLatitude}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
-          .then(res => res.json())
-          .then(data => console.log(data.features[0].text))
+        await this.reverseGeocoder(endLongitude, endLatitude)
+        console.log(endResponse.features[0].text)
       })
     }
+  }
+
+  async reverseGeocoder (lon, lat) {
+    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
+    return await response.json()
   }
 
   debug () {
