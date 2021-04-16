@@ -1,17 +1,15 @@
-import Api from '../utils/Api.js'
+import { AuthApi } from '../utils/Api.js'
 
-window.app.forgotPassword = function initForgotPassword() {
-    const forgotPassword = document.getElementById('forgotPassword')
+window.app.forgotPassword = function initForgotPassword () {
+  const forgotPassword = document.getElementById('forgotPassword')
 
-    forgotPassword.addEventListener('submit', (e) => {
-        e.preventDefault()
+  forgotPassword.addEventListener('submit', e => {
+    e.preventDefault()
 
-        const
-            data = new FormData(forgotPassword),
-            req = new Api({
-                email: data.get('email')
-            })
-
-        req.forgotPassword()
+    const data = new FormData(forgotPassword)
+    const authApi = new AuthApi()
+    authApi.forgotPassword({
+      email: data.get('email')
     })
+  })
 }
