@@ -1,4 +1,8 @@
-<%- include('../components/header.ejs', { _pageTitle_: 'Map' , _pageIdentifier_: 'page-map' }) %>
+<%- include('../components/header.ejs', { 
+    _useAppMenu_: true, 
+    _pageTitle_: 'Map' , 
+    _pageIdentifier_: 'page-map' 
+}) %>
 
     <section class="bloc-full">
         <div id="mylog"></div>
@@ -16,4 +20,10 @@
         </div>
     </section>
 
-    <%- include('../components/footer.ejs', { _useAppMenu_: true, _staticFiles_: { scripts: [ 'app/map.js' ] } }) %>
+    <%- include('../components/footer.ejs', { 
+        _staticFiles_: {
+            scripts: [ 
+                'app/map.js' 
+            ] 
+        }
+    }) %>

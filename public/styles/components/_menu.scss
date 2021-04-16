@@ -31,6 +31,10 @@
             width: 1.2em;
             height: 1.2em;
             display: block;
+            &.menu-icon {
+                width: 1.6em;
+                height: 1.6em;
+            }
         }
     }
 }
