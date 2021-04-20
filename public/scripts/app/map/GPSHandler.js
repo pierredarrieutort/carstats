@@ -81,8 +81,6 @@ export default class GPSHandler {
         language: 'fr',
         interactive: false,
         alternatives: true,
-        placeholderOrigin: 'Adresse de départ',
-        placeholderDestination: 'Adresse d\'arrivée',
         controls: {
           instructions: false,
           profileSwitcher: false
