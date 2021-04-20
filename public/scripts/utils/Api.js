@@ -113,4 +113,11 @@ export class StatsApi extends Api {
       headersOverride: this.authorization
     })
   }
+
+  async leaderboard () {
+    return await this.request({
+      route: '/users-global-stats/leaderboard',
+      headersOverride: this.authorization
+    })
+  }
 }
