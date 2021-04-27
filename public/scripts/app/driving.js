@@ -71,12 +71,12 @@ class Journey {
         const startLatitude = route[0].x
         const startLongitude = route[0].y
         const startResponse = await this.reverseGeocoder(startLongitude, startLatitude)
-        const startPosition = startResponse.features[0].text
+        const startPosition = startResponse.features[0]?.text || 'Nowhere'
 
         const endLatitude = route[route.length - 1].x
         const endLongitude = route[route.length - 1].y
         const endResponse = await this.reverseGeocoder(endLongitude, endLatitude)
-        const endPosition = endResponse.features[0].text
+        const endPosition = endResponse.features[0]?.text || 'Nowhere'
 
         const date = new Date(route[0].t).toLocaleDateString()
 
