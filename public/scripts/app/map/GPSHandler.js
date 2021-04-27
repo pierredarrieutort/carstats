@@ -51,6 +51,7 @@ export default class GPSHandler {
   }
 
   createMap() {
+    console.error('e')
     this.map = new mapboxgl.Map({
       container: 'map',
       style: CONFIG.MAPBOXGL.STYLE,
