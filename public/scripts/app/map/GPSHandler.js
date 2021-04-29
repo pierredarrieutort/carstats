@@ -10,14 +10,12 @@ import DistanceCalculator from './DistanceCalculator'
 
 export default class GPSHandler {
 
-  constructor () {
+  constructor() {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
     this.gps = {}
     this.gpsOptions = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
+      // enableHighAccuracy: false 
     }
 
     this.map = null
@@ -25,16 +23,20 @@ export default class GPSHandler {
 
     this.socket = io()
 
-    this.posBoxHistory = {}
     this.deviceMarkers = []
 
     this.travel = []
     this.traveledDistance = 0
 
+    this.lastPosition = {
+      latitude: NaN,
+      longitude: NaN
+    }
+
     this.getLocation()
   }
 
-  getLocation () {
+  getLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(this.gpsInitialization.bind(this), this.error, this.gpsOptions)
       navigator.geolocation.watchPosition(this.gpsHandler.bind(this), this.error, this.gpsOptions)
@@ -43,17 +45,18 @@ export default class GPSHandler {
     }
   }
 
-  gpsInitialization (data) {
+  gpsInitialization(data) {
     this.gps = data
     this.createMap()
   }
 
-  gpsHandler () {
+  gpsHandler(data) {
+    this.gps = data
     this.travelWatcher()
     this.socketHandler()
   }
 
-  createMap () {
+  createMap() {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: CONFIG.MAPBOXGL.STYLE,
@@ -66,7 +69,7 @@ export default class GPSHandler {
     this.removeMapDirectionsInstruction()
   }
 
-  addGeolocateControl () {
+  addGeolocateControl() {
     const geolocate = new mapboxgl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true },
       trackUserLocation: true
@@ -76,7 +79,7 @@ export default class GPSHandler {
     this.map.on('load', () => geolocate.trigger())
   }
 
-  addMapDirections () {
+  addMapDirections() {
     this.mapDirections =
       new MapboxDirections({
         accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
@@ -99,7 +102,7 @@ export default class GPSHandler {
     this.map.addControl(this.mapDirections, 'top-left')
   }
 
-  mapDirectionsTotal (data) {
+  mapDirectionsTotal(data) {
     const totalDistance = document.querySelector('.map-distance')
     const stepDistance = document.querySelector('.map-step-distance')
 
@@ -116,7 +119,7 @@ export default class GPSHandler {
     document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
   }
 
-  removeMapDirectionsInstruction () {
+  removeMapDirectionsInstruction() {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
 
     removeRouteButton.forEach(removeBtn => {
@@ -129,7 +132,7 @@ export default class GPSHandler {
     document.querySelector('.mapbox-directions-destination input').addEventListener('input', this.directionsInputHandler.bind(this))
   }
 
-  directionsInputHandler (e) {
+  directionsInputHandler(e) {
     const directionsOrigin = document.querySelector('.mapbox-directions-origin input')
 
     if (e.target.value.length === 0) removeRouteButton.forEach(el => el.click())
@@ -140,7 +143,7 @@ export default class GPSHandler {
     }
   }
 
-  convertSecondsToDuration (timeInSeconds) {
+  convertSecondsToDuration(timeInSeconds) {
     let
       hrs = ~~(timeInSeconds / 3600),
       mins = ~~((timeInSeconds % 3600) / 60)
@@ -154,7 +157,7 @@ export default class GPSHandler {
     return timerString
   }
 
-  travelWatcher () {
+  travelWatcher() {
     const speed = this.gps.coords?.speed || 0
     const { latitude, longitude } = this.gps.coords
 
@@ -179,12 +182,12 @@ export default class GPSHandler {
     TODO - On travel end, reset this.travel & this.traveledDistance.
     TODO - Display on current travel total Distance from start (optional)
     */
-    console.log(this.travel, this.gps.coords)
+    // console.log(this.travel, this.gps.coords)
     document.getElementById('speedometer-value').textContent = parseInt(speed * 3.6)
     new DistanceCalculator().distance(51.5, 0, 38.8, -77.1)
   }
 
-  createMarker (id, coords) {
+  createMarker(id, coords) {
     const markerDOM = document.createElement('div')
     markerDOM.className = 'marker'
     markerDOM.id = `marker${id}`
@@ -197,67 +200,62 @@ export default class GPSHandler {
     this.deviceMarkers.push(glMarker)
   }
 
-  socketHandler () {
+  socketHandler() {
     this.onSendPosition()
     this.onReceivePosition()
   }
 
-  onSendPosition () {
-    navigator.geolocation.watchPosition(
-      () => this.socket.emit('sendPosition', [
-        this.gps.coords.longitude,
-        this.gps.coords.latitude
-      ])
-    )
+  /**
+   * Send user position to the server
+   */
+  onSendPosition() {
+    const { latitude: lastLat, longitude: lastLon } = this.lastPosition
+    const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
+
+    if (lastLat !== gpsLat || lastLon !== gpsLon) {
+      this.socket.emit('sendPosition', [gpsLat, gpsLon])
+      this.lastPosition.latitude = gpsLat
+      this.lastPosition.longitude = gpsLon
+    }
   }
 
-  onReceivePosition () {
-    this.socket.on('receivePosition', posBox => {
-      const posBoxHistoryLength = Object.keys(this.posBoxHistory).length
-      const posBoxLength = Object.keys(posBox).length
+  onReceivePosition() {
+    /**
+     * Remove current user position to avoid duplicates
+     */
+    this.socket.on('usersPosition', usersPosition => {
+      const userId = JSON.parse(atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/'))).id
+      delete usersPosition[userId]
 
-      if (posBoxHistoryLength < posBoxLength) {
-        const idOccurences = {}
+      const existingMarkers = this.deviceMarkers.map(({ _element }) => _element.id)
 
-        Object.keys(this.posBoxHistory).forEach(value => { idOccurences[value] = 1 })
-        Object.keys(posBox).forEach(value => {
-          idOccurences[value] = idOccurences[value] + 1 || 1
-        })
+      Object.entries(usersPosition).forEach(([id, [lat, lon]]) => {
+        if (existingMarkers.includes(`marker${id}`)) {
+          // TODO Add position update
+        } else {
+          this.createMarker(id, { lat, lon })
+        }
+      })
 
-        const markersToCreate = Object.entries(idOccurences).filter(([_key, value]) => value === 1).map(v => v[0])
-
-        markersToCreate.forEach(marker => {
-          this.createMarker(marker, {
-            lon: posBox[marker][0],
-            lat: posBox[marker][1]
-          })
-        })
-      } else if (posBoxHistoryLength > posBoxLength) {
-        const idOccurences = {}
-
-        Object.keys(this.posBoxHistory).forEach(value => {
-          idOccurences[value] = 1
-        })
-
-        Object.keys(posBox).forEach(value => {
-          idOccurences[value] = idOccurences[value] + 1 || 1
-        })
-
-        const markersToDelete = Object.entries(idOccurences).filter(([_key, value]) => value === 1).map(v => v[0])
-
+      this.socket.on('deleteMarker', userId => {
         this.deviceMarkers.forEach(device => {
-          markersToDelete.forEach(id => {
-            if (device._element.id === `marker${id}`) {
-              device.remove()
-            }
-          })
+          if (device._element.id === `marker${userId}`) {
+            device.remove()
+          }
         })
-      }
-      this.posBoxHistory = posBox
+
+        const indexToDelete = this.deviceMarkers.findIndex(el => {
+          if (typeof el !== 'undefined') {
+            return el._element.id === `marker${userId}`
+          }
+        })
+        delete this.deviceMarkers[indexToDelete]
+      })
+
     })
   }
 
-  error (err) {
+  error(err) {
     console.error(`ERROR (${err?.code}): ${err?.message}`)
   }
 

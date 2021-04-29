@@ -23,44 +23,53 @@ app.use('/app', appRouter)
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-const posBox = {}
+const usersPosition = {}
 
-io.on('connection', socket => {
+/**
+ * Triggered when user is rooted to app
+ */
+io.on('connection', async socket => {
+
+  /**
+   * Check if user is trusted
+   */
   const serverApi = new ServerApi()
+  const response = await serverApi.whoAmI({ bearer: new Cookie().get('jwt', socket.handshake.headers.cookie) })
 
-  socket.on('sendPosition', coords => {
-    serverApi.whoAmI({
-      bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
+  response.error
+    ? disconnectUser(response.id, response.error)
+    : responseHandling(response.id)
+
+  function responseHandling(userId) {
+    /**
+     * Creates all users position object. 
+     * Requester will get it except his position
+     */
+    socket.on('sendPosition', ([latitude, longitude]) => {
+      let filteredUsersPosition = usersPosition
+      usersPosition[userId] = [latitude, longitude]
+
+      filteredUsersPosition = Object.assign({}, usersPosition)
+      delete filteredUsersPosition[userId]
+
+      if (Object.keys(filteredUsersPosition).length)
+        io.emit('usersPosition', usersPosition)
     })
-      .then(({ id }) => {
 
-        const isGeolocated = coords[0] + coords[1] !== 0
-
-        let filteredPosBox = posBox
-
-        if (isGeolocated) {
-          posBox[id] = coords
-
-          filteredPosBox = Object.assign({}, posBox)
-          delete filteredPosBox[id]
-        }
-
-        console.log(posBox)
-        io.emit('receivePosition', filteredPosBox)
-      })
-  })
-  socket.on('disconnecting', reason => {
-    serverApi.whoAmI({
-      bearer: new Cookie().get('jwt', socket.handshake.headers.cookie)
+    socket.on('disconnecting', reason => {
+      // TODO If user remove cookie, close his socket
+      removeUserPosition(userId, reason)
     })
-      .then(({ id }) => {
-        if (posBox[id]) {
-          delete posBox[id]
-          // io.emit('receivePosition', posBox)
-        }
-      })
-  })
+  }
 })
+
+function removeUserPosition(userId, msg) {
+  // console.log(msg)
+  if (usersPosition[userId]) {
+    delete usersPosition[userId]
+    io.emit('deleteMarker', userId)
+  }
+}
 
 const port = 3000
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
