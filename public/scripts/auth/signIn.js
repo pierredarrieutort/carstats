@@ -1,6 +1,6 @@
 import { AuthApi } from '../utils/Api.js'
 
-window.app.signIn = function initSignIn () {
+export default function initSignIn () {
   const signIn = document.getElementById('signIn')
 
   signIn.addEventListener('submit', e => {

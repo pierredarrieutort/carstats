@@ -6,7 +6,7 @@ import { StatsApi } from '../utils/Api'
 import CONFIG from '../../../config'
 import DistanceCalculator from '../app/map/DistanceCalculator'
 
-window.app.driving = async function initDriving() {
+export default async function initDriving() {
   const journey = new Journey()
   await journey.fetchRoutes()
   await journey.fetchGlobalStats()

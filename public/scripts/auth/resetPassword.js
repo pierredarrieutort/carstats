@@ -1,6 +1,6 @@
 import { AuthApi } from '../utils/Api.js'
 
-window.app.resetPassword = function initresetPassword () {
+export default function initResetPassword () {
   const resetPassword = document.getElementById('resetPassword')
 
   resetPassword.addEventListener('submit', e => {

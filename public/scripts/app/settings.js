@@ -1,6 +1,6 @@
 import { AuthApi } from '../utils/Api.js'
 
-window.app.settings = function initSettings () {
+export default function initSettings () {
     const authApi = new AuthApi()
     document.getElementById('disconnect').onclick = authApi.disconnect
 }

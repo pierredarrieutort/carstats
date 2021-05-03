@@ -4,7 +4,7 @@ import dayjsRelativeTime from 'dayjs/plugin/relativeTime'
 
 import { StatsApi } from '../utils/Api'
 
-window.app.statistics = function initStatistics() {
+export default function initStatistics() {
   const stats = new Stats()
   stats.init()
 }
