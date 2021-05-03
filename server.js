@@ -82,7 +82,9 @@ workboxBuild.generateSW({
   globPatterns: [
     '**/*.{html,json,js,css}'
   ],
-  swDest: 'dist/sw.js'
+  swDest: 'dist/sw.js',
+  sourcemap: false,
+  skipWaiting: true
 })
 
 // app.get('/', (request, response) => {
@@ -104,6 +106,30 @@ app.get('/manifest.webmanifest', (req, res) => res.json({
   start_url: '/',
   description: "The new driving experience.",
   icons: [
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/images/maskable_icon_x512.png",
       "sizes": "512x512",
