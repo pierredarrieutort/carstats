@@ -96,8 +96,8 @@ workboxBuild.generateSW({
 app.get('/manifest.webmanifest', (req, res) => res.json({
   name: 'Carstats',
   short_name: 'Carstats',
-  theme_color: '#2196f3',
-  background_color: '#2196f3',
+  theme_color: '#1b1e22',
+  background_color: '#1b1e22',
   display: 'standalone',
   orientation: 'portrait',
   scope: '/',
