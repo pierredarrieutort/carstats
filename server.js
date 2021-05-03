@@ -40,7 +40,7 @@ io.on('connection', async socket => {
     ? disconnectUser(response.id, response.error)
     : responseHandling(response.id)
 
-  function responseHandling(userId) {
+  function responseHandling (userId) {
     /**
      * Creates all users position object. 
      * Requester will get it except his position
@@ -63,7 +63,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition(userId, msg) {
+function removeUserPosition (userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
@@ -73,3 +73,14 @@ function removeUserPosition(userId, msg) {
 
 const port = 3000
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
+
+
+const workboxBuild = require('workbox-build');
+// This will return a Promise
+workboxBuild.generateSW({
+  globDirectory: 'dist',
+  globPatterns: [
+    '**/*.{html,json,js,css}'
+  ],
+  swDest: 'dist/sw.js'
+});
