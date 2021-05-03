@@ -1,7 +1,5 @@
 import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
-
-import MapboxDirections from './MapboxDirections'
+import MapboxDirections from '@mapbox/mapbox-gl-directions'
 
 import { io } from 'socket.io-client'
 
