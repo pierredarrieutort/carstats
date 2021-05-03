@@ -1,18 +1,20 @@
 @font-face {
-    font-family: 'pg-light';
-    src: url('../fonts/pg-light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'pg-light';
+  src: url('../fonts/pg-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'inter-black';
-    src: url('../fonts/inter-black.otf') format('opentype');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'inter-black';
+  src: url('../fonts/inter-black.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
 
-$f-text: 'pg-light', sans-serif;
-$f-title: 'inter-black', sans-serif;
+$f-text: 'pg-light',
+sans-serif;
+$f-title: 'inter-black',
+sans-serif;
