@@ -1,6 +1,6 @@
 import { AuthApi } from '../utils/Api.js'
 
-window.app.forgotPassword = function initForgotPassword () {
+export default function initForgotPassword () {
   const forgotPassword = document.getElementById('forgotPassword')
 
   forgotPassword.addEventListener('submit', e => {

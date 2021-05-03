@@ -25,9 +25,7 @@
     </section>
 
     <%- include('../components/footer.ejs', {
-        _staticFiles_: {
-            scripts: [
-                'auth/signIn.js'
-            ]
-        }
+        _endpoints_: [
+          ['auth', 'signIn']
+        ]
     }) %>

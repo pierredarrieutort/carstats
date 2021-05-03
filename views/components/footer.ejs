@@ -1,10 +1,10 @@
-<% if (typeof _staticFiles_ !== 'undefined') {
-    if (_staticFiles_.scripts?.length) {
-        _staticFiles_.scripts.forEach(path => { %>
+<% if (typeof _endpoints_ !== 'undefined' && _endpoints_?.length) {
+  const endpoints = _endpoints_.map(([namespace, target]) => `${namespace}.${target}`)
 
-            <script class='treatableScript' src="/scripts/<%= path %>" defer></script>
-            
-<% })}} %>
+  if (endpoints.length) { %>
+    <meta name="functionsExecution" content="<%= endpoints %>">
+  <% }
+} %>
 </main>
 
 </body>
