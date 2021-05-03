@@ -7,6 +7,8 @@ import appRouter from './routes/app'
 import Cookie from './public/scripts/utils/Cookie'
 import ServerApi from './public/scripts/utils/ServerApi'
 
+import workboxBuild from 'workbox-build'
+
 const app = express()
 
 app.set('views', path.resolve('views'))
@@ -75,12 +77,52 @@ const port = 3000
 server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 
 
-const workboxBuild = require('workbox-build');
-// This will return a Promise
 workboxBuild.generateSW({
   globDirectory: 'dist',
   globPatterns: [
     '**/*.{html,json,js,css}'
   ],
   swDest: 'dist/sw.js'
-});
+})
+
+// app.get('/', (request, response) => {
+//   response.sendFile(path.resolve('index.html'));
+// });
+
+// app.get('/sw.js', (request, response) => {
+//   response.sendFile(path.resolve('sw.js'));
+// });
+
+app.get('/manifest.webmanifest', (req, res) => res.json({
+  name: 'Carstats',
+  short_name: 'Carstats',
+  theme_color: '#2196f3',
+  background_color: '#2196f3',
+  display: 'standalone',
+  orientation: 'portrait',
+  scope: '/',
+  start_url: '/',
+  description: "The new driving experience.",
+  icons: [
+      {
+          "src": "/images/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/images/icon-256x256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+      },
+      {
+          "src": "/images/icon-384x384.png",
+          "sizes": "384x384",
+          "type": "image/png"
+      },
+      {
+          "src": "/images/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+      }
+  ]
+}))
