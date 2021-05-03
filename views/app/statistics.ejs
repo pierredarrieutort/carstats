@@ -4,22 +4,18 @@
     _pageIdentifier_: 'page-statistics'
 }) %>
 
-    <section class="bloc-default">
-        <div class="container">
+<section class="bloc-default">
+  <div class="container">
 
-            <h1>Statistics</h1>
+    <h1>Statistics</h1>
 
-            <div id="leaderboards">
+    <div id="leaderboards"></div>
 
-            </div>
+  </div>
+</section>
 
-        </div>
-    </section>
-
-    <%- include('../components/footer.ejs', {
-        _staticFiles_: {
-            scripts: [
-                'app/statistics.js'
-            ]
-        }
-    }) %>
+<%- include('../components/footer.ejs', {
+  _endpoints_: [
+    ['app', 'statistics']
+  ]
+}) %>

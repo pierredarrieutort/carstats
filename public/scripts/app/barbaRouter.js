@@ -49,7 +49,6 @@ class ScriptInjectionManagement {
   }
 
   analyze () {
-    console.log('a')
     this.namespaces.forEach(namespace => {
       window[namespace]
         ? this.execute(namespace)

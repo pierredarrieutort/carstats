@@ -4,34 +4,31 @@
     _pageIdentifier_: 'page-driving'
 }) %>
 
-    <section class="bloc-default driving">
-        <div class="container">
+<section class="bloc-default driving">
+  <div class="container">
 
-            <h1>My driving stats</h1>
+    <h1>My driving stats</h1>
 
-            <h2>My statistics</h2>
+    <h2>My statistics</h2>
 
-            <div class="stats-global">
-                <div>
-                    <p>Total kilometers</p>
-                    <p class="stats-kilometers">- km</p>
-                </div>
-                <div>
-                    <p>Maximum speed</p>
-                    <p class="stats-speed">- km/h</p>
-                </div>
-            </div>
+    <div class="stats-global">
+      <div>
+        <p>Total kilometers</p>
+        <p class="stats-kilometers">- km</p>
+      </div>
+      <div>
+        <p>Maximum speed</p>
+        <p class="stats-speed">- km/h</p>
+      </div>
+    </div>
 
-            <h2>Latest travels</h2>
-            <div class="driving-stats"></div>
+    <h2>Latest travels</h2>
+    <div class="driving-stats"></div>
+  </div>
+</section>
 
-        </div>
-    </section>
-
-    <%- include('../components/footer.ejs', {
-        _staticFiles_: {
-            scripts: [
-                'app/driving.js'
-            ]
-        }
-    }) %>
+<%- include('../components/footer.ejs', {
+  _endpoints_: [
+    ['app', 'driving']
+  ]
+}) %>

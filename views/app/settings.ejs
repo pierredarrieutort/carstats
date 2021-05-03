@@ -4,20 +4,18 @@
     _pageIdentifier_: 'page-settings'
 }) %>
 
-    <section class="bloc-default">
-        <div class="container">
+<section class="bloc-default">
+  <div class="container">
 
-            <h1>Settings</h1>
+    <h1>Settings</h1>
 
-            <button id="disconnect" class="btn">Log out</button>
+    <button id="disconnect" class="btn">Log out</button>
 
-        </div>
-    </section>
+  </div>
+</section>
 
-    <%- include('../components/footer.ejs', {
-        _staticFiles_: {
-            scripts: [
-                'app/settings.js'
-            ]
-        }
-    }) %>
+<%- include('../components/footer.ejs', {
+  _endpoints_: [
+    ['app', 'settings']
+  ]
+}) %>
