@@ -3,36 +3,34 @@
     _pageIdentifier_: 'page-signUp'
 }) %>
 
-    <section class="auth bloc-full">
-        <div class="container">
+<section class="auth bloc-full">
+  <div class="container">
 
-            <h1>Sign up</h1>
+    <h1>Sign up</h1>
 
-            <form id="signUp">
-                <label for="email">Email adress</label>
-                <input type="email" name="email" id="email" placeholder="Enter your email adress" required>
+    <form id="signUp">
+      <label for="email">Email adress</label>
+      <input type="email" name="email" id="email" placeholder="Enter your email adress" required>
 
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter your username" required>
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" placeholder="Enter your username" required>
 
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="6">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="6">
 
-                <label for="passwordConfirm">Password confirmation</label>
-                <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Enter your password again" required minlength="6">
+      <label for="passwordConfirm">Password confirmation</label>
+      <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Enter your password again" required minlength="6">
 
-                <input type="submit" value="Sign up">
-            </form>
+      <input type="submit" value="Sign up">
+    </form>
 
-            <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
+    <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
 
-        </div>
-    </section>
+  </div>
+</section>
 
     <%- include('../components/footer.ejs', {
-        _staticFiles_: {
-            scripts: [
-                'auth/signUp.js'
-            ]
-        }
-    }) %>
+      _endpoints_: [
+        ['auth', 'signUp']
+      ]
+  }) %>
