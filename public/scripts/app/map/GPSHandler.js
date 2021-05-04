@@ -11,6 +11,12 @@ export default class GPSHandler {
   constructor () {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
+    // TODO try to replace first get position by that
+    // this.geolocate = new mapboxgl.GeolocateControl({
+    //   positionOptions: { enableHighAccuracy: true },
+    //   trackUserLocation: true
+    // })
+
     this.gps = {}
     this.gpsOptions = {
       // enableHighAccuracy: false 
@@ -68,13 +74,15 @@ export default class GPSHandler {
   }
 
   addGeolocateControl () {
-    const geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: { enableHighAccuracy: true },
-      trackUserLocation: true
-    })
+    this.map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true
+      })
+    );
 
-    this.map.addControl(geolocate)
-    this.map.on('load', () => geolocate.trigger())
   }
 
   addMapDirections () {
@@ -119,9 +127,11 @@ export default class GPSHandler {
 
   removeMapDirectionsInstruction () {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
-
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
+        // console.log(this.map._controls)
+        // this.geolocate.trigger()
+        document.querySelector('.mapboxgl-ctrl-geolocate').click()
         removeRouteButton[0].click()
         document.querySelector('.map').classList.remove('active')
       })
