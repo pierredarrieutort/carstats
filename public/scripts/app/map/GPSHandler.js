@@ -37,6 +37,8 @@ export default class GPSHandler {
       latitude: NaN,
       longitude: NaN
     }
+
+    this.speedLimit = new SpeedLimit()
   }
 
   getLocation() {
@@ -51,17 +53,14 @@ export default class GPSHandler {
   gpsInitialization(data) {
     this.gps = data
     this.createMap()
-
-    const speedLimit = new SpeedLimit()
-    speedLimit.createComponent()
-    speedLimit.getCurrentSpeedLimit(this.gps.coords)
-    setInterval(function () { speedLimit.getCurrentSpeedLimit(this.gps.coords) }, 30000)
+    this.speedLimit.createComponent(this.gps.coords)
   }
 
   gpsHandler(data) {
     this.gps = data
     this.travelWatcher()
     this.socketHandler()
+    this.speedLimit.updateSpeedLimit(this.gps.coords)
   }
 
   createMap() {
@@ -271,25 +270,35 @@ class SpeedLimit {
   constructor() {
     this.legalSpeed = document.querySelector('.legal-speed')
     this.legalSpeedItem = document.createElement('div')
+    this.coords = {
+      latitude: 0,
+      longitude: 0
+    }
   }
 
-  createComponent() {
+  createComponent({ latitude, longitude }) {
     this.legalSpeedItem.id = 'legalSpeed'
     this.legalSpeed.append(this.legalSpeedItem)
+
+    this.coords = { latitude, longitude }
+    setInterval(this.getCurrentSpeedLimit.bind(this), 10000)
+  }
+
+  updateSpeedLimit({ latitude, longitude }) {
+    this.coords = { latitude, longitude }
   }
 
   /**
    * Call server which get Here Maps Api response
    * @returns Speed Limit as m/s
    */
-  async getCurrentSpeedLimit({ latitude, longitude }) {
-    console.log(latitude, longitude)
+  async getCurrentSpeedLimit() {
     const res = await fetch('/app/map/maxspeed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        latitude,
-        longitude
+        latitude: this.coords.latitude,
+        longitude: this.coords.longitude
       })
     })
     const result = await res.json()
