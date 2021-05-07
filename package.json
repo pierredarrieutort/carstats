@@ -5,7 +5,7 @@
 	"description": "the new driving experience.",
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
-    "serverprod": "babel-node server.js",
+		"serverprod": "babel-node server.js",
 		"client": "parcel watch public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
 		"preclientprod": "rimraf dist .parcel-cache",
 		"clientprod": "parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps"

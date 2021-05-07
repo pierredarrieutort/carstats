@@ -1,4 +1,4 @@
-@import 'mapbox-gl/dist/mapbox-gl.css';
+@import "mapbox-gl/dist/mapbox-gl.css";
 
 #map {
   width: 100%;
@@ -42,7 +42,7 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  border: 4px solid $c-white;
+  border: 3px solid $c-white;
   cursor: pointer;
 }
 
