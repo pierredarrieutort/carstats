@@ -37,8 +37,6 @@ export default class GPSHandler {
       latitude: NaN,
       longitude: NaN
     }
-
-    this.getLocation()
   }
 
   getLocation() {
