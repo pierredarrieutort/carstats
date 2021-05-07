@@ -9,7 +9,6 @@ import DistanceCalculator from './DistanceCalculator'
 import mapDirectionsStyles from './mapDirectionsStyles'
 
 export default class GPSHandler {
-
   constructor() {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
@@ -54,6 +53,11 @@ export default class GPSHandler {
   gpsInitialization(data) {
     this.gps = data
     this.createMap()
+
+    const speedLimit = new SpeedLimit()
+    speedLimit.createComponent()
+    speedLimit.getCurrentSpeedLimit(this.gps.coords)
+    setInterval(function () { speedLimit.getCurrentSpeedLimit(this.gps.coords) }, 30000)
   }
 
   gpsHandler(data) {
@@ -88,11 +92,11 @@ export default class GPSHandler {
         unit: 'metric',
         language: 'fr',
         interactive: false,
-        alternatives: true,
-        steps: true,
+        alternatives: false,
         controls: {
           profileSwitcher: false
-        }
+        },
+        annotations: 'maxspeed'
       })
         .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
         .on('route', data => {
@@ -136,16 +140,6 @@ export default class GPSHandler {
       directionsOrigin.value = `${this.gps.coords.longitude}, ${this.gps.coords.latitude}`
       this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
     }
-  }
-
-  flyToCurrentPosition() {
-    this.map.flyTo({
-      center: [
-        this.gps.coords.longitude,
-        this.gps.coords.latitude
-      ],
-      essential: true
-    })
   }
 
   convertSecondsToDuration(timeInSeconds) {
@@ -265,13 +259,46 @@ export default class GPSHandler {
    * Update user's position on map
    */
   updateMarker(id, coords) {
-    const deviceMarkersFiltered = this.deviceMarkers.filter(el => el != null)
-    const indexToUpdate = deviceMarkersFiltered.findIndex(({ _element }) => _element.id = `marker${id}`)
-    deviceMarkersFiltered[indexToUpdate].setLngLat(coords)
+    const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
+    this.deviceMarkers[indexToUpdate].setLngLat(coords)
   }
 
   error(err) {
-    console.error(`ERROR (${err?.code}): ${err?.message}`)
+    console.error(`ERROR (${err?.code}) : ${err?.message}`)
+  }
+}
+
+
+class SpeedLimit {
+  constructor() {
+    this.speedometer = document.querySelector('.speedometer')
+    this.legalSpeedItem = document.createElement('div')
   }
 
+  createComponent() {
+    this.legalSpeedItem.id = 'legalSpeed'
+    this.speedometer.append(this.legalSpeedItem)
+  }
+
+  /**
+   * Call server which get Here Maps Api response
+   * @returns Speed Limit as m/s
+   */
+  async getCurrentSpeedLimit({ latitude, longitude }) {
+    console.log(latitude, longitude)
+    const res = await fetch('/app/map/maxspeed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        latitude,
+        longitude
+      })
+    })
+    const result = await res.json()
+    const { speedLimit } = result.response.route[0].leg[0].link[0]
+
+    const formattedSpeed = Math.round(speedLimit * 3.6)
+
+    this.legalSpeedItem.textContent = formattedSpeed
+  }
 }
