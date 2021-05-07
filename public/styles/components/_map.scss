@@ -161,7 +161,7 @@
 }
 
 .mapbox-directions-route-summary {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -169,12 +169,38 @@
   gap: 0.5rem;
   h1,
   span {
-    font-size: 0.7rem;
-    font-family: $f-title;
-    font-weight: 400;
+    font-size: 0.9rem;
+    font-family: $f-text;
     background: $c-bg;
-    padding: 1rem;
-    border-radius: 6px;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+  }
+}
+
+.mapbox-directions-instructions .mapbox-directions-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    width: 100%;
+    background: $c-bg;
+    border-radius: 10px;
+    padding: 0 2rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    position: absolute;
+    top: 8rem;
+    left: 0;
+    .mapbox-directions-step-maneuver {
+      font-size: 0.9rem;
+    }
+    .mapbox-directions-step-distance {
+      font-size: 1.6rem;
+      font-family: $f-title;
+      margin-bottom: 0.25rem;
+    }
   }
 }
 
@@ -190,50 +216,25 @@
     opacity: 1;
     visibility: visible;
   }
-  &-distance,
-  &-duration {
-    display: inline-block;
-    background: $c-bg;
-    border-radius: 10px;
-    padding: 1rem 2rem;
-    font-size: 0.9rem;
-  }
-  &-distance {
-    margin-right: 1rem;
-  }
   &-step {
     background: $c-bg;
     border-radius: 10px;
     padding: 1rem 2rem;
     margin-top: 0.5rem;
-    &-distance {
-      font-size: 1.6rem;
-      font-family: $f-title;
-      margin-bottom: 0.25rem;
-    }
-    &-instruction {
-      font-size: 0.9rem;
-    }
   }
 }
 
-.map-error {
+.mapbox-directions-error {
   position: absolute;
-  top: 5rem;
+  top: 4rem;
   left: 50%;
   transform: translateX(-50%);
-  opacity: 0;
-  visibility: hidden;
   background: #f22e2e;
   color: #fff;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   padding: 1rem;
   border-radius: 5px;
   text-align: center;
   font-size: 0.9rem;
-  &.active {
-    opacity: 1;
-    visibility: visible;
-  }
 }

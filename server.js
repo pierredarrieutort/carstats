@@ -54,8 +54,6 @@ io.on('connection', async socket => {
       filteredUsersPosition = Object.assign({}, usersPosition)
       delete filteredUsersPosition[userId]
 
-      console.log(usersPosition)
-
       if (Object.keys(filteredUsersPosition).length)
         io.emit('usersPosition', usersPosition)
     })

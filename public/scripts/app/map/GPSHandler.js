@@ -39,8 +39,6 @@ export default class GPSHandler {
       longitude: NaN
     }
 
-    this.mapError = document.querySelector('.map-error')
-
     this.getLocation()
   }
 
@@ -91,44 +89,25 @@ export default class GPSHandler {
         language: 'fr',
         interactive: false,
         alternatives: true,
+        steps: true,
         controls: {
-          instructions: false,
           profileSwitcher: false
         }
       })
         .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
         .on('route', data => {
-          document.querySelector('.map').classList.add('active')
-          this.mapError.classList.remove('active')
           if (data.route.length) this.mapDirectionsTotal(data)
         })
         .on('error', () => {
           document.querySelector('.map').classList.remove('active')
           this.flyToCurrentPosition()
-          this.mapError.classList.add('active')
-          this.mapError.innerText = 'Route exceeds maximum distance limitation'
         })
 
     this.map.addControl(this.mapDirections, 'top-left')
   }
 
   mapDirectionsTotal(data) {
-    const totalDistance = document.querySelector('.map-distance')
-    const stepDistance = document.querySelector('.map-step-distance')
-
-    if (data.route.length !== 0) {
-      let distanceValue = data.route[0].distance
-      if (distanceValue < '1000') totalDistance.innerText = `${distanceValue.toFixed(0)} m`
-      else totalDistance.innerText = `${(distanceValue / 1000).toFixed(1)} km`
-
-      document.querySelector('.map-duration').innerText = this.convertSecondsToDuration(data.route[0].duration)
-
-      let stepDistanceValue = data.route[0].legs[0].steps[0].distance
-      if (stepDistanceValue < '1000') stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
-      else stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
-
-      document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
-    }
+    console.log(data)
   }
 
   removeMapDirectionsInstruction() {
@@ -222,14 +201,11 @@ export default class GPSHandler {
    * Send user position to the server
    */
   onSendPosition() {
-    const { latitude: lastLat, longitude: lastLon } = this.lastPosition
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
-    // if (lastLat !== gpsLat || lastLon !== gpsLon) {
     this.socket.emit('sendPosition', [gpsLat, gpsLon])
     this.lastPosition.latitude = gpsLat
     this.lastPosition.longitude = gpsLon
-    // }
   }
 
   onReceivePosition() {
