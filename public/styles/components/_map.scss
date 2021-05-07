@@ -216,3 +216,24 @@
     }
   }
 }
+
+.map-error {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  background: #f22e2e;
+  color: #fff;
+  width: 90%;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
