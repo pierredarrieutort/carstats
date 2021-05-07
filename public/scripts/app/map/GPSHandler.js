@@ -211,12 +211,11 @@ export default class GPSHandler {
     const { latitude: lastLat, longitude: lastLon } = this.lastPosition
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
-
-    if (lastLat !== gpsLat || lastLon !== gpsLon) {
-      this.socket.emit('sendPosition', [gpsLat, gpsLon])
-      this.lastPosition.latitude = gpsLat
-      this.lastPosition.longitude = gpsLon
-    }
+    // if (lastLat !== gpsLat || lastLon !== gpsLon) {
+    this.socket.emit('sendPosition', [gpsLat, gpsLon])
+    this.lastPosition.latitude = gpsLat
+    this.lastPosition.longitude = gpsLon
+    // }
   }
 
   onReceivePosition() {
@@ -228,9 +227,10 @@ export default class GPSHandler {
       delete usersPosition[userId]
 
       const existingMarkers = this.deviceMarkers.map(({ _element }) => _element.id)
+      const existingMarkersFiltered = existingMarkers.filter(el => el != null)
 
       Object.entries(usersPosition).forEach(([id, [lat, lon]]) => {
-        if (existingMarkers.includes(`marker${id}`)) {
+        if (existingMarkersFiltered.includes(`marker${id}`)) {
           this.updateMarker(id, { lat, lon })
         } else {
           this.createMarker(id, { lat, lon })
@@ -275,8 +275,9 @@ export default class GPSHandler {
    * Update user's position on map
    */
   updateMarker(id, coords) {
-    const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
-    this.deviceMarkers[indexToUpdate].setLngLat(coords)
+    const deviceMarkersFiltered = this.deviceMarkers.filter(el => el != null)
+    const indexToUpdate = deviceMarkersFiltered.findIndex(({ _element }) => _element.id = `marker${id}`)
+    deviceMarkersFiltered[indexToUpdate].setLngLat(coords)
   }
 
   error(err) {

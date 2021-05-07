@@ -42,7 +42,7 @@ io.on('connection', async socket => {
     ? disconnectUser(response.id, response.error)
     : responseHandling(response.id)
 
-  function responseHandling (userId) {
+  function responseHandling(userId) {
     /**
      * Creates all users position object. 
      * Requester will get it except his position
@@ -53,6 +53,8 @@ io.on('connection', async socket => {
 
       filteredUsersPosition = Object.assign({}, usersPosition)
       delete filteredUsersPosition[userId]
+
+      console.log(usersPosition)
 
       if (Object.keys(filteredUsersPosition).length)
         io.emit('usersPosition', usersPosition)
@@ -65,7 +67,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition (userId, msg) {
+function removeUserPosition(userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
