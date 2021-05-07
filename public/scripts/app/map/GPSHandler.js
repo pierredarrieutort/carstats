@@ -269,7 +269,7 @@ export default class GPSHandler {
 
 class SpeedLimit {
   constructor() {
-    this.speedometer = document.querySelector('.speedometer')
+    this.speedometer = document.querySelector('.legal-speed')
     this.legalSpeedItem = document.createElement('div')
   }
 
