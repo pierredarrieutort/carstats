@@ -37,6 +37,10 @@ export default class GPSHandler {
       latitude: NaN,
       longitude: NaN
     }
+
+    this.mapError = document.querySelector('.map-error')
+
+    this.getLocation()
   }
 
   getLocation () {
@@ -100,8 +104,14 @@ export default class GPSHandler {
         .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
         .on('route', data => {
           document.querySelector('.map').classList.add('active')
-
-          this.mapDirectionsTotal(data)
+          this.mapError.classList.remove('active')
+          if (data.route.length) this.mapDirectionsTotal(data)
+        })
+        .on('error', () => {
+          document.querySelector('.map').classList.remove('active')
+          this.flyToCurrentPosition()
+          this.mapError.classList.add('active')
+          this.mapError.innerText = 'Route exceeds maximum distance limitation'
         })
 
     this.map.addControl(this.mapDirections, 'top-left')
@@ -111,17 +121,19 @@ export default class GPSHandler {
     const totalDistance = document.querySelector('.map-distance')
     const stepDistance = document.querySelector('.map-step-distance')
 
-    let distanceValue = data.route[0].distance
-    if (distanceValue < '1000') totalDistance.innerText = `${distanceValue.toFixed(0)} m`
-    else totalDistance.innerText = `${(distanceValue / 1000).toFixed(1)} km`
+    if (data.route.length !== 0) {
+      let distanceValue = data.route[0].distance
+      if (distanceValue < '1000') totalDistance.innerText = `${distanceValue.toFixed(0)} m`
+      else totalDistance.innerText = `${(distanceValue / 1000).toFixed(1)} km`
 
-    document.querySelector('.map-duration').innerText = this.convertSecondsToDuration(data.route[0].duration)
+      document.querySelector('.map-duration').innerText = this.convertSecondsToDuration(data.route[0].duration)
 
-    let stepDistanceValue = data.route[0].legs[0].steps[0].distance
-    if (stepDistanceValue < '1000') stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
-    else stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
+      let stepDistanceValue = data.route[0].legs[0].steps[0].distance
+      if (stepDistanceValue < '1000') stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
+      else stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
 
-    document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
+      document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
+    }
   }
 
   removeMapDirectionsInstruction () {
@@ -130,13 +142,7 @@ export default class GPSHandler {
       removeBtn.addEventListener('click', () => {
         removeRouteButton[0].click()
         document.querySelector('.map').classList.remove('active')
-        this.map.flyTo({
-          center: [
-            this.gps.coords.longitude,
-            this.gps.coords.latitude
-          ],
-          essential: true
-        })
+        this.flyToCurrentPosition()
         this.geolocate.trigger()
       })
     })
@@ -158,7 +164,7 @@ export default class GPSHandler {
     }
   }
 
-  convertSecondsToDuration (timeInSeconds) {
+  convertSecondsToDuration(timeInSeconds) {
     let
       hrs = ~~(timeInSeconds / 3600),
       mins = ~~((timeInSeconds % 3600) / 60)
@@ -214,12 +220,11 @@ export default class GPSHandler {
     const { latitude: lastLat, longitude: lastLon } = this.lastPosition
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
-
-    if (lastLat !== gpsLat || lastLon !== gpsLon) {
-      this.socket.emit('sendPosition', [gpsLat, gpsLon])
-      this.lastPosition.latitude = gpsLat
-      this.lastPosition.longitude = gpsLon
-    }
+    // if (lastLat !== gpsLat || lastLon !== gpsLon) {
+    this.socket.emit('sendPosition', [gpsLat, gpsLon])
+    this.lastPosition.latitude = gpsLat
+    this.lastPosition.longitude = gpsLon
+    // }
   }
 
   onReceivePosition () {
@@ -231,9 +236,10 @@ export default class GPSHandler {
       delete usersPosition[userId]
 
       const existingMarkers = this.deviceMarkers.map(({ _element }) => _element.id)
+      const existingMarkersFiltered = existingMarkers.filter(el => el != null)
 
       Object.entries(usersPosition).forEach(([id, [lat, lon]]) => {
-        if (existingMarkers.includes(`marker${id}`)) {
+        if (existingMarkersFiltered.includes(`marker${id}`)) {
           this.updateMarker(id, { lat, lon })
         } else {
           this.createMarker(id, { lat, lon })
@@ -277,7 +283,7 @@ export default class GPSHandler {
   /**
    * Update user's position on map
    */
-  updateMarker (id, coords) {
+  updateMarker(id, coords) {
     const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
     this.deviceMarkers[indexToUpdate].setLngLat(coords)
   }

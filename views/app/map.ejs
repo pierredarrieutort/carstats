@@ -1,27 +1,20 @@
-<%- include('../components/header.ejs', { 
-    _useAppMenu_: true, 
-    _pageTitle_: 'Map' , 
-    _pageIdentifier_: 'page-map' 
-}) %>
+<%- include('../components/header.ejs', { _useAppMenu_: true, _pageTitle_: 'Map' , _pageIdentifier_: 'page-map' }) %>
 
-<section class="bloc-full">
-  <div id="mylog"></div>
-  <div id="map"></div>
-  <div class="map container">
-    <p class="map-distance"></p>
-    <p class="map-duration"></p>
-    <div class="map-step">
-      <p class="map-step-distance"></p>
-      <p class="map-step-instruction"></p>
+  <section class="bloc-full">
+    <div id="mylog"></div>
+    <div id="map"></div>
+    <div class="map-error"></div>
+    <div class="map container">
+      <p class="map-distance"></p>
+      <p class="map-duration"></p>
+      <div class="map-step">
+        <p class="map-step-distance"></p>
+        <p class="map-step-instruction"></p>
+      </div>
     </div>
-  </div>
-  <div class="speedometer">
-    <p id="speedometer-value" data-speedUnit="km/h">0</p>
-  </div>
-</section>
+    <div class="speedometer">
+      <p id="speedometer-value" data-speedUnit="km/h">0</p>
+    </div>
+  </section>
 
-<%- include('../components/footer.ejs', {
-  _endpoints_: [
-    ['app', 'map']
-  ]
-}) %>
+  <%- include('../components/footer.ejs', { _endpoints_: [ ['app', 'map' ] ] }) %>

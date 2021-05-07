@@ -39,10 +39,10 @@
 
 .marker {
   background: #f22e2e;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
-  border: 3px solid $c-white;
+  border: 2px solid $c-white;
   cursor: pointer;
 }
 
@@ -73,6 +73,10 @@
 
 .mapboxgl-ctrl-geocoder .geocoder-pin-right *.active {
   display: block;
+}
+
+.mapboxgl-ctrl-group {
+  border-radius: 50%;
 }
 
 .geocoder-icon-close {
@@ -210,5 +214,26 @@
     &-instruction {
       font-size: 0.9rem;
     }
+  }
+}
+
+.map-error {
+  position: absolute;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  background: #f22e2e;
+  color: #fff;
+  width: 90%;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  &.active {
+    opacity: 1;
+    visibility: visible;
   }
 }
