@@ -37,6 +37,27 @@
   }
 }
 
+.legal-speed {
+  position: absolute;
+  bottom: 7rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  div {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    border: 4px solid #f22e2e;
+    font-weight: 700;
+    color: $c-bg;
+    font-size: 0.9rem;
+  }
+}
+
 .marker {
   background: #f22e2e;
   width: 19px;
