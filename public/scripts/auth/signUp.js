@@ -1,6 +1,8 @@
 import { AuthApi } from '../utils/Api.js'
 
-export default function initSignUp () {
+import displayMessage from '../utils/Message'
+
+export default function initSignUp() {
   const signUp = document.getElementById('signUp')
 
   signUp.addEventListener('submit', e => {
@@ -20,7 +22,7 @@ export default function initSignUp () {
         password: data.get('password')
       })
     } else {
-      console.error('Passwords are not identical')
+      displayMessage('error', document.querySelector('.msg'), 'Passwords are not identical.')
     }
   })
 }

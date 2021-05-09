@@ -1,36 +1,32 @@
-<%- include('../components/header.ejs', {
-    _pageTitle_: 'Sign up',
-    _pageIdentifier_: 'page-signUp'
-}) %>
+<%- include('../components/header.ejs', { _pageTitle_: 'Sign up' , _pageIdentifier_: 'page-signUp' }) %>
 
-<section class="auth bloc-full">
-  <div class="container">
+  <section class="auth bloc-full">
+    <div class="container">
 
-    <h1>Sign up</h1>
+      <h1>Sign up</h1>
 
-    <form id="signUp">
-      <label for="email">Email adress</label>
-      <input type="email" name="email" id="email" placeholder="Enter your email adress" required>
+      <div class="msg"></div>
 
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" placeholder="Enter your username" required>
+      <form id="signUp">
+        <label for="email">Email adress</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email adress" required>
 
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="6">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Enter your username" required>
 
-      <label for="passwordConfirm">Password confirmation</label>
-      <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Enter your password again" required minlength="6">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="6">
 
-      <input type="submit" value="Sign up">
-    </form>
+        <label for="passwordConfirm">Password confirmation</label>
+        <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Enter your password again"
+          required minlength="6">
 
-    <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
+        <input type="submit" value="Sign up">
+      </form>
 
-  </div>
-</section>
+      <p>Are you a member ? <a href="./sign-in">Sign in</a></p>
 
-    <%- include('../components/footer.ejs', {
-      _endpoints_: [
-        ['auth', 'signUp']
-      ]
-  }) %>
+    </div>
+  </section>
+
+  <%- include('../components/footer.ejs', { _endpoints_: [ ['auth', 'signUp' ] ] }) %>

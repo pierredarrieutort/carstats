@@ -1,6 +1,8 @@
 import CONFIG from '../../../config'
 import Cookie from '../utils/Cookie'
 
+import displayMessage from '../utils/Message'
+
 export default class Api {
   /**
    * @param  {String} method
@@ -9,7 +11,7 @@ export default class Api {
    * @param  {Object} headersOverride
    * @param  {Object} reqAdditional
    */
-  async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
+  async request({ method = 'GET', route, body, headersOverride, reqAdditional }) {
     const _headers = new Headers(Object.assign(
       { 'Content-Type': 'application/json' },
       headersOverride
@@ -35,11 +37,13 @@ export default class Api {
 }
 
 export class AuthApi extends Api {
-  constructor () {
+  constructor() {
     super()
+
+    this.msg = document.querySelector('.msg')
   }
 
-  async authenticate (data) {
+  async authenticate(data) {
     const { jwt } = await this.request({
       method: 'POST',
       route: '/auth/local',
@@ -49,10 +53,12 @@ export class AuthApi extends Api {
     if (jwt) {
       new Cookie().set('jwt', jwt, { path: '/', days: 30 })
       window.location.href = '/app'
+    } else {
+      displayMessage('error', this.msg, 'Invalid email adress or password.')
     }
   }
 
-  async register (data) {
+  async register(data) {
     const response = await this.request({
       method: 'POST',
       route: '/users',
@@ -60,19 +66,29 @@ export class AuthApi extends Api {
     })
 
     if (!response.error) {
-      window.location.href = '/auth/sign-in'
+      displayMessage('success', this.msg, 'Your account has been created. You will be automatically redirected.')
+      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+    } else {
+      displayMessage('error', this.msg, response.message[0].messages[0].message)
     }
   }
 
-  async forgotPassword (data) {
-    await this.request({
+  async forgotPassword(data) {
+    const response = await this.request({
       method: 'POST',
       route: '/auth/forgot-password',
       body: data
     })
+
+    if (!response.error) {
+      // TODO - Fix CORS problem
+      // displayMessage('success', 'You will receive an email in a few minutes.')
+    } else {
+      displayMessage('error', this.msg, response.message[0].messages[0].message)
+    }
   }
 
-  async resetPassword (data) {
+  async resetPassword(data) {
     const response = await this.request({
       method: 'POST',
       route: '/auth/reset-password',
@@ -80,11 +96,14 @@ export class AuthApi extends Api {
     })
 
     if (!response.error) {
-      window.location.href = '/auth/sign-in'
+      displayMessage('success', 'You will receive an email in a few minutes.')
+      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+    } else {
+      displayMessage('error', this.msg, response.message[0].messages[0].message)
     }
   }
 
-  disconnect () {
+  disconnect() {
     new Cookie().delete('jwt')
     window.location.reload()
   }
@@ -92,29 +111,29 @@ export class AuthApi extends Api {
 
 
 export class StatsApi extends Api {
-  constructor () {
+  constructor() {
     super()
 
     this.cookies = new Cookie()
     this.jwt = this.cookies.get('jwt')
-    this.authorization = {'Authorization': `Bearer ${this.jwt}`}
+    this.authorization = { 'Authorization': `Bearer ${this.jwt}` }
   }
 
-  async renderLatestRoutes () {
+  async renderLatestRoutes() {
     return await this.request({
       route: '/travels/me',
       headersOverride: this.authorization
     })
   }
 
-  async renderGlobalStats () {
+  async renderGlobalStats() {
     return await this.request({
       route: '/users-global-stats/me',
       headersOverride: this.authorization
     })
   }
 
-  async leaderboard () {
+  async leaderboard() {
     return await this.request({
       route: '/users-global-stats/leaderboard',
       headersOverride: this.authorization

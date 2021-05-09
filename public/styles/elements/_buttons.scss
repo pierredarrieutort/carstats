@@ -1,10 +1,35 @@
 .btn {
-    width: 100%;
-    background: $c-primary;
-    color: $c-white;
-    padding: s(1);
-    border-radius: 6px;
-    border: none;
-    margin: s(1) 0 0;
-    cursor: pointer;
+  width: 100%;
+  background: $c-primary;
+  color: $c-white;
+  padding: s(1);
+  border-radius: 6px;
+  border: none;
+  margin: s(1) 0 0;
+  cursor: pointer;
+}
+
+.msg {
+  color: #fff;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin: 2rem 0;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+  }
+  &-error {
+    background: #f22e2e;
+  }
+  &-success {
+    background: #47bf5b;
+  }
 }
