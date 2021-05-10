@@ -5,5 +5,5 @@ export default function initMap () {
   new LogMobile()
 
   const gpsHandler = new GPSHandler()
-  gpsHandler.getLocation()
+  gpsHandler.start()
 }

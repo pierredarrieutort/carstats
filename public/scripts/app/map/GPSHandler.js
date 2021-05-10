@@ -9,6 +9,7 @@ import DistanceCalculator from './DistanceCalculator'
 import mapDirectionsStyles from './mapDirectionsStyles'
 
 import SpeedLimit from './speedLimit'
+import PoiManager from './pointsOfInterest'
 
 export default class GPSHandler {
   constructor () {
@@ -43,7 +44,7 @@ export default class GPSHandler {
     this.speedLimit = new SpeedLimit()
   }
 
-  getLocation () {
+  start () {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(this.gpsInitialization.bind(this), this.error, this.gpsOptions)
       navigator.geolocation.watchPosition(this.gpsHandler.bind(this), this.error, this.gpsOptions)
@@ -55,6 +56,10 @@ export default class GPSHandler {
   gpsInitialization (data) {
     this.gps = data
     this.createMap()
+
+    this.poiManager = new PoiManager(this.map)
+    this.poiManager.start()
+    
     this.speedLimit.createComponent(this.gps.coords)
   }
 
@@ -103,7 +108,6 @@ export default class GPSHandler {
         })
         .on('error', () => {
           document.querySelector('.map').classList.remove('active')
-          this.flyToCurrentPosition()
         })
 
     this.map.addControl(this.mapDirections, 'top-left')
@@ -119,7 +123,6 @@ export default class GPSHandler {
       removeBtn.addEventListener('click', () => {
         removeRouteButton[0].click()
         document.querySelector('.map').classList.remove('active')
-        this.flyToCurrentPosition()
         this.geolocate.trigger()
       })
     })
