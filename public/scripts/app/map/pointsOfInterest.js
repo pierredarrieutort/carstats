@@ -21,7 +21,7 @@ class WazeExtractor {
 
   cooldown () {
     this.isReady = false
-    setTimeout(() => this.isReady = true, 60000)
+    setTimeout(() => this.isReady = true, 30000)
   }
 
   start () {
