@@ -29,7 +29,7 @@ class WazeExtractor {
       if (this.isReady) {
         this.cooldown()
         const [[left, bottom], [right, top]] = this.map.getBounds().toArray()
-        const url = `https://api.codetabs.com/v1/proxy?quest=https://www.waze.com/row-rtserver/web/TGeoRSS?bottom=${bottom}&left=${left}&ma=200&mj=100&mu=20&right=${right}&top=${top}4&types=alerts`
+        const url = `https://carstats-cors-proxy.herokuapp.com/www.waze.com/row-rtserver/web/TGeoRSS?bottom=${bottom}&left=${left}&ma=200&mj=100&mu=20&right=${right}&top=${top}4&types=alerts`
 
         const response = await fetch(url)
         const fetchedAlerts = await response.json()
