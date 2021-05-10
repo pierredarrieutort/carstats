@@ -59,7 +59,7 @@ export default class GPSHandler {
 
     this.poiManager = new PoiManager(this.map)
     this.poiManager.start()
-    
+
     this.speedLimit.createComponent(this.gps.coords)
   }
 
@@ -89,30 +89,40 @@ export default class GPSHandler {
   }
 
   addMapDirections () {
-    this.mapDirections =
-      new MapboxDirections({
-        accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
-        styles: mapDirectionsStyles,
-        unit: 'metric',
-        language: 'fr',
-        interactive: false,
-        alternatives: false,
-        controls: {
-          profileSwitcher: false
-        },
-        annotations: 'maxspeed'
+    let originUpdater = null
+
+    this.mapDirections = new MapboxDirections({
+      accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
+      styles: mapDirectionsStyles,
+      unit: 'metric',
+      language: 'fr',
+      interactive: false,
+      alternatives: false,
+      controls: {
+        profileSwitcher: false
+      },
+      annotations: 'maxspeed'
+    })
+      .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+      .on('route', data => {
+        if (data.route.length) {
+          this.mapDirectionsTotal(data)
+        }
       })
-        .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
-        .on('route', data => {
-          if (data.route.length) this.mapDirectionsTotal(data)
-        })
-        .on('error', () => {
-          document.querySelector('.map').classList.remove('active')
-        })
+      .on('error', () => {
+        document.querySelector('.map').classList.remove('active')
+        clearInterval(originUpdater)
+      })
+
+      originUpdater = setInterval(() => {
+        this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+      }, 2000)
 
     this.map.addControl(this.mapDirections, 'top-left')
   }
 
+
+  // ??? WHAT IS THIS ???
   mapDirectionsTotal (data) {
     console.log(data)
   }
