@@ -72,6 +72,25 @@
   cursor: pointer;
 }
 
+#map.isTraveling {
+  .mapboxgl-user-location-accuracy-circle {
+    display: none;
+  }
+  .mapboxgl-user-location-dot {
+    width: 18px;
+    height: 10px;
+    border-top: 18px solid $c-primary;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-radius: 5px;
+    background: none;
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
 .mapboxgl-ctrl-top-left .mapboxgl-ctrl {
   margin: 0;
 }
@@ -133,7 +152,7 @@
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid $c-white;
-
+  transition: border-radius 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   &::placeholder {
     color: $c-darkGray;
     font-family: $f-text;
@@ -271,7 +290,6 @@
     width: 20px;
     height: 20px;
     vertical-align: middle;
-    speak: none;
     background-repeat: no-repeat;
   }
   .directions-icon-arrive {
@@ -315,5 +333,53 @@
   }
   .directions-icon-waypoint {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMjAwLC05OTIuMzYyMTgpIj48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwxLDIwMDQuNzI0NCkiIG9wYWNpdHk9IjAuNSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEsLTIpIi8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMSwyMDI0LjcyNDQpIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyMTUgMTAwMS40YzAgMi44LTUgOC01IDggMCAwLTUtNS4yLTUtOCAwLTIuOCAyLjItNSA1LTUgMi44IDAgNSAyLjIgNSA1eiIgZmlsbD0iI0ZGRiIvPjwvZz48L3N2Zz4=);
+  }
+}
+
+.map-recap {
+  width: 90vw;
+  max-width: 500px;
+  position: absolute;
+  top: 4rem;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  > div {
+    width: 100%;
+    background: $c-bg;
+    border-radius: 0 0 6px 6px;
+    color: $c-white;
+    padding: 2rem;
+    .map-recap-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid lighten($c-bg, 10%);
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      p {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+    }
+    p {
+      &.map-recap-from {
+        margin-bottom: 0.5rem;
+      }
+      span {
+        color: $c-darkGray;
+        display: inline-block;
+        font-weight: 400;
+      }
+    }
+    .btn {
+      border-radius: 100px;
+    }
   }
 }

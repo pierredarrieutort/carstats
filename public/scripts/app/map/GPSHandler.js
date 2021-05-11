@@ -61,6 +61,8 @@ export default class GPSHandler {
     // this.poiManager.start()
 
     this.speedLimit.createComponent(this.gps.coords)
+
+    this.geolocateFromNav()
   }
 
   gpsHandler(data) {
@@ -104,6 +106,7 @@ export default class GPSHandler {
       styles: mapDirectionsStyles,
       unit: 'metric',
       language: 'fr',
+      routePadding: { top: 420, bottom: 240, left: 120, right: 120 },
       interactive: false,
       alternatives: false,
       controls: {
@@ -114,15 +117,23 @@ export default class GPSHandler {
       .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
       .on('route', data => {
         if (data.route.length) {
-          this.map.flyTo({
-            center: [
-              this.gps.coords.longitude,
-              this.gps.coords.latitude
-            ],
-            zoom: 19
+          document.querySelector('.map-recap').classList.add('active')
+          document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px 6px 0 0'
+
+          document.querySelector('.map-recap .btn').addEventListener('click', () => {
+            this.map.flyTo({
+              center: [
+                this.gps.coords.longitude,
+                this.gps.coords.latitude
+              ],
+              zoom: 19
+            })
+            document.querySelector('.map-recap').classList.remove('active')
+            document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px'
+            this.mapDirectionsTotal(data)
+            document.querySelector('.map').classList.add('active')
+            document.getElementById('map').classList.add('isTraveling')
           })
-          document.querySelector('.map').classList.add('active')
-          this.mapDirectionsTotal(data)
         }
       })
       .on('error', () => {
@@ -153,6 +164,12 @@ export default class GPSHandler {
     }
   }
 
+  geolocateFromNav() {
+    document.querySelector('#main-menu li:first-of-type').addEventListener('click', () => {
+      this.geolocate.trigger()
+    })
+  }
+
   removeMapDirectionsInstruction() {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     removeRouteButton.forEach(removeBtn => {
@@ -160,6 +177,7 @@ export default class GPSHandler {
         removeRouteButton[0].click()
         document.querySelector('.map').classList.remove('active')
         this.geolocate.trigger()
+        document.getElementById('map').classList.remove('isTraveling')
       })
     })
 
