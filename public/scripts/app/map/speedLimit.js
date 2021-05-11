@@ -14,6 +14,7 @@ export default class SpeedLimit {
 
     this.coords = { latitude, longitude }
     setInterval(this.getCurrentSpeedLimit.bind(this), 30000)
+    setTimeout(() => this.legalSpeed.classList.add('active'), 32000)
   }
 
   updateSpeedLimit({ latitude, longitude }) {

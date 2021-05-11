@@ -12,7 +12,7 @@ import SpeedLimit from './speedLimit'
 import PoiManager from './pointsOfInterest'
 
 export default class GPSHandler {
-  constructor () {
+  constructor() {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
     // TODO try to replace first get position by that
@@ -44,7 +44,7 @@ export default class GPSHandler {
     this.speedLimit = new SpeedLimit()
   }
 
-  start () {
+  start() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(this.gpsInitialization.bind(this), this.error, this.gpsOptions)
       navigator.geolocation.watchPosition(this.gpsHandler.bind(this), this.error, this.gpsOptions)
@@ -53,29 +53,29 @@ export default class GPSHandler {
     }
   }
 
-  gpsInitialization (data) {
+  gpsInitialization(data) {
     this.gps = data
     this.createMap()
 
-    this.poiManager = new PoiManager(this.map)
-    this.poiManager.start()
+    // this.poiManager = new PoiManager(this.map)
+    // this.poiManager.start()
 
     this.speedLimit.createComponent(this.gps.coords)
   }
 
-  gpsHandler (data) {
+  gpsHandler(data) {
     this.gps = data
     this.travelWatcher()
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
   }
 
-  createMap () {
+  createMap() {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: CONFIG.MAPBOXGL.STYLE,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
-      zoom: 10
+      zoom: 18
     })
 
     this.addGeolocateControl()
@@ -83,12 +83,14 @@ export default class GPSHandler {
     this.removeMapDirectionsInstruction()
   }
 
-  addGeolocateControl () {
+  addGeolocateControl() {
     this.map.addControl(this.geolocate)
-    this.map.on('load', () => this.geolocate.trigger())
+    this.map.on('load', () => {
+      this.geolocate.trigger()
+    })
   }
 
-  addMapDirections () {
+  addMapDirections() {
     let originUpdater = null
 
     this.mapDirections = new MapboxDirections({
@@ -106,7 +108,13 @@ export default class GPSHandler {
       .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
       .on('route', data => {
         if (data.route.length) {
-          this.mapDirectionsTotal(data)
+          this.map.flyTo({
+            center: [
+              this.gps.coords.longitude,
+              this.gps.coords.latitude
+            ],
+            zoom: 19
+          })
         }
       })
       .on('error', () => {
@@ -114,20 +122,25 @@ export default class GPSHandler {
         clearInterval(originUpdater)
       })
 
-      originUpdater = setInterval(() => {
-        this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
-      }, 2000)
+    this.updateHeading()
+
+    originUpdater = setInterval(() => {
+      this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+    }, 2000)
 
     this.map.addControl(this.mapDirections, 'top-left')
   }
 
-
-  // ??? WHAT IS THIS ???
-  mapDirectionsTotal (data) {
-    console.log(data)
+  updateHeading() {
+    const bearing = this.map.getBearing()
+    if (bearing < this.gps.coords.heading) {
+      const gap = this.gps.coords.heading - bearing
+      this.map.setBearing(bearing + (gap < 10 ? gap : 10))
+      requestAnimationFrame(this.test.bind(this))
+    }
   }
 
-  removeMapDirectionsInstruction () {
+  removeMapDirectionsInstruction() {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
@@ -140,7 +153,7 @@ export default class GPSHandler {
     document.querySelector('.mapbox-directions-destination input').addEventListener('input', this.directionsInputHandler.bind(this))
   }
 
-  directionsInputHandler (e) {
+  directionsInputHandler(e) {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     const directionsOrigin = document.querySelector('.mapbox-directions-origin input')
 
@@ -154,7 +167,7 @@ export default class GPSHandler {
     }
   }
 
-  convertSecondsToDuration (timeInSeconds) {
+  convertSecondsToDuration(timeInSeconds) {
     let
       hrs = ~~(timeInSeconds / 3600),
       mins = ~~((timeInSeconds % 3600) / 60)
@@ -168,7 +181,7 @@ export default class GPSHandler {
     return timerString
   }
 
-  travelWatcher () {
+  travelWatcher() {
     const speed = this.gps.coords?.speed || 0
     const { latitude, longitude } = this.gps.coords
 
@@ -198,7 +211,7 @@ export default class GPSHandler {
     new DistanceCalculator().distance(51.5, 0, 38.8, -77.1)
   }
 
-  socketHandler () {
+  socketHandler() {
     this.onSendPosition()
     this.onReceivePosition()
   }
@@ -206,7 +219,7 @@ export default class GPSHandler {
   /**
    * Send user position to the server
    */
-  onSendPosition () {
+  onSendPosition() {
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
     this.socket.emit('sendPosition', [gpsLat, gpsLon])
@@ -214,7 +227,7 @@ export default class GPSHandler {
     this.lastPosition.longitude = gpsLon
   }
 
-  onReceivePosition () {
+  onReceivePosition() {
     /**
      * Remove current user position to avoid duplicates
      */
@@ -254,7 +267,7 @@ export default class GPSHandler {
   /**
    * Creates User's marker on map
    */
-  createMarker (id, coords) {
+  createMarker(id, coords) {
     const markerDOM = document.createElement('div')
     markerDOM.className = 'marker'
     markerDOM.id = `marker${id}`
@@ -270,12 +283,12 @@ export default class GPSHandler {
   /**
    * Update user's position on map
    */
-  updateMarker (id, coords) {
+  updateMarker(id, coords) {
     const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
     this.deviceMarkers[indexToUpdate].setLngLat(coords)
   }
 
-  error (err) {
+  error(err) {
     console.error(`ERROR (${err?.code}) : ${err?.message}`)
   }
 }
