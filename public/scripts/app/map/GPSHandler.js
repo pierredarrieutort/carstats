@@ -117,9 +117,9 @@ export default class GPSHandler {
       .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
       .on('route', data => {
         if (data.route.length) {
+          this.travelInfo(data)
           document.querySelector('.map-recap').classList.add('active')
           document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px 6px 0 0'
-
           document.querySelector('.map-recap .btn').addEventListener('click', () => {
             this.map.flyTo({
               center: [
@@ -162,6 +162,28 @@ export default class GPSHandler {
       document.querySelector('.map-step').classList.add(data.route[0].legs[0].steps[0].maneuver.type)
       document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
     }
+  }
+
+  travelInfo(data) {
+    const route = data.route[0]
+
+    const travelDuration = document.querySelector('.map-recap-duration')
+    const travelDistance = document.querySelector('.map-recap-distance')
+    const travelTime = document.querySelector('.map-recap-time')
+    const mapFrom = document.querySelector('.map-recap-from span')
+    const mapTo = document.querySelector('.map-recap-to span')
+
+    travelDuration.innerText = this.convertSecondsToDuration(route.duration)
+
+    if (route.distance < '1000') travelDistance.innerText = `(${route.distance.toFixed(0)} m)`
+    else travelDistance.innerText = `(${(route.distance / 1000).toFixed(1)} km)`
+
+    const date = new Date()
+    date.setSeconds(date.getSeconds() + route.duration)
+    travelTime.innerText = new Intl.DateTimeFormat('fr-FR', { hour: 'numeric', minute: 'numeric' }).format(date)
+
+    mapFrom.innerText = data.route[0].legs[0].steps.shift().name
+    mapTo.innerText = data.route[0].legs[0].steps.pop().name
   }
 
   geolocateFromNav() {

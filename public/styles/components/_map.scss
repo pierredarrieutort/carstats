@@ -363,19 +363,32 @@
       border-bottom: 1px solid lighten($c-bg, 10%);
       padding-bottom: 1rem;
       margin-bottom: 1rem;
+      div {
+        p {
+          display: inline;
+          &:last-of-type {
+            color: $c-darkGray;
+            font-weight: 400;
+          }
+        }
+      }
       p {
         font-size: 1.2rem;
         font-weight: 700;
       }
     }
     p {
+      &.map-recap-from,
+      &.map-recap-to {
+        color: $c-darkGray;
+        font-weight: 400;
+        span {
+          color: $c-white;
+          display: inline;
+        }
+      }
       &.map-recap-from {
         margin-bottom: 0.5rem;
-      }
-      span {
-        color: $c-darkGray;
-        display: inline-block;
-        font-weight: 400;
       }
     }
     .btn {
