@@ -105,7 +105,7 @@ export default class GPSHandler {
       accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
       styles: mapDirectionsStyles,
       unit: 'metric',
-      language: 'fr',
+      language: 'en',
       routePadding: { top: 420, bottom: 240, left: 120, right: 120 },
       interactive: false,
       alternatives: false,
@@ -145,19 +145,18 @@ export default class GPSHandler {
   }
 
   mapDirectionsTotal(data) {
-    const totalDistance = document.querySelector('.map-distance')
+    const icon = document.querySelector('.map-step-icon')
     const stepDistance = document.querySelector('.map-step-distance')
+    const stepTime = document.querySelector('.map-step-time')
 
     if (data.route.length !== 0) {
-      let distanceValue = data.route[0].distance
-      if (distanceValue < '1000') totalDistance.innerText = `${distanceValue.toFixed(0)} m`
-      else totalDistance.innerText = `${(distanceValue / 1000).toFixed(1)} km`
-
-      document.querySelector('.map-duration').innerText = this.convertSecondsToDuration(data.route[0].duration)
+      icon.classList.add(`icon-${data.route[0].legs[0].steps[0].maneuver.modifier}`)
 
       let stepDistanceValue = data.route[0].legs[0].steps[0].distance
       if (stepDistanceValue < '1000') stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
       else stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
+
+      stepTime.innerText = `(${this.convertSecondsToDuration(data.route[0].legs[0].steps[0].duration)})`
 
       document.querySelector('.map-step').classList.add(data.route[0].legs[0].steps[0].maneuver.type)
       document.querySelector('.map-step-instruction').innerText = data.route[0].legs[0].steps[0].maneuver.instruction
@@ -182,8 +181,8 @@ export default class GPSHandler {
     date.setSeconds(date.getSeconds() + route.duration)
     travelTime.innerText = new Intl.DateTimeFormat('fr-FR', { hour: 'numeric', minute: 'numeric' }).format(date)
 
-    mapFrom.innerText = data.route[0].legs[0].steps.shift().name
-    mapTo.innerText = data.route[0].legs[0].steps.pop().name
+    mapFrom.innerText = route.legs[0].steps.shift().name
+    mapTo.innerText = route.legs[0].steps.pop().name
   }
 
   geolocateFromNav() {
