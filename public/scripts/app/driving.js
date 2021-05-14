@@ -71,6 +71,7 @@ class Journey {
 
         const travelName = document.createElement('p')
         travelName.className = 'travel-name'
+
         startPosition === endPosition
           ? travelName.textContent = `At ${startPosition}`
           : travelName.textContent = `From ${startPosition} to ${endPosition}`
@@ -84,19 +85,10 @@ class Journey {
          * Travel max speed
          */
         const speedList = route.map(({ v }) => v)
-
         const speedMax = Math.round((Math.max(...speedList)) * 3.6)
 
         const travelMaxSpeed = document.createElement('div')
-        const travelMaxSpeedValue = document.createElement('p')
-        const travelMaxSpeedText = document.createElement('span')
-        const travelMaxSpeedIcon = document.createElement('div')
-
-        travelMaxSpeed.className = 'travel-speed-max'
-        travelMaxSpeedValue.textContent = `${speedMax} km`
-        travelMaxSpeedText.textContent = `Max speed`
-
-        travelMaxSpeed.append(travelMaxSpeedIcon, travelMaxSpeedValue, travelMaxSpeedText)
+        this.createTravelElement(travelMaxSpeed, `${speedMax} km`, 'Max speed')
 
         /**
          * Travel Average speed
@@ -104,38 +96,19 @@ class Journey {
         const speedAvg = Math.round((speedList.reduce((a, b) => a + b) / speedList.length) * 3.6)
 
         const travelAvgSpeed = document.createElement('div')
-        const travelAvgSpeedValue = document.createElement('p')
-        const travelAvgSpeedText = document.createElement('span')
-        const travelAvgSpeedIcon = document.createElement('div')
-
-        travelAvgSpeed.className = 'travel-speed-avg'
-        travelAvgSpeedValue.textContent = `${speedAvg} km`
-        travelAvgSpeedText.textContent = `Avg speed`
-
-        travelAvgSpeed.append(travelAvgSpeedIcon, travelAvgSpeedValue, travelAvgSpeedText)
+        this.createTravelElement(travelAvgSpeed, `${speedAvg} km`, 'Avg speed')
 
         /**
          * Travel distance
          */
         const distanceCalculator = new DistanceCalculator()
         const distancesArray = []
-
-        for (let i = 0; i < route.length - 1; i++) {
+        for (let i = 0; i < route.length - 1; i++)
           distancesArray.push(distanceCalculator.distance(route[i].x, route[i].y, route[i + 1].x, route[i + 1].y))
-        }
-
         const totalDistance = distancesArray.reduce((a, b) => a + b)
 
         const travelDistance = document.createElement('div')
-        const travelDistanceValue = document.createElement('p')
-        const travelDistanceText = document.createElement('span')
-        const travelDistanceIcon = document.createElement('div')
-
-        travelDistance.className = 'travel-distance'
-        travelDistanceValue.textContent = `${totalDistance < 1 ? totalDistance.toFixed(2) : Math.round(totalDistance)} km`
-        travelDistanceText.textContent = `Distance`
-
-        travelDistance.append(travelDistanceIcon, travelDistanceValue, travelDistanceText)
+        this.createTravelElement(travelDistance, `${totalDistance < 1 ? totalDistance.toFixed(2) : Math.round(totalDistance)} km`, 'Distance')
 
         /**
          * Travel duration
@@ -149,15 +122,7 @@ class Journey {
         const duration = dayjs.duration(endTime.diff(startTime)).humanize()
 
         const travelDuration = document.createElement('div')
-        const travelDurationValue = document.createElement('p')
-        const travelDurationText = document.createElement('span')
-        const travelDurationIcon = document.createElement('div')
-
-        travelDuration.className = 'travel-duration'
-        travelDurationValue.textContent = `${duration}`
-        travelDurationText.textContent = `Duration`
-
-        travelDuration.append(travelDurationIcon, travelDurationValue, travelDurationText)
+        this.createTravelElement(travelDuration, duration, 'Duration')
 
         /**
          * Append all on DOM
@@ -167,6 +132,18 @@ class Journey {
         travelInfo.append(travelMaxSpeed, travelAvgSpeed, travelDistance, travelDuration)
       })
     }
+  }
+
+  createTravelElement(element, value, text) {
+    const travel = element
+    const travelIcon = document.createElement('div')
+    const travelValue = document.createElement('p')
+    const travelText = document.createElement('span')
+
+    travelValue.textContent = value
+    travelText.textContent = text
+
+    travel.append(travelIcon, travelValue, travelText)
   }
 
   noTravelFound() {
