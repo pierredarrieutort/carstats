@@ -9,6 +9,8 @@ import ServerApi from './public/scripts/utils/ServerApi'
 
 import workboxBuild from 'workbox-build'
 
+import manifest from './manifest.json'
+
 const app = express()
 
 app.set('views', path.resolve('views'))
@@ -42,7 +44,7 @@ io.on('connection', async socket => {
     ? disconnectUser(response.id, response.error)
     : responseHandling(response.id)
 
-  function responseHandling(userId) {
+  function responseHandling (userId) {
     /**
      * Creates all users position object. 
      * Requester will get it except his position
@@ -65,7 +67,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition(userId, msg) {
+function removeUserPosition (userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
@@ -95,82 +97,4 @@ server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 //   response.sendFile(path.resolve('sw.js'));
 // });
 
-app.get('/manifest.webmanifest', (req, res) => res.json({
-  name: 'Carstats',
-  short_name: 'Carstats',
-  theme_color: '#1b1e22',
-  background_color: '#1b1e22',
-  display: 'standalone',
-  orientation: 'portrait',
-  scope: '/',
-  start_url: '/',
-  description: "The new driving experience.",
-  icons: [
-    {
-      "src": "/images/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/images/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/images/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/images/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/images/maskable_icon_x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/maskable_icon_x48.png",
-      "sizes": "48x48",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
-}))
+app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
