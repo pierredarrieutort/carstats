@@ -3,10 +3,11 @@
   background: $c-primary;
   color: $c-white;
   padding: s(1);
-  border-radius: 6px;
+  border-radius: 100px;
   border: none;
   margin: s(1) 0 0;
   cursor: pointer;
+  box-shadow: 0 0 20px rgb($c-primary, 35%);
 }
 
 .msg {

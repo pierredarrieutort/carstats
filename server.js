@@ -6,6 +6,7 @@ import appRouter from './routes/app'
 
 import Cookie from './public/scripts/utils/Cookie'
 import ServerApi from './public/scripts/utils/ServerApi'
+import AuthApi from './public/scripts/utils/Api'
 
 import workboxBuild from 'workbox-build'
 
@@ -38,11 +39,15 @@ io.on('connection', async socket => {
    * Check if user is trusted
    */
   const serverApi = new ServerApi()
+  const authApi = new AuthApi()
   const response = await serverApi.whoAmI({ bearer: new Cookie().get('jwt', socket.handshake.headers.cookie) })
 
-  response.error
-    ? disconnectUser(response.id, response.error)
-    : responseHandling(response.id)
+  if (response.error) {
+    console.error(response.error)
+    authApi.disconnect()
+  } else {
+    responseHandling(response.id)
+  }
 
   function disconnectUser () { }
 
