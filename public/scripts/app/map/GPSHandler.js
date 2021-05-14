@@ -15,7 +15,6 @@ export default class GPSHandler {
   constructor() {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
-    // TODO try to replace first get position by that
     this.geolocate = new mapboxgl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true },
       trackUserLocation: true
@@ -93,8 +92,11 @@ export default class GPSHandler {
 
   addGeolocateControl() {
     this.map.addControl(this.geolocate)
+
     this.map.on('load', () => {
-      this.geolocate.trigger()
+      setTimeout(() => {
+        this.geolocate.trigger()
+      }, 500)
     })
   }
 
@@ -195,9 +197,9 @@ export default class GPSHandler {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
-        removeRouteButton[0].click()
-        document.querySelector('.map').classList.remove('active')
         this.geolocate.trigger()
+        document.querySelector('.map').classList.remove('active')
+        document.querySelector('.map-recap').classList.remove('active')
         document.getElementById('map').classList.remove('isTraveling')
       })
     })
