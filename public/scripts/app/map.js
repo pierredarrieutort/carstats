@@ -6,4 +6,6 @@ export default function initMap () {
 
   const gpsHandler = new GPSHandler()
   gpsHandler.start()
+
+  console.log('test02')
 }
