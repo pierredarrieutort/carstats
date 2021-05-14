@@ -181,8 +181,8 @@ export default class GPSHandler {
     date.setSeconds(date.getSeconds() + route.duration)
     travelTime.innerText = new Intl.DateTimeFormat('fr-FR', { hour: 'numeric', minute: 'numeric' }).format(date)
 
-    mapFrom.innerText = route.legs[0].steps.shift().name
-    mapTo.innerText = route.legs[0].steps.pop().name
+    mapFrom.innerText = route.legs[0].steps.shift().name || 'Nowhere'
+    mapTo.innerText = route.legs[0].steps.pop().name || 'Nowhere'
   }
 
   geolocateFromNav() {

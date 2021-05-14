@@ -1,34 +1,27 @@
-<%- include('../components/header.ejs', {
-    _useAppMenu_: true,
-    _pageTitle_: 'Driving',
-    _pageIdentifier_: 'page-driving'
-}) %>
+<%- include('../components/header.ejs', { _useAppMenu_: true, _pageTitle_: 'Driving' , _pageIdentifier_: 'page-driving'
+  }) %>
 
-<section class="bloc-default driving">
-  <div class="container">
+  <section class="bloc-default driving">
+    <div class="container">
 
-    <h1>My driving stats</h1>
+      <h1>My driving stats</h1>
 
-    <h2>My statistics</h2>
+      <h2>My statistics</h2>
 
-    <div class="stats-global">
-      <div>
-        <p>Total kilometers</p>
-        <p class="stats-kilometers">- km</p>
+      <div class="stats-global">
+        <div>
+          <p>Total kilometers</p>
+          <p class="stats-kilometers">- km</p>
+        </div>
+        <div>
+          <p>Maximum speed</p>
+          <p class="stats-speed">- km/h</p>
+        </div>
       </div>
-      <div>
-        <p>Maximum speed</p>
-        <p class="stats-speed">- km/h</p>
-      </div>
+
+      <h2>Latest travels</h2>
+      <div class="driving-stats"></div>
     </div>
+  </section>
 
-    <h2>Latest travels</h2>
-    <div class="driving-stats"></div>
-  </div>
-</section>
-
-<%- include('../components/footer.ejs', {
-  _endpoints_: [
-    ['app', 'driving']
-  ]
-}) %>
+  <%- include('../components/footer.ejs', { _endpoints_: [ ['app', 'driving' ] ] }) %>
