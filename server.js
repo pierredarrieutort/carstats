@@ -82,7 +82,7 @@ function removeUserPosition(userId, msg) {
   }
 }
 
-server.listen(process.env.PORT || 3000, err => {
+server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
   if (err) throw err
   console.log(`Server listening on ${server.address().port}`)
 })
