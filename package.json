@@ -10,7 +10,7 @@
     "preclientprod": "rimraf dist .parcel-cache && echo 'Cleaned Production folders'",
     "clientprod": "parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
     "prestart": "npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "start": "npx babel-node server.js"
+    "start": "babel-node server.js"
   },
   "license": "ISC",
   "devDependencies": {
@@ -32,6 +32,7 @@
     "workbox-build": "^6.1.5"
   },
   "dependencies": {
+    "@babel/cli": "^7.13.10",
     "@barba/core": "^2.9.7",
     "@mapbox/mapbox-gl-directions": "^4.1.0",
     "dayjs": "^1.10.4",
