@@ -49,6 +49,8 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
+  function disconnectUser () { }
+
   function responseHandling (userId) {
     /**
      * Creates all users position object. 
@@ -80,26 +82,38 @@ function removeUserPosition (userId, msg) {
   }
 }
 
-const port = 3000
-server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
+server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
+  if (err) throw err
+  console.log(`Server listening on ${server.address().port}`)
+})
 
 // TODO Prevent workbox to trigger nodemon restart each 5 seconds
-// workboxBuild.generateSW({
-//   globDirectory: 'dist',
-//   globPatterns: [
-//     '**/*.{html,json,js,css}'
-//   ],
-//   swDest: 'dist/sw.js',
-//   sourcemap: false,
-//   skipWaiting: true
-// })
+workboxBuild.generateSW({
+  globDirectory: 'dist',
+  globPatterns: [
+    '**/*.{css, woff2, jpg, png}',
+    './scripts/app/**/*.js',
+    './manifest.webmanifest'
+  ],
+  swDest: 'dist/sw.js',
+  sourcemap: false,
+  skipWaiting: true,
+  runtimeCaching: [{
+    urlPattern: /\.(?:(jpe?|pn|sv)g|css|woff2)$/,
+    handler: 'StaleWhileRevalidate',
+    options: {
+      cacheName: 'carstats-cache'
+    }
+  }],
+  clientsClaim: true
+})
 
 // app.get('/', (request, response) => {
 //   response.sendFile(path.resolve('index.html'));
 // });
 
-// app.get('/sw.js', (request, response) => {
-//   response.sendFile(path.resolve('sw.js'));
-// });
+app.get('/sw.js', (request, response) => {
+  response.sendFile(path.resolve('sw.js'));
+});
 
 app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
