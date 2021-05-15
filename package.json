@@ -26,13 +26,12 @@
     "express": "5.0.0-alpha.8",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
-    "parcel": "1.12.3",
+    "parcel": "*",
     "rimraf": "^3.0.2",
     "socket.io": "^4.1.1",
     "workbox-build": "^6.1.5"
   },
   "dependencies": {
-    "@babel/cli": "^7.13.10",
     "@barba/core": "^2.9.7",
     "@mapbox/mapbox-gl-directions": "^4.1.0",
     "dayjs": "^1.10.4",
