@@ -10,7 +10,7 @@
     "preclientprod": "rimraf dist .parcel-cache && echo 'Cleaned Production folders'",
     "clientprod": "parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
     "prestart": "npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "start": "babel-node server.js -p $PORT -H 0.0.0.0"
+    "start": "babel-node server.js"
   },
   "license": "ISC",
   "devDependencies": {
