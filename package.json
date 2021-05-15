@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"author": "pierredarrieutort, mathieudaix",
 	"description": "the new driving experience.",
+	"engines": {
+    "node": "14.x"
+  },
 	"scripts": {
 		"server": "nodemon --exec babel-node server.js",
 		"serverprod": "babel-node server.js",
