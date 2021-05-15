@@ -49,9 +49,9 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
-  function disconnectUser () { }
+  function disconnectUser() { }
 
-  function responseHandling (userId) {
+  function responseHandling(userId) {
     /**
      * Creates all users position object. 
      * Requester will get it except his position
@@ -74,7 +74,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition (userId, msg) {
+function removeUserPosition(userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
@@ -82,7 +82,7 @@ function removeUserPosition (userId, msg) {
   }
 }
 
-server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
+server.listen(process.env.PORT || 3000, err => {
   if (err) throw err
   console.log(`Server listening on ${server.address().port}`)
 })
