@@ -83,7 +83,7 @@ function removeUserPosition (userId, msg) {
 }
 
 const port = process.env.PORT || 3000
-server.listen(port, () => console.log(`Listening on http://localhost:${port}`))
+server.listen(port, '0.0.0.0', () => console.log(`Listening on http://localhost:${port}`))
 
 // TODO Prevent workbox to trigger nodemon restart each 5 seconds
 workboxBuild.generateSW({
