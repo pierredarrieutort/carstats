@@ -4,5 +4,5 @@ package-lock.json
 /public/styles/*.css
 .DS_Store
 /.cache
-/dist
+# /dist
 /.parcel-cache
