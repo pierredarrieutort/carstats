@@ -12,7 +12,7 @@ export default class Cookie {
             return { [name.trim()]: decodeURIComponent(value.join('=')) }
         })
 
-        return cookies[name] ?? cookies[0][name]
+        return cookies[name] || cookies[0][name]
     }
 
     set(name, value, opts = {}) {

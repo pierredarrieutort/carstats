@@ -4,23 +4,22 @@
   "author": "pierredarrieutort, mathieudaix",
   "description": "the new driving experience.",
   "engines": {
-    "node": "14.x"
+    "node": "15.x",
+    "npm": "7.9.x"
   },
   "scripts": {
     "server": "nodemon --exec babel-node server.js",
-    "serverprod": "babel-node server.js",
     "client": "parcel watch public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
-    "preclientprod": "rimraf dist .parcel-cache && echo 'Cleaned Production folders'",
-    "clientprod": "parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
     "prestart": "npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "start": "babel-node server.js"
+    "start": "node -r esm server.js"
   },
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.14.2",
     "@babel/node": "^7.14.2",
     "@babel/plugin-transform-runtime": "^7.14.2",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.14.2",
+    "@babel/runtime": "^7.14.0",
     "@parcel/config-default": "*",
     "@parcel/transformer-raw": "*",
     "@parcel/transformer-sass": "^2.0.0-beta.2",
@@ -35,9 +34,12 @@
     "workbox-build": "^6.1.5"
   },
   "dependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.2",
     "@barba/core": "^2.9.7",
     "@mapbox/mapbox-gl-directions": "^4.1.0",
     "dayjs": "^1.10.4",
+    "esm": "^3.2.25",
     "gsap": "^3.6.1",
     "mapbox-gl": "^2.2.0",
     "socket.io-client": "^4.1.1"
