@@ -11,7 +11,8 @@
     "server": "nodemon --exec babel-node server.js",
     "client": "parcel watch public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
     "prestart": "npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "start": "node -r esm server.js"
+    "start": "node -r esm server.js",
+    "preinstall": "npx npm-force-resolutions"
   },
   "license": "ISC",
   "devDependencies": {
