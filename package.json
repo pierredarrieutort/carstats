@@ -15,7 +15,6 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@babel/preset-env": "^7.14.2",
     "@parcel/babel-plugin-transform-runtime": "*",
     "@parcel/babel-preset-env": "*",
     "@parcel/config-default": "*",
