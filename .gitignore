@@ -6,3 +6,4 @@ package-lock.json
 /.cache
 /dist
 /.parcel-cache
+/build
