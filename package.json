@@ -11,7 +11,8 @@
     "server": "nodemon -r esm server.js",
     "client": "parcel watch public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
     "build": "npx rimraf dist && npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "start": "node -r esm server.js"
+    "start": "node -r esm server.js",
+    "preinstall": "npx npm-force-resolutions"
   },
   "license": "ISC",
   "devDependencies": {
@@ -40,6 +41,6 @@
     "socket.io-client": "^4.1.1"
   },
   "resolutions": {
-    "flow-typed/semver": "7.1.3"
+    "@babel/preset-env": "7.13.8"
   }
 }
