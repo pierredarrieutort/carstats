@@ -9,8 +9,8 @@
   },
   "scripts": {
     "server": "nodemon -r esm server.js",
-    "client": "parcel watch public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
-    "build": "npx rimraf dist && npx parcel build public/images/* public/scripts/app/barbaRouter.js public/scripts/**/index.js public/styles/index.scss --no-source-maps",
+    "client": "parcel watch public/images/* public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
+    "build": "npx rimraf dist && npx parcel build public/images/* public/scripts/**/index.js public/styles/index.scss --no-source-maps",
     "start": "node -r esm server.js"
   },
   "license": "ISC",
@@ -31,7 +31,6 @@
     "workbox-build": "^6.1.5"
   },
   "dependencies": {
-    "@barba/core": "^2.9.7",
     "@mapbox/mapbox-gl-directions": "^4.1.0",
     "dayjs": "^1.10.4",
     "esm": "^3.2.25",

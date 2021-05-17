@@ -14,8 +14,6 @@
     <link rel="manifest" href="/manifest.webmanifest">
 
     <link rel="stylesheet" href="/styles/index.css">
-
-    <script src="/scripts/app/barbaRouter.js" defer></script>
     <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
@@ -25,8 +23,8 @@
     </script>
 </head>
 
-<body data-barba="wrapper">
-    <main id="<%= _pageIdentifier_ %>" data-barba="container">
+<body>
+    <main id="<%= _pageIdentifier_ %>">
 
         <% if (typeof _useAppMenu_ !=="undefined" ) { %>
             <header id="main-menu">
