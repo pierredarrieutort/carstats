@@ -1,5 +1,5 @@
-import mapboxgl from 'mapbox-gl'
-import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
+import mapboxgl from '../../../../dist/mapbox-gl.esm.min.js'
+import MapboxDirections from '../../../../dist/mapbox-gl-directions.esm.min.js'
 
 import { io } from 'socket.io-client'
 

@@ -1,5 +1,0 @@
-// TODO adapt to rollup
-// {
-//   "presets": ["preset-env"],
-//   "plugins": ["plugin-transform-runtime"]
-// }
