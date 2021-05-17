@@ -19,9 +19,9 @@ export default [
     return {
       input,
       output: {
-        dir: 'build',
+        dir: 'dist',
         format: 'esm',
-        entryFileNames: `${name}-[hash].js`
+        entryFileNames: `${name}.js`
       },
       plugins: [
         resolve(),
@@ -35,7 +35,7 @@ export default [
   {
     input: 'public/styles/index.scss',
     output: {
-      file: 'build/style.css'
+      file: 'dist/style.css'
     },
     plugins: [
       image(),
