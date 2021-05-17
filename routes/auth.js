@@ -21,27 +21,27 @@ authRouter.use((req, res, next) => {
         switch (req.method) {
           case 'GET':
             res.render('auth/sign-in')
-            break;
+            break
         }
         break;
       case '/sign-up':
         res.render('auth/sign-up')
-        break;
+        break
       case '/forgot-password':
         switch (req.method) {
           case 'GET':
             res.render('auth/forgot-password')
             break;
           case 'POST':
-            break;
+            break
         }
         break;
       case '/reset-password':
         res.render('auth/reset-password')
-        break;
+        break
       default:
         res.redirect('/')
-        break;
+        break
     }
   }
 })

@@ -1,9 +1,13 @@
-<% if (typeof _endpoints_ !== 'undefined' && _endpoints_.length) {
-const endpoints = _endpoints_.map(([namespace, target]) => `${namespace}.${target}`) %>
-  <meta name="functionsExecution" content="<%= endpoints %>">
-<% } %>
 </main>
-
+<footer>
+  <% if (typeof _endpoints_ !== 'undefined' && _endpoints_.length) {
+    const endpoints = _endpoints_.forEach(([namespace, target]) => { %>
+    <script
+      src="<%= `/scripts/${namespace}/index.js` %>"
+      onload="window.<%= namespace %>.<%= target %>()"
+      defer></script>
+  <% })} %>
+</footer>
 </body>
 
 </html>
