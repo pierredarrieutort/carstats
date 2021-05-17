@@ -8,10 +8,6 @@ import cjs from '@rollup/plugin-commonjs'
 export default [
   ...[
     {
-      input: 'public/scripts/app/barbaRouter.js',
-      name: 'barbaRouter'
-    },
-    {
       input: 'public/scripts/auth/index.js',
       name: 'auth'
     },
