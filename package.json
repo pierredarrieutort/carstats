@@ -8,25 +8,17 @@
     "npm": "6.x.x"
   },
   "scripts": {
-    "preserver": "node -r esm swBuild.js",
-    "server": "nodemon -r esm server.js",
-
-    "client": "parcel watch public/images/* public/scripts/**/index.js public/styles/index.scss --no-source-maps --hmr-port 8080",
-
+    "predev-server": "node -r esm swBuild.js",
+    "dev-server": "nodemon -r esm server.js",
+    "predev-client": "npx rimraf dist",
+    "dev-client": "npx rollup -c --watch",
     "prebuild": "npx rimraf dist",
-    "build": "npx parcel build public/images/* public/scripts/**/index.js public/styles/index.scss --no-source-maps",
-    "rollup-build": "npx rimraf build && npx rollup -c",
-
+    "build": "npx rollup -c",
     "prestart": "node -r esm swBuild.js",
     "start": "node -r esm server.js"
   },
   "license": "ISC",
   "devDependencies": {
-    "@parcel/babel-plugin-transform-runtime": "*",
-    "@parcel/babel-preset-env": "*",
-    "@parcel/config-default": "*",
-    "@parcel/transformer-raw": "*",
-    "@parcel/transformer-sass": "^2.0.0-beta.2",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-image": "^2.0.6",
     "@rollup/plugin-json": "^4.1.0",

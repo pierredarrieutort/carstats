@@ -1,4 +1,5 @@
-{
-  "presets": ["@parcel/babel-preset-env"],
-  "plugins": ["@parcel/babel-plugin-transform-runtime"]
-}
+// TODO adapt to rollup
+// {
+//   "presets": ["preset-env"],
+//   "plugins": ["plugin-transform-runtime"]
+// }
