@@ -8,9 +8,11 @@
     "npm": "6.x.x"
   },
   "scripts": {
+    "preserver": "node -r esm swBuild.js",
     "server": "nodemon -r esm server.js",
     "client": "parcel watch public/images/* public/scripts/**/index.js public/styles/index.scss --hmr-port 8080",
     "build": "npx rimraf dist && npx parcel build public/images/* public/scripts/**/index.js public/styles/index.scss --no-source-maps",
+    "prestart": "node -r esm swBuild.js",
     "start": "node -r esm server.js"
   },
   "license": "ISC",

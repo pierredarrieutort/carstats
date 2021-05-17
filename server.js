@@ -8,8 +8,6 @@ import Cookie from './public/scripts/utils/Cookie'
 import ServerApi from './public/scripts/utils/ServerApi'
 import AuthApi from './public/scripts/utils/Api'
 
-import workboxBuild from 'workbox-build'
-
 import manifest from './manifest.json'
 
 const app = express()
@@ -85,27 +83,6 @@ function removeUserPosition(userId, msg) {
 server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
   if (err) throw err
   console.log(`Server listening on ${server.address().port}`)
-})
-
-// TODO Prevent workbox to trigger nodemon restart each 5 seconds
-workboxBuild.generateSW({
-  globDirectory: 'dist',
-  globPatterns: [
-    '**/*.{css, woff2, jpg, png}',
-    './scripts/app/**/*.js',
-    './manifest.webmanifest'
-  ],
-  swDest: 'dist/sw.js',
-  sourcemap: false,
-  skipWaiting: true,
-  runtimeCaching: [{
-    urlPattern: /\.(?:(jpe?|pn|sv)g|css|woff2)$/,
-    handler: 'StaleWhileRevalidate',
-    options: {
-      cacheName: 'carstats-cache'
-    }
-  }],
-  clientsClaim: true
 })
 
 // app.get('/', (request, response) => {
