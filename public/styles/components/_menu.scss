@@ -1,69 +1,50 @@
 #main-menu {
-    position: fixed;
-    bottom: 1.5em;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 100px;
-    background: $c-white;
-    color: $c-bg;
-    z-index: 2;
+  position: fixed;
+  bottom: 1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 100px;
+  background: $c-white;
+  color: $c-bg;
+  z-index: 3;
+  user-select: none;
 
-    ul {
-        display: grid;
-        grid-template: auto / repeat(4, 1fr);
-        padding: 0 1.6em;
-        gap: .2em;
-        align-items: center;
+  ul {
+    display: grid;
+    grid-template: auto / repeat(4, 1fr);
+    padding: 0 1.6em;
+    gap: 0.2em;
+    align-items: center;
+  }
+
+  li.active {
+    color: $c-primary;
+    font-weight: bold;
+    path {
+      fill: $c-primary;
     }
+  }
 
-    a {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: .55em;
-        margin: 0;
-        font-size: .8em;
-        border-radius: 30em;
-        height: 4.5rem;
+  a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.55em;
+    margin: 0;
+    font-size: 0.8em;
+    border-radius: 30em;
+    height: 4.5rem;
+    cursor: pointer;
 
-        svg {
-            width: 1.2em;
-            height: 1.2em;
-            display: block;
-            &.menu-icon {
-                width: 1.6em;
-                height: 1.6em;
-            }
-        }
+    svg {
+      width: 1.2em;
+      height: 1.2em;
+      display: block;
+      &.menu-icon {
+        width: 1.6em;
+        height: 1.6em;
+      }
     }
-}
-
-#page {
-    @mixin currentPage {
-        $hoverColor: $c-primary;
-
-        color: $hoverColor;
-        font-weight: bold;
-
-        path {
-            fill: $hoverColor;
-        }
-    }
-
-    &-map #main-menu [href*=map] {
-        @include currentPage;
-    }
-
-    &-statistics #main-menu [href*=statistics] {
-        @include currentPage;
-    }
-
-    &-driving #main-menu [href*=driving] {
-        @include currentPage;
-    }
-
-    &-settings #main-menu [href*=settings] {
-        @include currentPage;
-    }
+  }
 }

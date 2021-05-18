@@ -20,19 +20,10 @@ appRouter.use((req, res, next) => {
         : res.redirect('/')
     })
 
-  async function triggerSwitch (r) {
+  async function triggerSwitch(r) {
     switch (req.url) {
       case '/map':
         res.render('app/map')
-        break
-      case '/statistics':
-        res.render('app/statistics')
-        break
-      case '/driving':
-        res.render('app/driving', { username: r.username })
-        break
-      case '/settings':
-        res.render('app/settings')
         break
       case '/map/maxspeed':
         res.json(await getMaxSpeed(req.body))
@@ -44,7 +35,7 @@ appRouter.use((req, res, next) => {
   }
 })
 
-async function getMaxSpeed ({ latitude, longitude }) {
+async function getMaxSpeed({ latitude, longitude }) {
   const url = `https://route.cit.api.here.com/routing/7.2/calculateroute.json?jsonAttributes=1&waypoint0=${latitude},${longitude}&waypoint1=${latitude},${longitude}&departure=2019-01-18T10:33:00&routeattributes=sh,lg&legattributes=li&linkattributes=nl,fc&mode=fastest;car;traffic:enabled&app_code=inVc1gDCNQCFSPEaRqFg8g&app_id=LfVLSnyDc8q6HKXY6VWQ`
 
   const response = await nodeFetch(url)
