@@ -21,6 +21,7 @@
   justify-content: center;
   border: 4px solid $c-gray;
   color: $c-darkGray;
+  user-select: none;
   p {
     display: flex;
     flex-direction: column;
