@@ -4,6 +4,8 @@
     const endpoints = _endpoints_.forEach(([namespace, target]) => { %>
     <script
       src="<%= `/scripts/${namespace}.js` %>"
+      onload="<%= namespace %>.<%= target %>()"
+      type="module"
       defer></script>
   <% })} %>
 </footer>

@@ -1,8 +1,3 @@
-import mapboxgl from '!mapbox-gl'
-import MapboxDirections from 'mapbox-gl-directions'
-
-import { io } from 'socket.io-client'
-
 import CONFIG from '../../../../config'
 import DistanceCalculator from './DistanceCalculator'
 
@@ -19,6 +14,8 @@ export default class GPSHandler {
       positionOptions: { enableHighAccuracy: true },
       trackUserLocation: true
     })
+
+    this.mapboxGeolocateElement = document.querySelector('.mapboxgl-ctrl.mapboxgl-ctrl-group')
 
     this.gps = {}
     this.gpsOptions = {
@@ -96,6 +93,10 @@ export default class GPSHandler {
     this.map.on('load', () => {
       setTimeout(() => {
         this.geolocate.trigger()
+        // this.mapboxGeolocateElement.classList.add('active')
+        // if (document.querySelector('.mapboxgl-ctrl-geolocate').classList.contains('mapboxgl-ctrl-geolocate-active')) {
+        //   this.mapboxGeolocateElement.classList.remove('active')
+        // }
       }, 500)
     })
   }

@@ -27,10 +27,10 @@ export default [
   //   plugins: [terser(), cjs()],
   // },
   ...[
-    // {
-    //   input: 'public/scripts/auth/index.js',
-    //   name: 'auth'
-    // },
+    {
+      input: 'public/scripts/auth/index.js',
+      name: 'auth'
+    },
     {
       input: 'public/scripts/app/index.js',
       name: 'app'
@@ -40,7 +40,7 @@ export default [
       input,
       output: {
         dir: 'dist/scripts',
-        format: 'iife',
+        format: 'es',
         entryFileNames: `${name}.js`
       },
       plugins: [
@@ -50,31 +50,31 @@ export default [
         image(),
         json(),
         cjs(),
-        externalGlobals({
-          '!mapbox-gl': 'mapboxgl',
-          'mapbox-gl-directions': 'MapboxDirections'
-        })
+        // externalGlobals({
+        //   '!mapbox-gl': 'mapboxgl',
+        //   'mapbox-gl-directions': 'MapboxDirections'
+        // })
       ]
     }
   }),
-  // {
-  //   input: 'public/styles/index.scss',
-  //   output: {
-  //     file: 'dist/styles/index.css',
-  //     format: 'es'
-  //   },
-  //   plugins: [
-  //     postcss({
-  //       extract: true,
-  //       minimize: false
-  //     }),
-  //     copy({
-  //       targets: [
-  //         { src: 'public/images/**/*', dest: 'dist/images' },
-  //         { src: 'public/fonts/**/*', dest: 'dist/fonts' },
-  //         { src: 'manifest.json', dest: 'dist' }
-  //       ]
-  //     })
-  //   ]
-  // }
+  {
+    input: 'public/styles/index.scss',
+    output: {
+      file: 'dist/styles/index.css',
+      format: 'es'
+    },
+    plugins: [
+      postcss({
+        extract: true,
+        minimize: false
+      }),
+      copy({
+        targets: [
+          { src: 'public/images/**/*', dest: 'dist/images' },
+          { src: 'public/fonts/**/*', dest: 'dist/fonts' },
+          { src: 'manifest.json', dest: 'dist' }
+        ]
+      })
+    ]
+  }
 ]

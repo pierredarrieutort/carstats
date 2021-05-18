@@ -1,5 +1,3 @@
-import mapboxgl from 'mapbox-gl'
-
 export default class PoiManager {
   constructor (map) {
     this.map = map
