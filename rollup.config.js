@@ -7,25 +7,8 @@ import postcss from 'rollup-plugin-postcss'
 import copy from 'rollup-plugin-copy'
 import { babel } from '@rollup/plugin-babel'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
-import externalGlobals from 'rollup-plugin-external-globals'
 
 export default [
-  // {
-  //   input: 'node_modules/mapbox-gl/dist/mapbox-gl.js',
-  //   output: {
-  //     file: 'dist/mapbox-gl.esm.min.js',
-  //     format: 'es'
-  //   },
-  //   plugins: [cjs()],
-  // },
-  // {
-  //   input: 'node_modules/@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.js',
-  //   output: {
-  //     file: 'dist/mapbox-gl-directions.esm.min.js',
-  //     format: 'es',
-  //   },
-  //   plugins: [terser(), cjs()],
-  // },
   ...[
     {
       input: 'public/scripts/auth/index.js',
@@ -46,14 +29,11 @@ export default [
       plugins: [
         nodePolyfills(),
         resolve(),
-        // babel({ babelHelpers: 'bundled' }),
+        babel({ babelHelpers: 'bundled' }),
         image(),
         json(),
         cjs(),
-        // externalGlobals({
-        //   '!mapbox-gl': 'mapboxgl',
-        //   'mapbox-gl-directions': 'MapboxDirections'
-        // })
+        terser()
       ]
     }
   }),
