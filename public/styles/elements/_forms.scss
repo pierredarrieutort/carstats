@@ -11,6 +11,8 @@
       padding: s(1);
       border-radius: 6px;
       border: 1px solid $c-white;
+      box-shadow: none;
+      appearance: none;
       &::placeholder {
         color: $c-darkGray;
         font-family: $f-text;
