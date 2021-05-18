@@ -1,4 +1,4 @@
-import mapboxgl from '../../../../dist/mapbox-gl.esm.min.js'
+import mapboxgl from 'mapbox-gl'
 
 export default class PoiManager {
   constructor (map) {
