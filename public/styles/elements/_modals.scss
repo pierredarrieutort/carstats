@@ -27,7 +27,6 @@
   top: 0;
   left: 0;
   z-index: 2;
-  padding-bottom: 7.5rem;
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
@@ -35,11 +34,12 @@
     display: none;
   }
   .container {
-    padding-top: 1.5rem;
     height: 100%;
-    overflow-y: auto;
     &::-webkit-scrollbar {
       display: none;
+    }
+    .modal-content {
+      padding: 1.5rem 0 7.5rem;
     }
   }
 }
