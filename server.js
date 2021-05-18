@@ -12,6 +12,12 @@ import manifest from './manifest.json'
 
 const app = express()
 
+app.enable('trust proxy')
+app.use((req, res, next) => req.secure || req.ip === '127.0.0.1'
+  ? next()
+  : res.redirect('https://' + req.headers.host + req.url)
+)
+
 app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
@@ -47,9 +53,9 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
-  function disconnectUser() { }
+  function disconnectUser () { }
 
-  function responseHandling(userId) {
+  function responseHandling (userId) {
     /**
      * Creates all users position object. 
      * Requester will get it except his position
@@ -72,7 +78,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition(userId, msg) {
+function removeUserPosition (userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
