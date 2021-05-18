@@ -77,7 +77,9 @@ export default class GPSHandler {
       container: 'map',
       style: CONFIG.MAPBOXGL.STYLE,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
-      zoom: 19
+      zoom: 19,
+      minZoom: 4,
+      maxZoom: 20
     })
 
     this.addGeolocateControl()
