@@ -1,6 +1,3 @@
-import mapboxgl from 'mapbox-gl'
-// import waze from 'D:/Downloads/waze.json'
-
 export default class PoiManager {
   constructor (map) {
     this.map = map

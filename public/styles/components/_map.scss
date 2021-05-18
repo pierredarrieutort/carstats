@@ -1,5 +1,3 @@
-@import "mapbox-gl/dist/mapbox-gl.css";
-
 #map {
   width: 100%;
   height: 100%;
@@ -110,11 +108,12 @@
     button {
       width: 3rem;
       height: 3rem;
-      &:not(:disabled):hover {
-        background: none;
-      }
     }
   }
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-group.active {
+  display: none;
 }
 
 .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
