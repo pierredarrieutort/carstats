@@ -189,6 +189,20 @@
 }
 
 .mapboxgl-ctrl-geocoder input[type="text"] {
+  -webkit-appearance: none;
+  appearance: none;
+  vertical-align: middle;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  text-align: inherit;
+  width: 100%;
+  margin-bottom: s(1);
+  padding: s(1);
+  border-radius: 6px;
+  border: 1px solid $c-white;
+  box-shadow: none;
+  appearance: none;
   width: 100%;
   padding: 1rem;
   border-radius: 6px;
