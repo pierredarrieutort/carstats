@@ -2,16 +2,8 @@
   .speedometer {
     display: none;
   }
-  #main-menu::after {
-    content: "";
-    background: $c-bg;
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: block;
-    height: 100%;
-    mix-blend-mode: color;
-    pointer-events: none;
+  .main-menu {
+    background: linear-gradient(to top, #1b1e22 50%, transparent);
   }
   .modal {
     opacity: 1;

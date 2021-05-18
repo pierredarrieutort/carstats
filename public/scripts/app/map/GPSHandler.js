@@ -19,7 +19,7 @@ export default class GPSHandler {
 
     this.gps = {}
     this.gpsOptions = {
-      // enableHighAccuracy: false 
+      enableHighAccuracy: true
     }
 
     this.map = null
