@@ -7,7 +7,6 @@ import postcss from 'rollup-plugin-postcss'
 import copy from 'rollup-plugin-copy'
 import { babel } from '@rollup/plugin-babel'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
-import externalGlobals from 'rollup-plugin-external-globals'
 
 export default [
   ...[
