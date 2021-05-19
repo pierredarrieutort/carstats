@@ -1,11 +1,13 @@
 const webpack = require('webpack')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const WebpackPwaManifest = require('webpack-pwa-manifest')
+const webmanifest = require('./webmanifest.js')
 
 module.exports = {
   entry: {
-    // 'styles/index': './public/styles/index.scss',
-    // 'scripts/auth': './public/scripts/auth/index.js',
+    'styles/index': './public/styles/index.scss',
+    'scripts/auth': './public/scripts/auth/index.js',
     'scripts/app': './public/scripts/app/index.js'
   },
   output: {
@@ -22,6 +24,7 @@ module.exports = {
   devServer: {
     writeToDisk: true
   },
+  devtool: 'eval-cheap-source-map',
   module: {
     rules: [
       {
@@ -76,6 +79,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new WebpackPwaManifest(webmanifest)
   ]
 }

@@ -8,7 +8,7 @@ import Cookie from './public/scripts/utils/Cookie'
 import ServerApi from './public/scripts/utils/ServerApi'
 import AuthApi from './public/scripts/utils/Api'
 
-import manifest from './manifest.json'
+// import manifest from './manifest.json'
 
 const app = express()
 
@@ -53,8 +53,6 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
-  function disconnectUser () { }
-
   function responseHandling (userId) {
     /**
      * Creates all users position object. 
@@ -96,7 +94,7 @@ server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
 // });
 
 app.get('/sw.js', (request, response) => {
-  response.sendFile(path.resolve('sw.js'));
-});
+  response.sendFile(path.resolve('sw.js'))
+})
 
-app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
+// app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
