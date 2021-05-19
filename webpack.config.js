@@ -80,7 +80,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin(),
     new WebpackPwaManifest(webmanifest),
     new GenerateSW({
       swDest: 'sw.js',
@@ -94,6 +93,16 @@ module.exports = {
         }
       }],
       clientsClaim: true
-    })
+    }),
+    new MiniCssExtractPlugin(),
+    {
+      apply (compiler) {
+        compiler.hooks.shouldEmit.tap('Remove JS made by cssExtractPlugin',
+          (compilation) => {
+            delete compilation.assets['styles/index.js']
+            return true
+          })
+      }
+    }
   ]
 }
