@@ -84,6 +84,7 @@ module.exports = {
       swDest: 'sw.js',
       sourcemap: false,
       skipWaiting: true,
+      exclude: [/swagger-ui/],
       runtimeCaching: [{
         urlPattern: /\.(?:(jpe?|pn|sv)g|css|woff2)$/,
         handler: 'StaleWhileRevalidate',
@@ -95,10 +96,10 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
     {
-      apply (compiler) {
+      apply(compiler) {
         compiler.hooks.shouldEmit.tap('Remove JS made by cssExtractPlugin',
           compilation => {
-            delete compilation.assets['styles/index.js']
+            // delete compilation.assets['styles/index.js']
             return true
           })
       }

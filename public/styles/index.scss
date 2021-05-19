@@ -1,27 +1,27 @@
-@import 'settings/colors';
-@import 'settings/sizes';
-@import 'settings/fonts';
-@import 'settings/container';
+@import "settings/colors";
+@import "settings/sizes";
+@import "settings/fonts";
+@import "settings/container";
 
-@import 'tools/functions';
-@import 'tools/mixins';
+@import "tools/functions";
+@import "tools/mixins";
 
-@import 'generic/reset';
+@import "generic/reset";
 
-@import 'objects/layouts';
-@import 'objects/animations';
+@import "objects/layouts";
+@import "objects/animations";
 
-@import 'elements/pages';
-@import 'elements/blocs';
-@import 'elements/headings';
-@import 'elements/texts';
-@import 'elements/links';
-@import 'elements/forms';
-@import 'elements/borders';
-@import 'elements/buttons';
-@import 'elements/modals';
+@import "elements/pages";
+@import "elements/blocs";
+@import "elements/headings";
+@import "elements/texts";
+@import "elements/links";
+@import "elements/forms";
+@import "elements/borders";
+@import "elements/buttons";
+@import "elements/modals";
 
-@import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
-@import 'components/map';
-@import 'components/menu';
-@import 'components/driving';
+// @import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
+@import "components/map";
+@import "components/menu";
+@import "components/driving";

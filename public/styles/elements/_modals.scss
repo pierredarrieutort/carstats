@@ -3,11 +3,16 @@
     display: none;
   }
   .main-menu {
+    padding: 4rem 0 1.5rem;
     background: linear-gradient(to top, #1b1e22 50%, transparent);
   }
   .modal {
     opacity: 1;
     visibility: visible;
+  }
+  #map {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 
