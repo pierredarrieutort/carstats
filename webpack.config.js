@@ -3,6 +3,7 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 const webmanifest = require('./webmanifest.js')
+const { GenerateSW } = require('workbox-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -80,6 +81,19 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new WebpackPwaManifest(webmanifest)
+    new WebpackPwaManifest(webmanifest),
+    new GenerateSW({
+      swDest: 'sw.js',
+      sourcemap: false,
+      skipWaiting: true,
+      runtimeCaching: [{
+        urlPattern: /\.(?:(jpe?|pn|sv)g|css|woff2)$/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'carstats-cache'
+        }
+      }],
+      clientsClaim: true
+    })
   ]
 }
