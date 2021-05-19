@@ -1,37 +1,37 @@
-import dayjs from 'dayjs'
-import dayjsDuration from 'dayjs/plugin/duration'
-import dayjsRelativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs/esm'
+import * as dayjsDuration from 'dayjs/plugin/duration'
+import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime'
 
 import { StatsApi } from '../utils/Api'
 
-export default function initStatistics() {
+export default function initStatistics () {
   const stats = new Stats()
   stats.init()
 }
 
 class Stats {
-  constructor() {
+  constructor () {
     this.statsApi = new StatsApi()
     this.leaderboards = []
     this.domLeaderboard = document.getElementById('leaderboards')
   }
 
-  async init() {
+  async init () {
     await this.fetchLeaderboard()
     this.displayLeaderboards()
   }
 
-  async fetchLeaderboard() {
+  async fetchLeaderboard () {
     this.leaderboards = await this.statsApi.leaderboard()
   }
 
-  displayLeaderboards() {
+  displayLeaderboards () {
     this.prepareLeaderboard(this.leaderboards.maxSpeedSanitized, 'vMax', 'By speed')
     this.prepareLeaderboard(this.leaderboards.maxDistanceSanitized, 'totalDistance', 'By distance')
     this.prepareLeaderboard(this.leaderboards.totalDurationSanitized, 'totalTravelDuration', 'By duration')
   }
 
-  prepareLeaderboard(data, property, title) {
+  prepareLeaderboard (data, property, title) {
     const leaderboardItem = document.createElement('div')
     const leaderboardTitle = document.createElement('h2')
 
@@ -55,9 +55,9 @@ class Stats {
         case 'totalTravelDuration':
           dayjs.extend(dayjsDuration)
           dayjs.extend(dayjsRelativeTime)
-    
+
           const duration = dayjs.duration(leaderboard[property], 'seconds').humanize()
-        
+
           leaderboardValue.textContent = duration
           break
       }
