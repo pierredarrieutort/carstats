@@ -1,6 +1,6 @@
-import dayjs from 'dayjs'
-import dayjsDuration from 'dayjs/plugin/duration'
-import dayjsRelativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs/esm'
+import * as dayjsDuration from 'dayjs/plugin/duration'
+import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime'
 
 import { StatsApi } from '../utils/Api'
 import CONFIG from '../../../config'
