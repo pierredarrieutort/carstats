@@ -8,8 +8,6 @@ export default class Modal {
     this.menuItems = document.querySelectorAll('#main-menu li')
 
     this.focusing = 'navigation'
-
-    this.openModal()
   }
 
   openModal () {
