@@ -21,6 +21,9 @@
       border: 1px solid $c-white;
       box-shadow: none;
       appearance: none;
+      color: $c-bg;
+      font-size: 16px;
+      font-family: $f-text;
       &::placeholder {
         color: $c-darkGray;
         font-family: $f-text;

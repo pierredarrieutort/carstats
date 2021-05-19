@@ -208,6 +208,8 @@
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid $c-white;
+  font-size: 16px;
+  font-family: $f-text;
   transition: border-radius 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   &::placeholder {
     color: $c-darkGray;
