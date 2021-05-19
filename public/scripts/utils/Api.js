@@ -11,7 +11,7 @@ export default class Api {
    * @param  {Object} headersOverride
    * @param  {Object} reqAdditional
    */
-  async request({ method = 'GET', route, body, headersOverride, reqAdditional }) {
+  async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
     const _headers = new Headers(Object.assign(
       { 'Content-Type': 'application/json' },
       headersOverride
@@ -37,13 +37,13 @@ export default class Api {
 }
 
 export class AuthApi extends Api {
-  constructor() {
+  constructor () {
     super()
 
     this.msg = document.querySelector('.msg')
   }
 
-  async authenticate(data) {
+  async authenticate (data) {
     const { jwt } = await this.request({
       method: 'POST',
       route: '/auth/local',
@@ -58,7 +58,7 @@ export class AuthApi extends Api {
     }
   }
 
-  async register(data) {
+  async register (data) {
     const response = await this.request({
       method: 'POST',
       route: '/users',
@@ -73,7 +73,7 @@ export class AuthApi extends Api {
     }
   }
 
-  async forgotPassword(data) {
+  async forgotPassword (data) {
     const response = await this.request({
       method: 'POST',
       route: '/auth/forgot-password',
@@ -88,7 +88,7 @@ export class AuthApi extends Api {
     }
   }
 
-  async resetPassword(data) {
+  async resetPassword (data) {
     const response = await this.request({
       method: 'POST',
       route: '/auth/reset-password',
@@ -103,37 +103,36 @@ export class AuthApi extends Api {
     }
   }
 
-  disconnect() {
+  disconnect () {
     new Cookie().delete('jwt')
     window.location.reload()
   }
 }
 
-
 export class StatsApi extends Api {
-  constructor() {
+  constructor () {
     super()
 
     this.cookies = new Cookie()
     this.jwt = this.cookies.get('jwt')
-    this.authorization = { 'Authorization': `Bearer ${this.jwt}` }
+    this.authorization = { Authorization: `Bearer ${this.jwt}` }
   }
 
-  async renderLatestRoutes() {
+  async renderLatestRoutes () {
     return await this.request({
       route: '/travels/me',
       headersOverride: this.authorization
     })
   }
 
-  async renderGlobalStats() {
+  async renderGlobalStats () {
     return await this.request({
       route: '/users-global-stats/me',
       headersOverride: this.authorization
     })
   }
 
-  async leaderboard() {
+  async leaderboard () {
     return await this.request({
       route: '/users-global-stats/leaderboard',
       headersOverride: this.authorization

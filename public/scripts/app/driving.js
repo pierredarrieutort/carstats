@@ -6,7 +6,7 @@ import { StatsApi } from '../utils/Api'
 import CONFIG from '../../../config'
 import DistanceCalculator from '../app/map/DistanceCalculator'
 
-export default async function initDriving() {
+export default async function initDriving () {
   const journey = new Journey()
   await journey.fetchRoutes()
   await journey.fetchGlobalStats()
@@ -15,7 +15,7 @@ export default async function initDriving() {
 }
 
 class Journey {
-  constructor() {
+  constructor () {
     this.statsApi = new StatsApi()
 
     this.routes = []
@@ -24,15 +24,15 @@ class Journey {
     this.drivingStats = document.querySelector('.driving-stats')
   }
 
-  async fetchRoutes() {
+  async fetchRoutes () {
     this.routes = await this.statsApi.renderLatestRoutes()
   }
 
-  async fetchGlobalStats() {
+  async fetchGlobalStats () {
     this.globalStats = await this.statsApi.renderGlobalStats()
   }
 
-  displayGlobalStats() {
+  displayGlobalStats () {
     const totalKilometersElement = document.querySelector('.stats-kilometers')
     const maxSpeedElement = document.querySelector('.stats-speed')
 
@@ -42,7 +42,7 @@ class Journey {
     }
   }
 
-  displayRoutes() {
+  displayRoutes () {
     if (this.routes.length === 0) {
       this.noTravelFound()
     } else {
@@ -134,7 +134,7 @@ class Journey {
     }
   }
 
-  createTravelElement(element, value, text) {
+  createTravelElement (element, value, text) {
     const travel = element
     const travelIcon = document.createElement('div')
     const travelValue = document.createElement('p')
@@ -146,13 +146,13 @@ class Journey {
     travel.append(travelIcon, travelValue, travelText)
   }
 
-  noTravelFound() {
+  noTravelFound () {
     const noData = document.createElement('p')
     noData.textContent = 'No travel found.'
     this.drivingStats.append(noData)
   }
 
-  async reverseGeocoder(lon, lat) {
+  async reverseGeocoder (lon, lat) {
     const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
     return await response.json()
   }
