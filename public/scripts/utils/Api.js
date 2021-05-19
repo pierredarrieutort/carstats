@@ -1,7 +1,7 @@
-import CONFIG from '../../../config'
-import Cookie from '../utils/Cookie'
+import CONFIG from '../../../config.js'
+import Cookie from '../utils/Cookie.js'
 
-import displayMessage from '../utils/Message'
+import displayMessage from '../utils/Message.js'
 
 export default class Api {
   /**
@@ -11,8 +11,8 @@ export default class Api {
    * @param  {Object} headersOverride
    * @param  {Object} reqAdditional
    */
-  async request({ method = 'GET', route, body, headersOverride, reqAdditional }) {
-    const _headers = new Headers(Object.assign(
+  async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
+    const _headers = new window.Headers(Object.assign(
       { 'Content-Type': 'application/json' },
       headersOverride
     ))
@@ -31,19 +31,19 @@ export default class Api {
       _reqAdditional
     )
 
-    const response = await fetch(CONFIG.DOMAIN_URL + route, options)
+    const response = await window.fetch(CONFIG.DOMAIN_URL + route, options)
     return await response.json()
   }
 }
 
 export class AuthApi extends Api {
-  constructor() {
+  constructor () {
     super()
 
     this.msg = document.querySelector('.msg')
   }
 
-  async authenticate(data) {
+  async authenticate (data) {
     const { jwt } = await this.request({
       method: 'POST',
       route: '/auth/local',
@@ -58,7 +58,7 @@ export class AuthApi extends Api {
     }
   }
 
-  async register(data) {
+  async register (data) {
     const response = await this.request({
       method: 'POST',
       route: '/users',
@@ -67,13 +67,13 @@ export class AuthApi extends Api {
 
     if (!response.error) {
       displayMessage('success', this.msg, 'Your account has been created. You will be automatically redirected.')
-      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+      setTimeout(function () { window.location.href = '/auth/sign-in' }, 3000)
     } else {
       displayMessage('error', this.msg, response.message[0].messages[0].message)
     }
   }
 
-  async forgotPassword(data) {
+  async forgotPassword (data) {
     const response = await this.request({
       method: 'POST',
       route: '/auth/forgot-password',
@@ -88,7 +88,7 @@ export class AuthApi extends Api {
     }
   }
 
-  async resetPassword(data) {
+  async resetPassword (data) {
     const response = await this.request({
       method: 'POST',
       route: '/auth/reset-password',
@@ -97,43 +97,42 @@ export class AuthApi extends Api {
 
     if (!response.error) {
       displayMessage('success', 'You will receive an email in a few minutes.')
-      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+      setTimeout(function () { window.location.href = '/auth/sign-in' }, 3000)
     } else {
       displayMessage('error', this.msg, response.message[0].messages[0].message)
     }
   }
 
-  disconnect() {
+  disconnect () {
     new Cookie().delete('jwt')
     window.location.reload()
   }
 }
 
-
 export class StatsApi extends Api {
-  constructor() {
+  constructor () {
     super()
 
     this.cookies = new Cookie()
     this.jwt = this.cookies.get('jwt')
-    this.authorization = { 'Authorization': `Bearer ${this.jwt}` }
+    this.authorization = { Authorization: `Bearer ${this.jwt}` }
   }
 
-  async renderLatestRoutes() {
+  async renderLatestRoutes () {
     return await this.request({
       route: '/travels/me',
       headersOverride: this.authorization
     })
   }
 
-  async renderGlobalStats() {
+  async renderGlobalStats () {
     return await this.request({
       route: '/users-global-stats/me',
       headersOverride: this.authorization
     })
   }
 
-  async leaderboard() {
+  async leaderboard () {
     return await this.request({
       route: '/users-global-stats/leaderboard',
       headersOverride: this.authorization

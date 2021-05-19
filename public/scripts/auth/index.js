@@ -1,7 +1,7 @@
-import initForgotPassword from './forgotPassword'
-import initResetPassword from './resetPassword'
-import initSignIn from './signIn'
-import initSignUp from './signUp'
+import initForgotPassword from './forgotPassword.js'
+import initResetPassword from './resetPassword.js'
+import initSignIn from './signIn.js'
+import initSignUp from './signUp.js'
 
 window.auth = {
   forgotPassword: initForgotPassword,

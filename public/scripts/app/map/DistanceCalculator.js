@@ -2,6 +2,7 @@ export default class DistanceCalculator {
   degreesToRadians (degrees) {
     return degrees * Math.PI / 180
   }
+
   /**
    * @param  {Float} lat1 Start Latitude
    * @param  {Float} lon1 Start Longitude

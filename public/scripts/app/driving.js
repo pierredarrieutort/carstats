@@ -1,12 +1,12 @@
-import dayjs from 'dayjs'
-import dayjsDuration from 'dayjs/plugin/duration'
-import dayjsRelativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs/esm/index.js'
+import * as dayjsDuration from 'dayjs/plugin/duration.js'
+import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime.js'
 
-import { StatsApi } from '../utils/Api'
-import CONFIG from '../../../config'
-import DistanceCalculator from '../app/map/DistanceCalculator'
+import { StatsApi } from '../utils/Api.js'
+import CONFIG from '../../../config.js'
+import DistanceCalculator from '../app/map/DistanceCalculator.js'
 
-export default async function initDriving() {
+export default async function initDriving () {
   const journey = new Journey()
   await journey.fetchRoutes()
   await journey.fetchGlobalStats()
@@ -15,7 +15,7 @@ export default async function initDriving() {
 }
 
 class Journey {
-  constructor() {
+  constructor () {
     this.statsApi = new StatsApi()
 
     this.routes = []
@@ -24,15 +24,15 @@ class Journey {
     this.drivingStats = document.querySelector('.driving-stats')
   }
 
-  async fetchRoutes() {
+  async fetchRoutes () {
     this.routes = await this.statsApi.renderLatestRoutes()
   }
 
-  async fetchGlobalStats() {
+  async fetchGlobalStats () {
     this.globalStats = await this.statsApi.renderGlobalStats()
   }
 
-  displayGlobalStats() {
+  displayGlobalStats () {
     const totalKilometersElement = document.querySelector('.stats-kilometers')
     const maxSpeedElement = document.querySelector('.stats-speed')
 
@@ -42,7 +42,7 @@ class Journey {
     }
   }
 
-  displayRoutes() {
+  displayRoutes () {
     if (this.routes.length === 0) {
       this.noTravelFound()
     } else {
@@ -103,8 +103,9 @@ class Journey {
          */
         const distanceCalculator = new DistanceCalculator()
         const distancesArray = []
-        for (let i = 0; i < route.length - 1; i++)
+        for (let i = 0; i < route.length - 1; i++) {
           distancesArray.push(distanceCalculator.distance(route[i].x, route[i].y, route[i + 1].x, route[i + 1].y))
+        }
         const totalDistance = distancesArray.reduce((a, b) => a + b)
 
         const travelDistance = document.createElement('div')
@@ -134,7 +135,7 @@ class Journey {
     }
   }
 
-  createTravelElement(element, value, text) {
+  createTravelElement (element, value, text) {
     const travel = element
     const travelIcon = document.createElement('div')
     const travelValue = document.createElement('p')
@@ -146,14 +147,14 @@ class Journey {
     travel.append(travelIcon, travelValue, travelText)
   }
 
-  noTravelFound() {
+  noTravelFound () {
     const noData = document.createElement('p')
     noData.textContent = 'No travel found.'
     this.drivingStats.append(noData)
   }
 
-  async reverseGeocoder(lon, lat) {
-    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
+  async reverseGeocoder (lon, lat) {
+    const response = await window.fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
     return await response.json()
   }
 }

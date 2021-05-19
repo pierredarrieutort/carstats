@@ -6,7 +6,7 @@ export default function initSignIn () {
   signIn.addEventListener('submit', e => {
     e.preventDefault()
 
-    const data = new FormData(signIn)
+    const data = new window.FormData(signIn)
     const authApi = new AuthApi()
 
     authApi.authenticate({
