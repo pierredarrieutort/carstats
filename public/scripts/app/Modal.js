@@ -1,9 +1,9 @@
-import initStatistics from './statistics'
-import initDriving from './driving'
-import initSettings from './settings'
+import initStatistics from './statistics.js'
+import initDriving from './driving.js'
+import initSettings from './settings.js'
 
 export default class Modal {
-  constructor() {
+  constructor () {
     this.modalContent = document.querySelector('.modal-content')
     this.menuItems = document.querySelectorAll('#main-menu li')
 
@@ -12,7 +12,7 @@ export default class Modal {
     this.openModal()
   }
 
-  openModal() {
+  openModal () {
     document.querySelector('.modal-navigation').addEventListener('click', e => {
       if (this.focusing !== 'navigation') {
         this.focusing = 'navigation'
@@ -61,12 +61,12 @@ export default class Modal {
     })
   }
 
-  closeModal() {
+  closeModal () {
     document.body.classList.remove('activeModal')
     this.modalContent.innerHTML = ''
   }
 
-  statistics() {
+  statistics () {
     const title = document.createElement('h1')
     title.textContent = 'Statistics'
 
@@ -77,7 +77,7 @@ export default class Modal {
     initStatistics()
   }
 
-  driving() {
+  driving () {
     const title = document.createElement('h1')
     title.textContent = 'My driving stats'
 
@@ -104,7 +104,7 @@ export default class Modal {
     initDriving()
   }
 
-  settings() {
+  settings () {
     const title = document.createElement('h1')
     title.textContent = 'Settings'
 

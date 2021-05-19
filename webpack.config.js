@@ -1,8 +1,8 @@
-const webpack = require('webpack')
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import webpack from 'webpack'
+import path from 'path'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-module.exports = {
+export default {
   entry: {
     // 'styles/index': './public/styles/index.scss',
     // 'scripts/auth': './public/scripts/auth/index.js',
@@ -10,7 +10,8 @@ module.exports = {
   },
   output: {
     path: path.resolve('dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    clean: true
   },
   module: {
     rules: [

@@ -1,4 +1,4 @@
-import CONFIG from '../../../config'
+import CONFIG from '../../../config.js'
 import nodeFetch from 'node-fetch'
 
 export default class ServerApi {

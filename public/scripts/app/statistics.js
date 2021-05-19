@@ -1,8 +1,8 @@
-import dayjs from 'dayjs/esm'
-import * as dayjsDuration from 'dayjs/plugin/duration'
-import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs/esm/index.js'
+import * as dayjsDuration from 'dayjs/plugin/duration.js'
+import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime.js'
 
-import { StatsApi } from '../utils/Api'
+import { StatsApi } from '../utils/Api.js'
 
 export default function initStatistics () {
   const stats = new Stats()

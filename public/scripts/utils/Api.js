@@ -1,7 +1,7 @@
-import CONFIG from '../../../config'
-import Cookie from '../utils/Cookie'
+import CONFIG from '../../../config.js'
+import Cookie from '../utils/Cookie.js'
 
-import displayMessage from '../utils/Message'
+import displayMessage from '../utils/Message.js'
 
 export default class Api {
   /**

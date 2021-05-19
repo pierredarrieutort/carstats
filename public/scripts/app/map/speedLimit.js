@@ -1,5 +1,5 @@
 export default class SpeedLimit {
-  constructor() {
+  constructor () {
     this.legalSpeed = document.querySelector('.legal-speed')
     this.legalSpeedItem = document.createElement('div')
     this.coords = {
@@ -8,7 +8,7 @@ export default class SpeedLimit {
     }
   }
 
-  createComponent({ latitude, longitude }) {
+  createComponent ({ latitude, longitude }) {
     this.legalSpeedItem.id = 'legalSpeed'
     this.legalSpeed.append(this.legalSpeedItem)
 
@@ -17,7 +17,7 @@ export default class SpeedLimit {
     setTimeout(() => this.legalSpeed.classList.add('active'), 32000)
   }
 
-  updateSpeedLimit({ latitude, longitude }) {
+  updateSpeedLimit ({ latitude, longitude }) {
     this.coords = { latitude, longitude }
   }
 
@@ -25,7 +25,7 @@ export default class SpeedLimit {
    * Call server which get Here Maps Api response
    * @returns Speed Limit as m/s
    */
-  async getCurrentSpeedLimit() {
+  async getCurrentSpeedLimit () {
     const res = await fetch('/app/map/maxspeed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

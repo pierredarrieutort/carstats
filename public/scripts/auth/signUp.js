@@ -1,8 +1,8 @@
 import { AuthApi } from '../utils/Api.js'
 
-import displayMessage from '../utils/Message'
+import displayMessage from '../utils/Message.js'
 
-export default function initSignUp() {
+export default function initSignUp () {
   const signUp = document.getElementById('signUp')
 
   signUp.addEventListener('submit', e => {

@@ -1,10 +1,10 @@
-import CONFIG from '../../../../config'
-import DistanceCalculator from './DistanceCalculator'
+import CONFIG from '../../../../config.js'
+import DistanceCalculator from './DistanceCalculator.js'
 
-import mapDirectionsStyles from './mapDirectionsStyles'
+import mapDirectionsStyles from './mapDirectionsStyles.js'
 
-import SpeedLimit from './speedLimit'
-// import PoiManager from './pointsOfInterest'
+import SpeedLimit from './speedLimit.js'
+// import PoiManager from './pointsOfInterest.js'
 
 import { io } from 'socket.io-client'
 
