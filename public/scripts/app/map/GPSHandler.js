@@ -15,8 +15,11 @@ export default class GPSHandler {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
     this.geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: { enableHighAccuracy: true },
-      trackUserLocation: false
+      positionOptions: {
+        enableHighAccuracy: true,
+        timeout: 1000
+      },
+      trackUserLocation: true
     })
 
     this.mapboxGeolocateElement = document.querySelector('.mapboxgl-ctrl.mapboxgl-ctrl-group')
@@ -92,20 +95,11 @@ export default class GPSHandler {
   }
 
   addGeolocateControl() {
-    this.map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true
-        },
-        trackUserLocation: true
-      })
-    )
+    this.map.addControl(this.geolocate)
 
-    // this.map.addControl(this.geolocate)
-
-    // this.map.on('load', () => {
-    //   this.geolocate.trigger()
-    // })
+    this.map.on('load', () => {
+      // this.geolocate.trigger()
+    })
   }
 
   addMapDirections() {
