@@ -10,7 +10,7 @@
   "scripts": {
     "dev-client": "npx webpack serve --mode development",
     "dev-server": "node -r esm swBuild.js && nodemon -r esm server.js",
-    "build": "npx webpack",
+    "build": "npx webpack --mode production",
     "prestart": "node -r esm swBuild.js",
     "start": "node -r esm server.js"
   },

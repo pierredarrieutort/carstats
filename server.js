@@ -8,7 +8,7 @@ import Cookie from './public/scripts/utils/Cookie'
 import ServerApi from './public/scripts/utils/ServerApi'
 import AuthApi from './public/scripts/utils/Api'
 
-// import manifest from './manifest.json'
+import manifest from './dist/manifest.json'
 
 const app = express()
 
@@ -97,4 +97,4 @@ app.get('/sw.js', (request, response) => {
   response.sendFile(path.resolve('sw.js'))
 })
 
-// app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
+app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
