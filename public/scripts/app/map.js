@@ -6,4 +6,5 @@ export default function initMap () {
   gpsHandler.start()
 
   const modal = new Modal()
+  modal.openModal()
 }

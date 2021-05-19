@@ -1,6 +1,8 @@
 import CONFIG from '../../../../config.js'
 import DistanceCalculator from './DistanceCalculator.js'
 
+import mapboxgl from 'mapbox-gl'
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import mapDirectionsStyles from './mapDirectionsStyles.js'
 
 import SpeedLimit from './speedLimit.js'
@@ -279,7 +281,7 @@ export default class GPSHandler {
      * Remove current user position to avoid duplicates
      */
     this.socket.on('usersPosition', usersPosition => {
-      const userId = JSON.parse(atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/'))).id
+      const userId = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/'))).id
       delete usersPosition[userId]
 
       const existingMarkers = this.deviceMarkers.map(({ _element }) => _element.id)
@@ -300,10 +302,11 @@ export default class GPSHandler {
           }
         })
 
-        const indexToDelete = this.deviceMarkers.findIndex(marker => {
+        const indexToDelete = this.deviceMarkers.findIndex(function (marker) {
           if (typeof marker !== 'undefined') {
             return marker._element.id === `marker${userId}`
           }
+          return false
         })
         delete this.deviceMarkers[indexToDelete]
       })
@@ -331,8 +334,8 @@ export default class GPSHandler {
    */
   updateMarker (id, coords) {
     // TODO CHECK THIS FUNCTION, IT'S NOT EQUALITY, IT'S AGREGGATION !!!!!!
-    const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
-    this.deviceMarkers[indexToUpdate].setLngLat(coords)
+    // const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
+    // this.deviceMarkers[indexToUpdate].setLngLat(coords)
   }
 
   error (err) {
