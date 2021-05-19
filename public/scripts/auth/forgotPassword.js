@@ -6,7 +6,7 @@ export default function initForgotPassword () {
   forgotPassword.addEventListener('submit', e => {
     e.preventDefault()
 
-    const data = new FormData(forgotPassword)
+    const data = new window.FormData(forgotPassword)
     const authApi = new AuthApi()
     authApi.forgotPassword({
       email: data.get('email')

@@ -12,7 +12,7 @@ export default class Api {
    * @param  {Object} reqAdditional
    */
   async request ({ method = 'GET', route, body, headersOverride, reqAdditional }) {
-    const _headers = new Headers(Object.assign(
+    const _headers = new window.Headers(Object.assign(
       { 'Content-Type': 'application/json' },
       headersOverride
     ))
@@ -31,7 +31,7 @@ export default class Api {
       _reqAdditional
     )
 
-    const response = await fetch(CONFIG.DOMAIN_URL + route, options)
+    const response = await window.fetch(CONFIG.DOMAIN_URL + route, options)
     return await response.json()
   }
 }
@@ -67,7 +67,7 @@ export class AuthApi extends Api {
 
     if (!response.error) {
       displayMessage('success', this.msg, 'Your account has been created. You will be automatically redirected.')
-      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+      setTimeout(function () { window.location.href = '/auth/sign-in' }, 3000)
     } else {
       displayMessage('error', this.msg, response.message[0].messages[0].message)
     }
@@ -97,7 +97,7 @@ export class AuthApi extends Api {
 
     if (!response.error) {
       displayMessage('success', 'You will receive an email in a few minutes.')
-      setTimeout(() => window.location.href = '/auth/sign-in', 3000)
+      setTimeout(function () { window.location.href = '/auth/sign-in' }, 3000)
     } else {
       displayMessage('error', this.msg, response.message[0].messages[0].message)
     }

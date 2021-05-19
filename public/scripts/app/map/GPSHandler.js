@@ -104,8 +104,6 @@ export default class GPSHandler {
   }
 
   addMapDirections () {
-    let originUpdater = null
-
     this.mapDirections = new MapboxDirections({
       accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
       styles: mapDirectionsStyles,
@@ -143,7 +141,6 @@ export default class GPSHandler {
       })
       .on('error', () => {
         document.querySelector('.map').classList.remove('active')
-        clearInterval(originUpdater)
       })
 
     this.map.addControl(this.mapDirections, 'top-left')
@@ -157,7 +154,7 @@ export default class GPSHandler {
     if (data.route.length !== 0) {
       icon.classList.add(`icon-${data.route[0].legs[0].steps[0].maneuver.modifier}`)
 
-      let stepDistanceValue = data.route[0].legs[0].steps[0].distance
+      const stepDistanceValue = data.route[0].legs[0].steps[0].distance
       if (stepDistanceValue < '1000') stepDistance.innerText = `${stepDistanceValue.toFixed(0)} m`
       else stepDistance.innerText = `${(stepDistanceValue / 1000).toFixed(1)} km`
 
@@ -219,9 +216,8 @@ export default class GPSHandler {
   }
 
   convertSecondsToDuration (timeInSeconds) {
-    let
-      hrs = ~~(timeInSeconds / 3600),
-      mins = ~~((timeInSeconds % 3600) / 60)
+    const hrs = ~~(timeInSeconds / 3600)
+    const mins = ~~((timeInSeconds % 3600) / 60)
 
     let timerString = ''
 
@@ -311,7 +307,6 @@ export default class GPSHandler {
         })
         delete this.deviceMarkers[indexToDelete]
       })
-
     })
   }
 
@@ -335,6 +330,7 @@ export default class GPSHandler {
    * Update user's position on map
    */
   updateMarker (id, coords) {
+    // TODO CHECK THIS FUNCTION, IT'S NOT EQUALITY, IT'S AGREGGATION !!!!!!
     const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id = `marker${id}`)
     this.deviceMarkers[indexToUpdate].setLngLat(coords)
   }

@@ -6,12 +6,11 @@ export default function initResetPassword () {
   resetPassword.addEventListener('submit', e => {
     e.preventDefault()
 
-    const
-      data = new FormData(resetPassword),
-      pass = data.get('password'),
-      passConfirm = data.get('passwordConfirm'),
-      currentURL = new URL(location),
-      code = currentURL.searchParams.get('code')
+    const data = new window.FormData(resetPassword)
+    const pass = data.get('password')
+    const passConfirm = data.get('passwordConfirm')
+    const currentURL = new URL(window.location)
+    const code = currentURL.searchParams.get('code')
 
     const authApi = new AuthApi()
     authApi.resetPassword({

@@ -41,7 +41,7 @@ module.exports = {
               ]
             }
           },
-          // 'standard-loader',
+          'standard-loader'
         ]
       },
       {

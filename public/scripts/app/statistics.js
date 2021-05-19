@@ -45,6 +45,8 @@ class Stats {
 
       leaderboardName.textContent = leaderboard.user_id.username
 
+      let duration = null
+
       switch (property) {
         case 'vMax':
           leaderboardValue.textContent = `${Math.round(leaderboard[property] * 3.6)} km/h`
@@ -56,7 +58,7 @@ class Stats {
           dayjs.extend(dayjsDuration)
           dayjs.extend(dayjsRelativeTime)
 
-          const duration = dayjs.duration(leaderboard[property], 'seconds').humanize()
+          duration = dayjs.duration(leaderboard[property], 'seconds').humanize()
 
           leaderboardValue.textContent = duration
           break

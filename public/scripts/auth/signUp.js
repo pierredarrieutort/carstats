@@ -8,13 +8,12 @@ export default function initSignUp () {
   signUp.addEventListener('submit', e => {
     e.preventDefault()
 
-    const
-      data = new FormData(signUp),
-      pass = data.get('password'),
-      passConfirm = data.get('passwordConfirm')
+    const data = new window.FormData(signUp)
+    const pass = data.get('password')
+    const passConfirm = data.get('passwordConfirm')
 
     if (pass === passConfirm) {
-      const authApi = new AuthApi
+      const authApi = new AuthApi()
       authApi.register({
         method: 'PUT',
         email: data.get('email'),

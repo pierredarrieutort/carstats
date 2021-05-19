@@ -103,8 +103,9 @@ class Journey {
          */
         const distanceCalculator = new DistanceCalculator()
         const distancesArray = []
-        for (let i = 0; i < route.length - 1; i++)
+        for (let i = 0; i < route.length - 1; i++) {
           distancesArray.push(distanceCalculator.distance(route[i].x, route[i].y, route[i + 1].x, route[i + 1].y))
+        }
         const totalDistance = distancesArray.reduce((a, b) => a + b)
 
         const travelDistance = document.createElement('div')
@@ -153,7 +154,7 @@ class Journey {
   }
 
   async reverseGeocoder (lon, lat) {
-    const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
+    const response = await window.fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${CONFIG.MAPBOXGL.ACCESS_TOKEN}&types=place`)
     return await response.json()
   }
 }

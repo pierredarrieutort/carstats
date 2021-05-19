@@ -1,6 +1,5 @@
 export default class Cookie {
   get (name, cookiesString) {
-
     if (typeof document !== 'undefined') {
       cookiesString = document.cookie
     } else if (typeof cookiesString === 'undefined') {
