@@ -98,7 +98,7 @@ module.exports = {
     {
       apply (compiler) {
         compiler.hooks.shouldEmit.tap('Remove JS made by cssExtractPlugin',
-          (compilation) => {
+          compilation => {
             delete compilation.assets['styles/index.js']
             return true
           })
