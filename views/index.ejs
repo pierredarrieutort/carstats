@@ -1,11 +1,27 @@
-<%- include('components/header.ejs', {
-    _pageTitle_: 'Home',
-    _pageIdentifier_: 'page-home'
-}) %>
+<%- include('components/header.ejs', { _pageTitle_: 'Home' , _pageIdentifier_: 'page-home' }) %>
 
-    <h1>Home</h1>
+    <nav class="nav">
+        <div class="container">
+            <a class="logo" href="/">
+                <img src="../images/icon-192x192.png" alt="">
+                Carstats
+            </a>
+            <a class="btn" href="/auth/sign-in">Sign in</a>
+        </div>
+    </nav>
 
-    <ul>
+    <section class="hero">
+        <div class="container">
+            <span>Carstats</span>
+            <h1>The new driving experience!</h1>
+            <p>We offer our users the possibility to travel with their friends while enjoying the ride.</p>
+            <a class="btn" href="/auth/sign-up">Sign up</a>
+        </div>
+    </section>
+
+    <!-- <h1>Home</h1> -->
+
+    <!-- <ul>
         <li><a href="/auth/sign-up">Sign up</a></li>
         <li><a href="/auth/sign-in">Sign in</a></li>
         <li><a href="/auth/forgot-password">Forgot password</a></li>
@@ -13,6 +29,6 @@
         <li><a href="/app/map">Map</a></li>
         <li><a href="/app/settings">Settings</a></li>
         <li><a href="/app/driving">Driving</a></li>
-    </ul>
+    </ul> -->
 
-<%- include('components/footer.ejs') %>
+    <%- include('components/footer.ejs') %>

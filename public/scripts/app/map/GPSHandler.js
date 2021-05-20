@@ -16,10 +16,10 @@ export default class GPSHandler {
 
     this.geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
-        enableHighAccuracy: true,
-        timeout: 1000
+        enableHighAccuracy: false
       },
       trackUserLocation: true
+      // fitBoundsOptions: { linear: true, minZoom: 19 }
     })
 
     this.mapboxGeolocateElement = document.querySelector('.mapboxgl-ctrl.mapboxgl-ctrl-group')
@@ -97,12 +97,15 @@ export default class GPSHandler {
   addGeolocateControl() {
     this.map.addControl(this.geolocate)
 
-    this.map.on('load', () => {
-      // this.geolocate.trigger()
-    })
+    this.geolocate.trigger()
   }
 
   addMapDirections() {
+
+    this.map.on('render', () => {
+      console.log('A render event occurred.')
+    })
+
     this.mapDirections = new MapboxDirections({
       accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
       styles: mapDirectionsStyles,
@@ -139,7 +142,7 @@ export default class GPSHandler {
         }
       })
       .on('error', () => {
-        document.querySelector('.map').classList.remove('active')
+        // document.querySelector('.map').classList.remove('active')
       })
 
     this.map.addControl(this.mapDirections, 'top-left')
