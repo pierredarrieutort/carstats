@@ -1,3 +1,5 @@
+import mapboxgl from 'mapbox-gl'
+
 export default class PoiManager {
   constructor (map) {
     this.map = map
@@ -18,26 +20,27 @@ class WazeExtractor {
 
   cooldown () {
     this.isReady = false
-    setTimeout(() => this.isReady = true, 30000)
+    setTimeout(function () { this.isReady = true }.bind(this), 30000)
   }
 
   start () {
-    this.map.on('moveend', async () => {
-      if (this.isReady) {
+    this.map.on('moveend', async function () {
+      if (this.isReady && this.map.getZoom() >= 14.5) {
         this.cooldown()
         const [[left, bottom], [right, top]] = this.map.getBounds().toArray()
-        const url = `https://carstats-cors-proxy.herokuapp.com/www.waze.com/row-rtserver/web/TGeoRSS?bottom=${bottom}&left=${left}&ma=200&mj=100&mu=20&right=${right}&top=${top}4&types=alerts`
 
-        const response = await fetch(url)
+        const response = await window.fetch('/app/map/alerts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ top, left, bottom, right })
+        })
         const fetchedAlerts = await response.json()
-
-        const domAlerts = [...document.querySelectorAll('.marker[id^=alert]')]
 
         this.deleteOldMarkers()
 
         const domAlertsKeys = Object.keys(this.domAlerts)
 
-        fetchedAlerts.alerts.forEach(({ nThumbsUp = 0, type, location, id }) => {
+        fetchedAlerts.alerts?.forEach(({ nThumbsUp = 0, type, location, id }) => {
           const marker = {
             nThumbsUp,
             type,
@@ -46,14 +49,12 @@ class WazeExtractor {
             id
           }
 
-          if (domAlertsKeys.includes(id)) {
-            this.updateMarker(marker)
-          } else {
+          if (!domAlertsKeys.includes(id)) {
             this.createMarker(marker)
           }
         })
       }
-    })
+    }.bind(this))
   }
 
   createMarker ({ nThumbsUp, type, lat, lng, id }) {
@@ -69,10 +70,6 @@ class WazeExtractor {
       .addTo(this.map)
 
     this.domAlerts[id] = glMarker
-  }
-
-  updateMarker ({ id, lat, lng }) {
-    this.domAlerts[id].setLngLat([lng, lat])
   }
 
   /**

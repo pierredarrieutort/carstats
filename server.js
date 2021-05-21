@@ -38,7 +38,6 @@ const usersPosition = {}
  * Triggered when user is rooted to app
  */
 io.on('connection', async socket => {
-
   /**
    * Check if user is trusted
    */
@@ -55,7 +54,7 @@ io.on('connection', async socket => {
 
   function responseHandling (userId) {
     /**
-     * Creates all users position object. 
+     * Creates all users position object.
      * Requester will get it except his position
      */
     socket.on('sendPosition', ([latitude, longitude]) => {
@@ -65,8 +64,9 @@ io.on('connection', async socket => {
       filteredUsersPosition = Object.assign({}, usersPosition)
       delete filteredUsersPosition[userId]
 
-      if (Object.keys(filteredUsersPosition).length)
+      if (Object.keys(filteredUsersPosition).length) {
         io.emit('usersPosition', usersPosition)
+      }
     })
 
     socket.on('disconnecting', reason => {

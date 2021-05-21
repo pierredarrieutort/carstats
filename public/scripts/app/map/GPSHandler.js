@@ -6,7 +6,7 @@ import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import mapDirectionsStyles from './mapDirectionsStyles.js'
 
 import SpeedLimit from './speedLimit.js'
-// import PoiManager from './pointsOfInterest.js'
+import PoiManager from './pointsOfInterest.js'
 
 import { io } from 'socket.io-client'
 
@@ -60,8 +60,8 @@ export default class GPSHandler {
     this.gps = data
     this.createMap()
 
-    // this.poiManager = new PoiManager(this.map)
-    // this.poiManager.start()
+    const poiManager = new PoiManager(this.map)
+    poiManager.start()
 
     this.speedLimit.createComponent(this.gps.coords)
   }
@@ -101,10 +101,6 @@ export default class GPSHandler {
   }
 
   addMapDirections () {
-    this.map.on('render', () => {
-      console.log('A render event occurred.')
-    })
-
     this.mapDirections = new MapboxDirections({
       accessToken: CONFIG.MAPBOXGL.ACCESS_TOKEN,
       styles: mapDirectionsStyles,
