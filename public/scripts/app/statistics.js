@@ -8,34 +8,34 @@ import leaderboard3 from '../../images/leaderboard-3.png'
 
 import { StatsApi } from '../utils/Api.js'
 
-export default function initStatistics() {
+export default function initStatistics () {
   const stats = new Stats()
   stats.init()
 }
 
 class Stats {
-  constructor() {
+  constructor () {
     this.statsApi = new StatsApi()
     this.leaderboards = []
     this.domLeaderboard = document.getElementById('leaderboards')
   }
 
-  async init() {
+  async init () {
     await this.fetchLeaderboard()
     this.displayLeaderboards()
   }
 
-  async fetchLeaderboard() {
+  async fetchLeaderboard () {
     this.leaderboards = await this.statsApi.leaderboard()
   }
 
-  displayLeaderboards() {
+  displayLeaderboards () {
     this.prepareLeaderboard(this.leaderboards.maxSpeedSanitized, 'vMax', 'Ranking by speed')
     this.prepareLeaderboard(this.leaderboards.maxDistanceSanitized, 'totalDistance', 'Ranking by distance')
     this.prepareLeaderboard(this.leaderboards.totalDurationSanitized, 'totalTravelDuration', 'Ranking by duration')
   }
 
-  prepareLeaderboard(data, property, title) {
+  prepareLeaderboard (data, property, title) {
     const leaderboardItem = document.createElement('div')
     const leaderboardTitle = document.createElement('h2')
 
@@ -54,13 +54,13 @@ class Stats {
       leaderboard.position = positionNumber
       positionNumber++
 
-      if (leaderboard.position === 1)
+      if (leaderboard.position === 1) {
         leaderboardIcon.style.backgroundImage = `url("${leaderboard1}")`
-      else if (leaderboard.position === 2)
+      } else if (leaderboard.position === 2) {
         leaderboardIcon.style.backgroundImage = `url("${leaderboard2}")`
-      else if (leaderboard.position === 3)
+      } else if (leaderboard.position === 3) {
         leaderboardIcon.style.backgroundImage = `url("${leaderboard3}")`
-      else {
+      } else {
         leaderboardIcon.className = 'position'
         leaderboardIcon.textContent = leaderboard.position
       }
