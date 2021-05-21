@@ -6,12 +6,12 @@ export default class PoiManager {
   }
 
   start () {
-    this.wazeExtractor = new WazeExtractor(this.map)
-    this.wazeExtractor.start()
+    this.alertExtractor = new AlertExtractor(this.map)
+    this.alertExtractor.start()
   }
 }
 
-class WazeExtractor {
+class AlertExtractor {
   constructor (map) {
     this.map = map
     this.isReady = true
