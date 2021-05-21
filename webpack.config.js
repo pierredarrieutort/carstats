@@ -96,10 +96,10 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
     {
-      apply(compiler) {
+      apply (compiler) {
         compiler.hooks.shouldEmit.tap('Remove JS made by cssExtractPlugin',
           compilation => {
-            // delete compilation.assets['styles/index.js']
+            delete compilation.assets['styles/index.js']
             return true
           })
       }
