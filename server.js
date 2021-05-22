@@ -9,6 +9,7 @@ import ServerApi from './public/scripts/utils/ServerApi'
 import AuthApi from './public/scripts/utils/Api'
 
 import manifest from './dist/manifest.json'
+import favicon from 'serve-favicon'
 
 const app = express()
 
@@ -58,7 +59,7 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
-  function responseHandling(userId) {
+  function responseHandling (userId) {
     /**
      * Creates all users position object.
      * Requester will get it except his position
@@ -82,7 +83,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition(userId, msg) {
+function removeUserPosition (userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
@@ -104,3 +105,4 @@ app.get('/sw.js', (request, response) => {
 })
 
 app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))

@@ -18,15 +18,10 @@ class AlertExtractor {
     this.domAlerts = {}
   }
 
-  cooldown () {
-    this.isReady = false
-    setTimeout(function () { this.isReady = true }.bind(this), 30000)
-  }
-
   start () {
     this.map.on('moveend', async function () {
       if (this.isReady && this.map.getZoom() >= 14.5) {
-        this.cooldown()
+        this.isReady = false
         const [[left, bottom], [right, top]] = this.map.getBounds().toArray()
 
         const response = await window.fetch('/app/map/alerts', {
@@ -53,6 +48,8 @@ class AlertExtractor {
             this.createMarker(marker)
           }
         })
+
+        setTimeout(function () { this.isReady = true }.bind(this), 5000)
       }
     }.bind(this))
   }
