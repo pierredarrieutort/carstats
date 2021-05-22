@@ -67,6 +67,9 @@ export default class GPSHandler {
     this.travelWatcher()
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
+    if (document.querySelector('.isTraveling')) {
+      this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+    }
     // this.map.rotateTo(this.gps.coords.heading, {
     //   duration: 1000,
     //   animate: true,
@@ -129,6 +132,7 @@ export default class GPSHandler {
           document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px 6px 0 0'
           document.querySelector('.map-recap .btn').addEventListener('click', () => {
             this.geolocate.options.trackUserLocation = true
+            this.geolocate.trigger()
             this.map.flyTo({
               center: [
                 this.gps.coords.longitude,
