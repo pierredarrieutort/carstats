@@ -11,7 +11,7 @@ export default class McHammer {
   }
 
   prepareShow (e) {
-    if (e.distance > 100) {
+    if (e.distance > 50) {
       this.dance(e.type)
     }
   }
