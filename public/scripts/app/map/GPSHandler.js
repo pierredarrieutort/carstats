@@ -48,9 +48,7 @@ export default class GPSHandler {
     }
 
     if ('wakeLock' in navigator) {
-      console.log('a')
       navigator.wakeLock.request('screen')
-      console.log('b')
     }
   }
 
