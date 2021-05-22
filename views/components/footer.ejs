@@ -4,34 +4,37 @@
 
   <script>
     // ios pwa installation instructions
-
     function iOS() {
       return ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
     }
 
     if (iOS()) {
-      document.querySelector('.hero-btn').addEventListener('click', () => {
-        document.querySelector('.add-app').classList.add('active')
-      })
+      if (document.querySelector('.hero-btn')) {
+        document.querySelector('.hero-btn').addEventListener('click', () => {
+          document.querySelector('.add-app').classList.add('active')
+        })
+      }
     } else {
       const btnAdd = document.querySelector('.hero-btn')
 
-      let deferredPrompt
-      window.addEventListener('beforeinstallprompt', e => {
-        e.preventDefault()
-        deferredPrompt = e
-      })
-
-      btnAdd.addEventListener('click', e => {
-        deferredPrompt.prompt()
-        deferredPrompt.userChoice.then(choiceResult => {
-          deferredPrompt = null
+      if (btnAdd) {
+        let deferredPrompt
+        window.addEventListener('beforeinstallprompt', e => {
+          e.preventDefault()
+          deferredPrompt = e
         })
-      })
 
-      window.addEventListener('appinstalled', evt => {
-        app.logEvent('a2hs', 'installed')
-      })
+        btnAdd.addEventListener('click', e => {
+          deferredPrompt.prompt()
+          deferredPrompt.userChoice.then(choiceResult => {
+            deferredPrompt = null
+          })
+        })
+
+        window.addEventListener('appinstalled', evt => {
+          app.logEvent('a2hs', 'installed')
+        })
+      }
     }
   </script>
 

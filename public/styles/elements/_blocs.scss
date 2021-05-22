@@ -3,7 +3,7 @@
         padding: s(1.5) 0;
     }
     &-full {
-        height: 100vh;
+        height: calc(100vh - 6rem);
         display: flex;
         align-items: center;
         justify-content: center;

@@ -1,5 +1,7 @@
 .nav {
-  padding-top: 2rem;
+  height: 6rem;
+  display: flex;
+  align-items: flex-end;
   .container {
     display: flex;
     align-items: center;
@@ -62,7 +64,7 @@
   text-align: center;
   font-size: 0.8em;
   position: fixed;
-  bottom: 4rem;
+  bottom: 3rem;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
