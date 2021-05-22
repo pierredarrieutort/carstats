@@ -122,6 +122,12 @@ module.exports = {
       purpose: 'maskable'
     },
     {
+      src: path.resolve('public/images/ios-icon-512x512.png'),
+      size: '512x512',
+      type: 'image/png',
+      purpose: 'any'
+    },
+    {
       src: path.resolve('public/images/maskable_icon_x384.png'),
       size: '384x384',
       type: 'image/png',
