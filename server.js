@@ -9,7 +9,7 @@ import ServerApi from './public/scripts/utils/ServerApi'
 import AuthApi from './public/scripts/utils/Api'
 
 import manifest from './dist/manifest.json'
-import favicon from './public/images/favicon.ico'
+import favicon from 'serve-favicon'
 
 const app = express()
 
@@ -105,4 +105,4 @@ app.get('/sw.js', (request, response) => {
 })
 
 app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
-app.get('/favicon.ico', (req, res) => res.sendFile(favicon))
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))
