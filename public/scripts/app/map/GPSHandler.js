@@ -258,16 +258,16 @@ export default class GPSHandler {
     })
 
     /*
-    TODO - Calculate current Distance from start.
     TODO - Determine when a travel is ended.
     TODO - At travel end, send this.travel do db.
     TODO - If totalDistance or MaxSpeed are overtaken, update them in DB.
     TODO - On travel end, reset this.travel & this.traveledDistance.
     TODO - Display on current travel total Distance from start (optional)
+    TODO - Continuously send and clean data to lighten `this.travel` Object and get a trace of a travel piece
     */
     // console.log(this.travel, this.gps.coords)
     document.getElementById('speedometer-value').textContent = parseInt(speed * 3.6)
-    new DistanceCalculator().distance(51.5, 0, 38.8, -77.1)
+    this.traveledDistance += new DistanceCalculator().distance(51.5, 0, 38.8, -77.1)
   }
 
   socketHandler () {
