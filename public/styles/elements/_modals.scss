@@ -2,14 +2,22 @@
   .speedometer {
     display: none;
   }
+
   .main-menu {
     padding: 4rem 0 1.5rem;
     background: linear-gradient(to top, #1b1e22 50%, transparent);
+    pointer-events: none;
+
+    #main-menu {
+      pointer-events: all;
+    }
   }
+
   #page-modal {
     opacity: 1;
     visibility: visible;
   }
+
   #map {
     opacity: 0;
     visibility: hidden;
@@ -27,14 +35,18 @@
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   .container {
     height: 100%;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .modal-content {
       padding: 1.5rem 0 7.5rem;
       user-select: none;
