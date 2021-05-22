@@ -46,6 +46,12 @@ export default class GPSHandler {
     } else {
       this.error('Geolocation is not supported by this browser.')
     }
+
+    if ('wakeLock' in navigator) {
+      console.log('a')
+      navigator.wakeLock.request('screen')
+      console.log('b')
+    }
   }
 
   gpsInitialization (data) {
