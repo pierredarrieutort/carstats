@@ -104,6 +104,11 @@ export default class GPSHandler {
     this.map.on('load', () => {
       this.geolocate.trigger()
       this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+      this.map.addLayer({
+        id: 'sky',
+        type: 'sky',
+        paint: { 'sky-type': 'atmosphere' }
+      })
     })
   }
 
