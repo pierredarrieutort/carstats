@@ -67,24 +67,22 @@ export default class GPSHandler {
     this.travelWatcher()
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
-    this.map.rotateTo(this.gps.coords.heading, {
-      duration: 1000,
-      animate: true,
-      essential: true
-    })
-    this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+    // this.map.rotateTo(this.gps.coords.heading, {
+    //   duration: 1000,
+    //   animate: true,
+    //   essential: true
+    // })
   }
 
   createMap () {
-    this.map = new mapboxgl
-      .Map({
-        container: 'map',
-        style: CONFIG.MAPBOXGL.STYLE,
-        center: [this.gps.coords.longitude, this.gps.coords.latitude],
-        zoom: 19,
-        minZoom: 4,
-        maxZoom: 20
-      })
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: CONFIG.MAPBOXGL.STYLE,
+      center: [this.gps.coords.longitude, this.gps.coords.latitude],
+      zoom: 19,
+      minZoom: 4,
+      maxZoom: 20
+    })
 
     this.addGeolocateControl()
     this.addMapDirections()
@@ -96,6 +94,7 @@ export default class GPSHandler {
       positionOptions: {
         enableHighAccuracy: true
       },
+      showAccuracyCircle: false,
       showUserLocation: true,
       trackUserLocation: false
     })
@@ -104,6 +103,7 @@ export default class GPSHandler {
 
     this.map.on('load', () => {
       this.geolocate.trigger()
+      this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
     })
   }
 
@@ -196,7 +196,13 @@ export default class GPSHandler {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
-        // this.geolocate.trigger()
+        this.map.flyTo({
+          center: [
+            this.gps.coords.longitude,
+            this.gps.coords.latitude
+          ],
+          zoom: 19
+        })
         document.querySelector('.map').classList.remove('active')
         document.querySelector('.map-recap').classList.remove('active')
         document.getElementById('map').classList.remove('isTraveling')
