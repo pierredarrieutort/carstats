@@ -3,7 +3,7 @@ import initMap from './map.js'
 import initSettings from './settings.js'
 import initStatistics from './statistics.js'
 
-// import Hammer from 'hammerjs'
+import Hammer from 'hammerjs'
 
 window.app = {
   map: initMap,
@@ -12,22 +12,23 @@ window.app = {
   settings: initSettings
 }
 
-// const mc = new Hammer(document.getElementById('page-modal'))
+const mc = new Hammer(document.getElementById('page-modal'))
 
-// mc.on('panleft', function () { mcHammer('left', 'settings') })
-// mc.on('panright', function () { mcHammer('right', 'navigation') })
+mc.on('panleft', function () { mcHammer('left') })
+mc.on('panright', function () { mcHammer('right') })
 
-// function mcHammer (direction, maxPageName) {
-//   mc.stop(true)
+function mcHammer (direction) {
+  mc.stop(true)
 
-//   const currentPageButton = document.querySelector('#main-menu .active')
-//   const [currentPage] = currentPageButton.className.match(/(?<=modal-)[^\s]+/)
+  const currentPageButton = document.querySelector('#main-menu .active')
+  const leftable = currentPageButton.nextElementSibling
+  const rightable = currentPageButton.previousElementSibling
 
-//   if (direction === 'left' && currentPage !== maxPageName) {
-//     currentPageButton.nextElementSibling.click()
-//   } else if (direction === 'right' && currentPage !== maxPageName) {
-//     currentPageButton.previousElementSibling.click()
-//   }
+  if (direction === 'left' && leftable) {
+    leftable.click()
+  } else if (direction === 'right' && rightable) {
+    rightable.click()
+  }
 
-//   mc.stop(false)
-// }
+  mc.stop(false)
+}
