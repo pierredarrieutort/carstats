@@ -23,7 +23,13 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('dist'))
 
-app.get('/', (req, res) => res.render('index'))
+app.get('/', (req, res) => {
+  if (req.headers.cookie) {
+    res.redirect('/app/map')
+  } else {
+    res.render('index')
+  }
+})
 
 app.use('/auth', authRouter)
 
@@ -52,7 +58,7 @@ io.on('connection', async socket => {
     responseHandling(response.id)
   }
 
-  function responseHandling (userId) {
+  function responseHandling(userId) {
     /**
      * Creates all users position object.
      * Requester will get it except his position
@@ -76,7 +82,7 @@ io.on('connection', async socket => {
   }
 })
 
-function removeUserPosition (userId, msg) {
+function removeUserPosition(userId, msg) {
   // console.log(msg)
   if (usersPosition[userId]) {
     delete usersPosition[userId]
