@@ -4,13 +4,13 @@ export default class DistanceCalculator {
   }
 
   /**
-   * @param  {Float} lat1 Start Latitude
-   * @param  {Float} lon1 Start Longitude
-   * @param  {Float} lat2 End Latitude
-   * @param  {Float} lon2 End Longitude
+   * @param  {number} lat1 Start Latitude
+   * @param  {number} lon1 Start Longitude
+   * @param  {number} lat2 End Latitude
+   * @param  {number} lon2 End Longitude
+   * @returns {number} Distance in km between Earth coordinates
    */
   distance (lat1, lon1, lat2, lon2) {
-    // Returns the distance in KM between Earth coordinates
     const earthRadiusKm = 6371
 
     const dLat = this.degreesToRadians(lat2 - lat1)
