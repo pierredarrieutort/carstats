@@ -14,8 +14,6 @@ export default class GPSHandler {
   constructor () {
     mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
 
-    this.mapboxGeolocateElement = document.querySelector('.mapboxgl-ctrl.mapboxgl-ctrl-group')
-
     this.gps = {}
     this.gpsOptions = {
       enableHighAccuracy: true
@@ -76,32 +74,41 @@ export default class GPSHandler {
   }
 
   createMap () {
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: CONFIG.MAPBOXGL.STYLE,
-      center: [this.gps.coords.longitude, this.gps.coords.latitude],
-      zoom: 19,
-      minZoom: 4,
-      maxZoom: 20
-    })
+    this.map = new mapboxgl
+      .Map({
+        container: 'map',
+        style: CONFIG.MAPBOXGL.STYLE,
+        center: [this.gps.coords.longitude, this.gps.coords.latitude],
+        zoom: 19,
+        minZoom: 4,
+        maxZoom: 20
+      })
+      .addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        })
+      )
 
-    this.addGeolocateControl()
+    // this.addGeolocateControl()
     this.addMapDirections()
     this.removeMapDirectionsInstruction()
   }
 
   addGeolocateControl () {
-    this.geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-      // fitBoundsOptions: { linear: true, minZoom: 19 }
-    })
+    // this.geolocate = new mapboxgl.GeolocateControl({
+    //   positionOptions: {
+    //     enableHighAccuracy: true
+    //   },
+    //   trackUserLocation: true
+    //   // fitBoundsOptions: { linear: true, minZoom: 19 }
+    // })
 
-    this.map.addControl(this.geolocate)
+    // this.map.addControl(this.geolocate)
 
-    this.geolocate.trigger()
+    // this.geolocate.trigger()
   }
 
   addMapDirections () {
@@ -192,7 +199,7 @@ export default class GPSHandler {
     const removeRouteButton = document.querySelectorAll('.geocoder-icon-close')
     removeRouteButton.forEach(removeBtn => {
       removeBtn.addEventListener('click', () => {
-        this.geolocate.trigger()
+        // this.geolocate.trigger()
         document.querySelector('.map').classList.remove('active')
         document.querySelector('.map-recap').classList.remove('active')
         document.getElementById('map').classList.remove('isTraveling')
