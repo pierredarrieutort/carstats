@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 const webmanifest = require('./webmanifest.js')
 const { GenerateSW } = require('workbox-webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin")
 
 module.exports = {
   entry: {
@@ -79,6 +80,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: path.resolve('public/assets'), to: path.resolve('dist/assets') }
+      ]
+    }),
     new WebpackPwaManifest(webmanifest),
     new GenerateSW({
       swDest: 'sw.js',
