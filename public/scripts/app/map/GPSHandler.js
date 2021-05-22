@@ -67,9 +67,6 @@ export default class GPSHandler {
     this.travelWatcher()
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
-    if (document.querySelector('.isTraveling')) {
-      this.mapDirections.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
-    }
     // this.map.rotateTo(this.gps.coords.heading, {
     //   duration: 1000,
     //   animate: true,
