@@ -38,6 +38,8 @@ export default class GPSHandler {
     this.speedLimit = new SpeedLimit()
 
     this.navigationWatcher = new NavigationWatcher()
+
+    this.errorElement = document.querySelector('.map-error')
   }
 
   start () {
@@ -127,15 +129,23 @@ export default class GPSHandler {
         instructions: false
       }
     })
-      .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+      // .setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
       .on('route', data => {
-        if (data.route.length) {
+        // remove map error message of impossible travel
+        if (this.errorElement.classList.contains('active')) this.errorElement.classList.remove('active')
+
+        if (data.route.length > 0) {
+          // get data of travel
           this.travelInfo(data)
+
+          // display information of travel to the user
           document.querySelector('.map-recap').classList.add('active')
           document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px 6px 0 0'
+
+          // start the travel
           document.querySelector('.map-recap .btn').addEventListener('click', () => {
+            // center camera on user position
             this.geolocate.options.trackUserLocation = true
-            this.geolocate.trigger()
             this.map.flyTo({
               center: [
                 this.gps.coords.longitude,
@@ -143,15 +153,32 @@ export default class GPSHandler {
               ],
               zoom: 19
             })
+            // this.geolocate.trigger()
+
+            // remove information of travel
             document.querySelector('.map-recap').classList.remove('active')
             document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px'
+
+            // display step information to the user
             this.mapDirectionsTotal(data)
             document.querySelector('.map').classList.add('active')
-            document.getElementById('map').classList.add('isTraveling')
           })
         }
       })
-      .on('error', () => {
+      .on('error', err => {
+        // display error message to the user
+        this.errorElement.classList.add('active')
+        this.errorElement.textContent = err.error
+
+        // disable map move on impossible travel
+        this.map.flyTo({
+          center: [
+            this.gps.coords.longitude,
+            this.gps.coords.latitude
+          ],
+          zoom: 19
+        })
+
         // document.querySelector('.map').classList.remove('active')
       })
 
@@ -210,9 +237,13 @@ export default class GPSHandler {
           ],
           zoom: 19
         })
+
+        // remove map error message of impossible travel
+        if (this.errorElement.classList.contains('active')) this.errorElement.classList.remove('active')
+
         document.querySelector('.map').classList.remove('active')
         document.querySelector('.map-recap').classList.remove('active')
-        document.getElementById('map').classList.remove('isTraveling')
+        document.querySelector('#mapbox-directions-destination-input .mapboxgl-ctrl-geocoder input').style.borderRadius = '6px 6px'
       })
     })
 
