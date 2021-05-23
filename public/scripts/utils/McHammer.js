@@ -3,7 +3,12 @@ import Hammer from 'hammerjs'
 export default class McHammer {
   constructor () {
     this.mc = new Hammer(document.getElementById('page-modal'))
+    this.mc.get('pan').set({ enable: true })
+    this.mc.get('pinch').set({ enable: false })
+    this.mc.get('press').set({ enable: false })
+    this.mc.get('rotate').set({ enable: false })
     this.mc.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL })
+    this.mc.get('tap').set({ enable: false })
   }
 
   start () {
