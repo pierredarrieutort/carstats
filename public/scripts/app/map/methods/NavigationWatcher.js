@@ -18,7 +18,7 @@ export default class NavigationWatcher {
     this.userTotalDistance = 0
     this.userTotalDuration = 0
 
-    setInterval(this.travelAndDurationUpdate.bind(this), 60000)
+    setInterval(this.travelAndDurationUpdate.bind(this), 15000)
   }
 
   async update ({ latitude, longitude, speed = 0 }) {
@@ -30,7 +30,6 @@ export default class NavigationWatcher {
 
     this.vMaxUpdate(speed)
     this.totalDistanceUpdate(latitude, longitude)
-    this.totalTravelDurationUpdate()
 
     // TODO - link a real variable
     // if (isTraveling) {
@@ -47,7 +46,7 @@ export default class NavigationWatcher {
     this.globalStatsId = id
     this.userMaxSpeed = vMax
     this.userTotalDistance = totalDistance
-    this.userTotalDuration = totalTravelDuration
+    this.userTotalDuration = parseInt(totalTravelDuration)
   }
 
   vMaxUpdate (speed) {
@@ -80,15 +79,18 @@ export default class NavigationWatcher {
   totalTravelDurationUpdate () {
     const internalTimeCheck = new Date()
 
-    const dateDiff = this.timeCheck - internalTimeCheck
+    const dateDiff = internalTimeCheck - this.timeCheck
+    this.timeCheck = internalTimeCheck
 
-    this.userTotalDuration += dateDiff
+    this.userTotalDuration += dateDiff / 1000
   }
 
   travelAndDurationUpdate () {
-    if (!this.userTotalDistance || !this.userTotalDuration) {
+    this.totalTravelDurationUpdate()
+
+    if (this.globalStatsId) {
       this.statsApi.updateGlobalStats(this.globalStatsId, {
-        totalDistance: this.userTotalDistance,
+        totalDistance: Math.round(this.userTotalDistance),
         totalTravelDuration: this.userTotalDuration
       })
     }
