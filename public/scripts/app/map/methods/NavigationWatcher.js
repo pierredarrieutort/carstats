@@ -10,8 +10,8 @@ export default class NavigationWatcher {
     this.userMaxSpeed = 0
 
     this.latestCoords = {
-      lat: 0,
-      lon: 0
+      lat: NaN,
+      lon: NaN
     }
 
     this.timeCheck = new Date()
@@ -58,6 +58,11 @@ export default class NavigationWatcher {
   }
 
   totalDistanceUpdate (newLat, newLon) {
+    // Prevent Geolocation issue
+    if (isNaN(this.latestCoords.lat) || isNaN(this.latestCoords.lon)) {
+      return
+    }
+
     // Calculates distance between latest coords.
     const traveledDistance = this.distanceCalculator.distance(
       this.latestCoords.lat,
@@ -71,7 +76,7 @@ export default class NavigationWatcher {
       lat: newLat,
       lon: newLon
     }
-
+    console.log(traveledDistance)
     // Increment total traveled distance.
     this.userTotalDistance += traveledDistance
   }
