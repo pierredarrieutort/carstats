@@ -53,7 +53,7 @@ export default class NavigationWatcher {
   vMaxUpdate (speed) {
     if (speed > this.userMaxSpeed) {
       this.statsApi.updateGlobalStats(this.globalStatsId, {
-        vMax: speed
+        vMax: Math.round((speed + Number.EPSILON) * 100) / 100
       })
     }
   }
