@@ -4,10 +4,10 @@ import mapboxgl from 'mapbox-gl'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import mapDirectionsStyles from './mapDirectionsStyles.js'
 
+import { io } from 'socket.io-client'
+
 import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
-
-import { io } from 'socket.io-client'
 import NavigationWatcher from './methods/NavigationWatcher.js'
 
 export default class GPSHandler {
@@ -27,13 +27,6 @@ export default class GPSHandler {
     this.socket = io()
 
     this.deviceMarkers = []
-
-    this.travel = []
-
-    this.lastPosition = {
-      latitude: NaN,
-      longitude: NaN
-    }
 
     this.speedLimit = new SpeedLimit()
 
@@ -291,8 +284,6 @@ export default class GPSHandler {
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
     this.socket.emit('sendPosition', [gpsLat, gpsLon])
-    this.lastPosition.latitude = gpsLat
-    this.lastPosition.longitude = gpsLon
   }
 
   onReceivePosition () {
