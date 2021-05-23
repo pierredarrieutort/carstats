@@ -1,5 +1,4 @@
 import CONFIG from '../../../../config.js'
-import DistanceCalculator from './DistanceCalculator.js'
 
 import mapboxgl from 'mapbox-gl'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
@@ -9,6 +8,7 @@ import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
 
 import { io } from 'socket.io-client'
+import NavigationWatcher from './methods/NavigationWatcher.js'
 
 export default class GPSHandler {
   constructor () {
@@ -29,7 +29,6 @@ export default class GPSHandler {
     this.deviceMarkers = []
 
     this.travel = []
-    this.traveledDistance = 0
 
     this.lastPosition = {
       latitude: NaN,
@@ -37,6 +36,8 @@ export default class GPSHandler {
     }
 
     this.speedLimit = new SpeedLimit()
+
+    this.navigationWatcher = new NavigationWatcher()
   }
 
   start () {
@@ -64,7 +65,7 @@ export default class GPSHandler {
 
   gpsHandler (data) {
     this.gps = data
-    this.travelWatcher()
+    this.navigationWatcher.update(this.gps)
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
     // this.map.rotateTo(this.gps.coords.heading, {
@@ -245,17 +246,14 @@ export default class GPSHandler {
     return timerString
   }
 
-  travelWatcher () {
-    const speed = this.gps.coords?.speed || 0
-    const { latitude, longitude } = this.gps.coords
-
+  travelWatcher (speed, latitude, longitude) {
     /**
      * @param  {Float} v Speed in m/s
      * @param  {Float} x Latitude
      * @param  {Float} y Longitude
      * @param  {String} t Timestamp as ISO 8601 UTC
      */
-    this.travel.push({
+    this.travel.route.push({
       v: speed,
       x: latitude,
       y: longitude,
@@ -265,14 +263,10 @@ export default class GPSHandler {
     /*
     TODO - Determine when a travel is ended.
     TODO - At travel end, send this.travel do db.
-    TODO - If totalDistance or MaxSpeed are overtaken, update them in DB.
-    TODO - On travel end, reset this.travel & this.traveledDistance.
-    TODO - Display on current travel total Distance from start (optional)
+    TODO - On travel end, reset this.travel.
+    TODO - On travel, at app close, send latest data
     TODO - Continuously send and clean data to lighten `this.travel` Object and get a trace of a travel piece
     */
-    // console.log(this.travel, this.gps.coords)
-    document.getElementById('speedometer-value').textContent = parseInt(speed * 3.6)
-    this.traveledDistance += new DistanceCalculator().distance(51.5, 0, 38.8, -77.1)
   }
 
   socketHandler () {

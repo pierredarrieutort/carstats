@@ -139,3 +139,24 @@ export class StatsApi extends Api {
     })
   }
 }
+
+export class MapApi extends Api {
+  constructor () {
+    super()
+
+    this.cookies = new Cookie()
+    this.jwt = this.cookies.get('jwt')
+    this.authorization = { Authorization: `Bearer ${this.jwt}` }
+  }
+
+  async updateMaxSpeed (userId, speed) {
+    return await this.request({
+      method: 'PUT',
+      route: `/users-global-stats/${userId}`,
+      headersOverride: this.authorization,
+      body: {
+        vMax: speed
+      }
+    })
+  }
+}

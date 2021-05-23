@@ -4,7 +4,7 @@ import * as dayjsRelativeTime from 'dayjs/plugin/relativeTime.js'
 
 import { StatsApi } from '../utils/Api.js'
 import CONFIG from '../../../config.js'
-import DistanceCalculator from '../app/map/DistanceCalculator.js'
+import DistanceCalculator from '../app/map/methods/DistanceCalculator.js'
 
 export default async function initDriving () {
   const journey = new Journey()
@@ -37,8 +37,8 @@ class Journey {
     const maxSpeedElement = document.querySelector('.stats-speed')
 
     if (this.globalStats) {
-      totalKilometersElement.textContent = `${this.globalStats[0].totalDistance.toLocaleString()} km`
-      maxSpeedElement.textContent = `${(this.globalStats[0].vMax * 3.6).toFixed(0)} km/h`
+      totalKilometersElement.textContent = `${this.globalStats.totalDistance.toLocaleString()} km`
+      maxSpeedElement.textContent = `${(this.globalStats.vMax * 3.6).toFixed(0)} km/h`
     }
   }
 
