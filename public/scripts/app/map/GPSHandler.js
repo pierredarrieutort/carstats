@@ -99,7 +99,7 @@ export default class GPSHandler {
       },
       showAccuracyCircle: false,
       showUserLocation: true,
-      trackUserLocation: false
+      trackUserLocation: true
     })
 
     this.map.addControl(this.geolocate)

@@ -58,8 +58,13 @@ export default class NavigationWatcher {
   }
 
   totalDistanceUpdate (newLat, newLon) {
-    // Prevent Geolocation issue
+    // Prevents geolocation issues by aggregating and function stop.
     if (isNaN(this.latestCoords.lat) || isNaN(this.latestCoords.lon)) {
+      this.latestCoords = {
+        lat: newLat,
+        lon: newLon
+      }
+
       return
     }
 
