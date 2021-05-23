@@ -37,8 +37,8 @@ class Journey {
     const maxSpeedElement = document.querySelector('.stats-speed')
 
     if (this.globalStats) {
-      totalKilometersElement.textContent = `${this.globalStats[0].totalDistance.toLocaleString()} km`
-      maxSpeedElement.textContent = `${(this.globalStats[0].vMax * 3.6).toFixed(0)} km/h`
+      totalKilometersElement.textContent = `${this.globalStats.totalDistance.toLocaleString()} km`
+      maxSpeedElement.textContent = `${(this.globalStats.vMax * 3.6).toFixed(0)} km/h`
     }
   }
 
