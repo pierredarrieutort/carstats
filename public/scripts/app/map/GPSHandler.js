@@ -380,6 +380,10 @@ export default class GPSHandler {
   }
 
   error (err) {
-    console.error(`ERROR (${err?.code}) : ${err?.message}`)
+    if (typeof err === 'string') {
+      console.error(err)
+    } else {
+      console.error(`ERROR (${err?.code}) : ${err?.message}`)
+    }
   }
 }
