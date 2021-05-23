@@ -1,33 +1,34 @@
-import { StatsApi, MapApi } from '../../../utils/Api.js'
+import { StatsApi } from '../../../utils/Api.js'
 import DistanceCalculator from './DistanceCalculator.js'
 
 export default class NavigationWatcher {
   constructor () {
-    this.mapApi = new MapApi()
+    this.statsApi = new StatsApi()
     this.distanceCalculator = new DistanceCalculator()
 
     this.globalStatsId = null
-    this.userMaxSpeed = null
+    this.userMaxSpeed = 0
 
     this.latestCoords = {
-      lat: null,
-      lon: null
+      lat: 0,
+      lon: 0
     }
 
-    // TODO - setInterval to send updates if changed
+    this.timeCheck = new Date()
+    this.userTotalDistance = 0
+    this.userTotalDuration = 0
+
+    setInterval(this.travelAndDurationUpdate.bind(this), 60000)
   }
 
-  async update (gps) {
+  async update ({ latitude, longitude, speed = 0 }) {
     if (!this.globalStatsId) {
       await this.getUserGlobalStats()
     }
 
-    const { latitude, longitude, speed = 0 } = gps.coords
-
     document.getElementById('speedometer-value').textContent = parseInt(speed * 3.6)
 
     this.vMaxUpdate(speed)
-    this.vMoyUpdate()
     this.totalDistanceUpdate(latitude, longitude)
     this.totalTravelDurationUpdate()
 
@@ -41,22 +42,20 @@ export default class NavigationWatcher {
    * @description Retrieves current user's global stats.
    */
   async getUserGlobalStats () {
-    const statsApi = new StatsApi()
-    const { vMax, id, totalDistance } = await statsApi.renderGlobalStats()
+    const { id, vMax, totalDistance, totalTravelDuration } = await this.statsApi.renderGlobalStats()
 
     this.globalStatsId = id
     this.userMaxSpeed = vMax
     this.userTotalDistance = totalDistance
+    this.userTotalDuration = totalTravelDuration
   }
 
   vMaxUpdate (speed) {
     if (speed > this.userMaxSpeed) {
-      this.mapApi.updateMaxSpeed(this.globalStatsId, speed)
+      this.statsApi.updateGlobalStats(this.globalStatsId, {
+        vMax: speed
+      })
     }
-  }
-
-  vMoyUpdate () {
-
   }
 
   totalDistanceUpdate (newLat, newLon) {
@@ -79,6 +78,19 @@ export default class NavigationWatcher {
   }
 
   totalTravelDurationUpdate () {
+    const internalTimeCheck = new Date()
 
+    const dateDiff = this.timeCheck - internalTimeCheck
+
+    this.userTotalDuration += dateDiff
+  }
+
+  travelAndDurationUpdate () {
+    if (!this.userTotalDistance || !this.userTotalDuration) {
+      this.statsApi.updateGlobalStats(this.globalStatsId, {
+        totalDistance: this.userTotalDistance,
+        totalTravelDuration: this.userTotalDuration
+      })
+    }
   }
 }

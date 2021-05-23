@@ -65,7 +65,7 @@ export default class GPSHandler {
 
   gpsHandler (data) {
     this.gps = data
-    this.navigationWatcher.update(this.gps)
+    this.navigationWatcher.update(this.gps.coords)
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
     // this.map.rotateTo(this.gps.coords.heading, {
