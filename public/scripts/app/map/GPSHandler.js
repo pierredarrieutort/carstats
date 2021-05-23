@@ -279,29 +279,6 @@ export default class GPSHandler {
     return timerString
   }
 
-  travelWatcher (speed, latitude, longitude) {
-    /**
-     * @param  {Float} v Speed in m/s
-     * @param  {Float} x Latitude
-     * @param  {Float} y Longitude
-     * @param  {String} t Timestamp as ISO 8601 UTC
-     */
-    this.travel.route.push({
-      v: speed,
-      x: latitude,
-      y: longitude,
-      t: new Date().toISOString()
-    })
-
-    /*
-    TODO - Determine when a travel is ended.
-    TODO - At travel end, send this.travel do db.
-    TODO - On travel end, reset this.travel.
-    TODO - On travel, at app close, send latest data
-    TODO - Continuously send and clean data to lighten `this.travel` Object and get a trace of a travel piece
-    */
-  }
-
   socketHandler () {
     this.onSendPosition()
     this.onReceivePosition()
