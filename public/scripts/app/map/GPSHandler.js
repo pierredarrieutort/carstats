@@ -52,6 +52,8 @@ export default class GPSHandler {
 
     if ('wakeLock' in navigator) {
       navigator.wakeLock.request('screen')
+    } else {
+      this.error('WakeLock API is not supported by this browser.')
     }
   }
 
