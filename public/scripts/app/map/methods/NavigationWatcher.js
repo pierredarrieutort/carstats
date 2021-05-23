@@ -81,7 +81,7 @@ export default class NavigationWatcher {
       lat: newLat,
       lon: newLon
     }
-    console.log(traveledDistance)
+
     // Increment total traveled distance.
     this.userTotalDistance += traveledDistance
   }
