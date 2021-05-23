@@ -178,8 +178,6 @@ export default class GPSHandler {
           ],
           zoom: 19
         })
-
-        // document.querySelector('.map').classList.remove('active')
       })
 
     this.map.addControl(this.mapDirections, 'top-left')
