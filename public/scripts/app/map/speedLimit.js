@@ -26,7 +26,7 @@ export default class SpeedLimit {
    * @returns Speed Limit as m/s
    */
   async getCurrentSpeedLimit () {
-    const res = await window.fetch('/app/map/maxspeed', {
+    const res = await window.fetch('/app/map/legalSpeedLimit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

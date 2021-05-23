@@ -25,8 +25,8 @@ appRouter.use((req, res, next) => {
       case '/map':
         res.render('app/map')
         break
-      case '/map/maxspeed':
-        res.json(await getMaxSpeed(req.body))
+      case '/map/legalSpeedLimit':
+        res.json(await getLegalSpeedLimit(req.body))
         break
       case '/map/alerts':
         res.json(await getAlerts(req.body))
@@ -38,7 +38,7 @@ appRouter.use((req, res, next) => {
   }
 })
 
-async function getMaxSpeed ({ latitude, longitude }) {
+async function getLegalSpeedLimit ({ latitude, longitude }) {
   const url = `https://route.cit.api.here.com/routing/7.2/calculateroute.json?jsonAttributes=1&waypoint0=${latitude},${longitude}&waypoint1=${latitude},${longitude}&departure=2019-01-18T10:33:00&routeattributes=sh,lg&legattributes=li&linkattributes=nl,fc&mode=fastest;car;traffic:enabled&app_code=inVc1gDCNQCFSPEaRqFg8g&app_id=LfVLSnyDc8q6HKXY6VWQ`
 
   const response = await nodeFetch(url)
