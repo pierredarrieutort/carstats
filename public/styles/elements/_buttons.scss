@@ -35,7 +35,7 @@
   }
 }
 
-.map-error {
+#map-error {
   color: #fff;
   background: #f22e2e;
   width: 90vw;
@@ -46,11 +46,5 @@
   font-size: 0.9rem;
   position: absolute;
   top: 6rem;
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-  &.active {
-    opacity: 1;
-    visibility: visible;
-  }
 }

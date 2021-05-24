@@ -3,7 +3,8 @@ import Modal from './Modal.js'
 
 export default function initMap () {
   const gpsHandler = new GPSHandler()
-  gpsHandler.start()
+  gpsHandler.setGeolocation()
+  gpsHandler.setWakeLock()
 
   const modal = new Modal()
   modal.openModal()

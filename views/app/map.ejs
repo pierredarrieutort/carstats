@@ -1,40 +1,46 @@
 <%- include('../components/header.ejs', { _useAppMenu_: true, _pageTitle_: 'Map' , _pageIdentifier_: 'page-map' }) %>
 
   <section class="bloc-full bloc-full-map">
-    <div id="mylog"></div>
+
     <div id="map"></div>
-    <div class="map-error"></div>
-    <div class="map container">
-      <div class="map-step">
-        <div class="map-step-icon"></div>
-        <div class="map-step-info">
-          <p class="map-step-distance"></p>
-          <p class="map-step-time"></p>
-          <p class="map-step-instruction"></p>
-        </div>
-      </div>
-    </div>
-    <div class="map-recap">
+
+    <div id="map-data">
       <div>
-        <div class="map-recap-info">
+        <div class="map-data-info">
           <div>
-            <p class="map-recap-duration"></p>
-            <p class="map-recap-distance"></p>
+            <p id="map-data-duration"></p>
+            <p id="map-data-distance"></p>
           </div>
           <div>
-            <p class="map-recap-time"></p>
+            <p id="map-data-time"></p>
             <p>Arrival</p>
           </div>
         </div>
-        <p class="map-recap-from">From <span></span></p>
-        <p class="map-recap-to">To <span></span></p>
-        <button class="btn">Start travel</button>
+        <p id="map-data-origin">From <span></span></p>
+        <p id="map-data-destination">To <span></span></p>
+        <button id="map-data-start" class="btn">Start travel</button>
       </div>
     </div>
+
+    <div id="map-step">
+      <div class="map-step-content">
+        <div id="map-step-icon"></div>
+        <div class="map-step-info">
+          <p id="map-step-distance"></p>
+          <p id="map-step-time"></p>
+          <p id="map-step-instruction"></p>
+        </div>
+      </div>
+    </div>
+
+    <p id="map-error"></p>
+
     <div class="speedometer">
       <p id="speedometer-value" data-speedUnit="km/h">0</p>
     </div>
+
     <div class="legal-speed"></div>
+
   </section>
 
   <div id="page-modal">
