@@ -13,8 +13,9 @@ export default class SpeedLimit {
     this.legalSpeed.append(this.legalSpeedItem)
 
     this.coords = { latitude, longitude }
+
+    this.getCurrentSpeedLimit()
     setInterval(this.getCurrentSpeedLimit.bind(this), 30000)
-    setTimeout(() => this.legalSpeed.classList.add('active'), 32000)
   }
 
   updateSpeedLimit ({ latitude, longitude }) {
@@ -40,5 +41,6 @@ export default class SpeedLimit {
     const formattedSpeed = Math.round(speedLimit * 3.6)
 
     this.legalSpeedItem.textContent = formattedSpeed
+    this.legalSpeed.classList.add('active')
   }
 }

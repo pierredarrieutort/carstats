@@ -4,10 +4,10 @@ import mapboxgl from 'mapbox-gl'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import mapDirectionsStyles from './mapDirectionsStyles.js'
 
+import { io } from 'socket.io-client'
+
 import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
-
-import { io } from 'socket.io-client'
 import NavigationWatcher from './methods/NavigationWatcher.js'
 
 export default class GPSHandler {
@@ -28,13 +28,6 @@ export default class GPSHandler {
 
     this.deviceMarkers = []
 
-    this.travel = []
-
-    this.lastPosition = {
-      latitude: NaN,
-      longitude: NaN
-    }
-
     this.speedLimit = new SpeedLimit()
 
     this.navigationWatcher = new NavigationWatcher()
@@ -52,6 +45,8 @@ export default class GPSHandler {
 
     if ('wakeLock' in navigator) {
       navigator.wakeLock.request('screen')
+    } else {
+      this.error('WakeLock API is not supported by this browser.')
     }
   }
 
@@ -67,7 +62,7 @@ export default class GPSHandler {
 
   gpsHandler (data) {
     this.gps = data
-    this.navigationWatcher.update(this.gps)
+    this.navigationWatcher.update(this.gps.coords)
     this.socketHandler()
     this.speedLimit.updateSpeedLimit(this.gps.coords)
     // this.map.rotateTo(this.gps.coords.heading, {
@@ -99,7 +94,7 @@ export default class GPSHandler {
       },
       showAccuracyCircle: false,
       showUserLocation: true,
-      trackUserLocation: false
+      trackUserLocation: true
     })
 
     this.map.addControl(this.geolocate)
@@ -275,29 +270,6 @@ export default class GPSHandler {
     return timerString
   }
 
-  travelWatcher (speed, latitude, longitude) {
-    /**
-     * @param  {Float} v Speed in m/s
-     * @param  {Float} x Latitude
-     * @param  {Float} y Longitude
-     * @param  {String} t Timestamp as ISO 8601 UTC
-     */
-    this.travel.route.push({
-      v: speed,
-      x: latitude,
-      y: longitude,
-      t: new Date().toISOString()
-    })
-
-    /*
-    TODO - Determine when a travel is ended.
-    TODO - At travel end, send this.travel do db.
-    TODO - On travel end, reset this.travel.
-    TODO - On travel, at app close, send latest data
-    TODO - Continuously send and clean data to lighten `this.travel` Object and get a trace of a travel piece
-    */
-  }
-
   socketHandler () {
     this.onSendPosition()
     this.onReceivePosition()
@@ -310,8 +282,6 @@ export default class GPSHandler {
     const { latitude: gpsLat, longitude: gpsLon } = this.gps.coords
 
     this.socket.emit('sendPosition', [gpsLat, gpsLon])
-    this.lastPosition.latitude = gpsLat
-    this.lastPosition.longitude = gpsLon
   }
 
   onReceivePosition () {
@@ -376,6 +346,10 @@ export default class GPSHandler {
   }
 
   error (err) {
-    console.error(`ERROR (${err?.code}) : ${err?.message}`)
+    return console.error(
+      typeof err === 'string'
+        ? err
+        : `ERROR (${err?.code}) : ${err?.message}`
+    )
   }
 }
