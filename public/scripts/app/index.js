@@ -3,7 +3,7 @@ import initMap from './map.js'
 import initSettings from './settings.js'
 import initStatistics from './statistics.js'
 
-import swiper from '../utils/Swiper.js'
+import Swiper from '../utils/Swiper.js'
 
 window.app = {
   map: initMap,
@@ -12,4 +12,5 @@ window.app = {
   settings: initSettings
 }
 
-swiper()
+const swiper = new Swiper()
+swiper.start()
