@@ -1,0 +1,11 @@
+---
+application:
+  name: "carstats"
+  project: "carstats"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-carstats"
+  routes:
+  - application_name: "carstats"
+    paths:
+    - "/*"
