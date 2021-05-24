@@ -1,0 +1,12 @@
+---
+application:
+  name: "carstats"
+  project: "carstats"
+  organization: "QoveryCommunity"
+  port: 3000
+routers:
+- name: "main-carstats"
+  routes:
+  - application_name: "carstats"
+    paths:
+    - "/*"
