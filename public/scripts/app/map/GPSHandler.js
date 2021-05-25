@@ -109,7 +109,14 @@ export default class GPSHandler {
     this.map.addControl(this.geolocate)
 
     this.map.on('load', () => {
-      this.geolocate.trigger()
+      // this.geolocate.trigger()
+      this.map.flyTo({
+        center: [
+          this.gps.coords.longitude,
+          this.gps.coords.latitude
+        ],
+        zoom: 19
+      })
 
       this.map.addLayer({
         id: 'sky',
@@ -155,6 +162,15 @@ export default class GPSHandler {
       this.clearErrorDirections()
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
+        // this.geolocate.trigger()
+        this.map.flyTo({
+          center: [
+            this.gps.coords.longitude,
+            this.gps.coords.latitude
+          ],
+          zoom: 19
+        })
+
         this.clearErrorDirections()
 
         this.mapData.removeAttribute('data-active')
@@ -167,7 +183,14 @@ export default class GPSHandler {
         this.getTravelInformations(routeData)
 
         this.mapStart.addEventListener('click', () => {
-          this.geolocate.trigger()
+          // this.geolocate.trigger()
+          this.map.flyTo({
+            center: [
+              this.gps.coords.longitude,
+              this.gps.coords.latitude
+            ],
+            zoom: 19
+          })
 
           this.mapData.removeAttribute('data-active')
 
@@ -175,7 +198,14 @@ export default class GPSHandler {
         })
 
         if (this.mapStep.hasAttribute('data-active')) {
-          this.geolocate.trigger()
+          // this.geolocate.trigger()
+          this.map.flyTo({
+            center: [
+              this.gps.coords.longitude,
+              this.gps.coords.latitude
+            ],
+            zoom: 19
+          })
 
           this.mapData.removeAttribute('data-active')
 
