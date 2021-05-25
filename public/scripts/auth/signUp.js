@@ -15,7 +15,7 @@ export default function initSignUp () {
     if (pass === passConfirm) {
       const authApi = new AuthApi()
       authApi.register({
-        method: 'PUT',
+        method: 'POST',
         email: data.get('email'),
         username: data.get('username'),
         password: data.get('password')
