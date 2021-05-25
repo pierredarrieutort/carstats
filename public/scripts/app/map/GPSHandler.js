@@ -53,7 +53,7 @@ export default class GPSHandler {
   updateUserPosition (data) {
     this.gps = data
 
-    this.map.setBearing(this.gps.coords.heading)
+    // this.map.setBearing(this.gps.coords.heading)
 
     this.socketHandler()
 
