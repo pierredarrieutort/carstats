@@ -156,8 +156,13 @@ export default class GPSHandler {
     this.directions.on('route', route => {
       this.clearErrorDirections()
 
+      const geolocate = document.querySelector('.mapboxgl-ctrl-geolocate')
+
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
-        this.geolocate.trigger()
+        if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
+          this.geolocate.trigger()
+        }
+
         this.clearErrorDirections()
 
         this.mapData.removeAttribute('data-active')
@@ -170,6 +175,10 @@ export default class GPSHandler {
         this.getTravelInformations(routeData)
 
         this.mapStart.addEventListener('click', () => {
+          if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
+            this.geolocate.trigger()
+          }
+
           this.setStepTravelInformations(routeData)
         })
 
