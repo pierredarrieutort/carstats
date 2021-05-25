@@ -63,7 +63,6 @@ export default class GPSHandler {
     this.speedLimit.updateSpeedLimit(this.gps.coords)
 
     this.setOriginDirections()
-    this.onRouteDirections()
   }
 
   setGeolocation () {
@@ -143,6 +142,7 @@ export default class GPSHandler {
       }
     })
 
+    this.onRouteDirections()
     this.onErrorDirections()
 
     this.map.addControl(this.directions, 'top-left')
@@ -220,8 +220,6 @@ export default class GPSHandler {
   }
 
   setStepTravelInformations (routeData) {
-    // this.geolocate.trigger()
-
     this.mapData.removeAttribute('data-active')
 
     this.getStepTravelInformations(routeData)
