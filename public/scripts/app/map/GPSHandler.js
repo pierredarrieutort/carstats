@@ -161,6 +161,7 @@ export default class GPSHandler {
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
           this.geolocate.trigger()
+          this.map.scrollZoom.enable()
         }
 
         this.clearErrorDirections()
@@ -174,17 +175,19 @@ export default class GPSHandler {
       if (routeData) {
         this.getTravelInformations(routeData)
 
+        if (this.mapStep.hasAttribute('data-active')) {
+          this.setStepTravelInformations(routeData)
+        }
+
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.geolocate.trigger()
           }
 
+          this.map.scrollZoom.disable()
+
           this.setStepTravelInformations(routeData)
         })
-
-        if (this.mapStep.hasAttribute('data-active')) {
-          this.setStepTravelInformations(routeData)
-        }
       }
     })
   }
