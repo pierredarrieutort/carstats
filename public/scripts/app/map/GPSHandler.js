@@ -59,6 +59,9 @@ export default class GPSHandler {
     navigationWatcher.update(this.gps.coords)
 
     this.speedLimit.updateSpeedLimit(this.gps.coords)
+
+    this.setOriginDirections()
+    this.onRouteDirections()
   }
 
   setGeolocation () {
@@ -138,8 +141,6 @@ export default class GPSHandler {
       }
     })
 
-    this.setOriginDirections()
-    this.onRouteDirections()
     this.onErrorDirections()
 
     this.map.addControl(this.directions, 'top-left')
@@ -167,10 +168,19 @@ export default class GPSHandler {
 
         this.mapStart.addEventListener('click', () => {
           this.geolocate.trigger()
+
           this.mapData.removeAttribute('data-active')
 
           this.getStepTravelInformations(routeData)
         })
+
+        if (this.mapStep.hasAttribute('data-active')) {
+          this.geolocate.trigger()
+
+          this.mapData.removeAttribute('data-active')
+
+          this.getStepTravelInformations(routeData)
+        }
       }
     })
   }
@@ -197,19 +207,21 @@ export default class GPSHandler {
   getStepTravelInformations (routeData) {
     this.mapStep.setAttribute('data-active', true)
 
-    document.getElementById('map-step-icon').classList.add(`icon-${(routeData.legs[0].steps[0].maneuver.modifier).replace(/\s+/g, '-')}`)
+    const routeDataStep = routeData.legs[0].steps[0]
+
+    document.getElementById('map-step-icon').classList.add(`icon-${(routeDataStep.maneuver.modifier).replace(/\s+/g, '-')}`)
 
     const mapStepDistance = document.getElementById('map-step-distance')
-    const mapStepDistanceValue = routeData.legs[0].steps[0].distance
+    const mapStepDistanceValue = routeDataStep.distance
 
     mapStepDistanceValue < 1000
       ? mapStepDistance.textContent = `${mapStepDistanceValue.toFixed(0)} m`
       : mapStepDistance.textContent = `${(mapStepDistanceValue / 1000).toFixed(1)} km`
 
-    document.getElementById('map-step-time').textContent = `(${utils.convertSecondsToDuration(routeData.legs[0].steps[0].duration)})`
+    document.getElementById('map-step-time').textContent = `(${utils.convertSecondsToDuration(routeDataStep.duration)})`
 
-    document.getElementById('map-step').classList.add(routeData.legs[0].steps[0].maneuver.type)
-    document.getElementById('map-step-instruction').textContent = routeData.legs[0].steps[0].maneuver.instruction
+    document.getElementById('map-step').classList.add(routeDataStep.maneuver.type)
+    document.getElementById('map-step-instruction').textContent = routeDataStep.maneuver.instruction
   }
 
   onErrorDirections () {
