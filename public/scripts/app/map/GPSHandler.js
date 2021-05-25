@@ -53,6 +53,8 @@ export default class GPSHandler {
   updateUserPosition (data) {
     this.gps = data
 
+    this.map.setBearing(this.gps.coords.heading)
+
     this.socketHandler()
 
     const navigationWatcher = new NavigationWatcher()
@@ -109,14 +111,7 @@ export default class GPSHandler {
     this.map.addControl(this.geolocate)
 
     this.map.on('load', () => {
-      // this.geolocate.trigger()
-      this.map.flyTo({
-        center: [
-          this.gps.coords.longitude,
-          this.gps.coords.latitude
-        ],
-        zoom: 19
-      })
+      this.geolocate.trigger()
 
       this.map.addLayer({
         id: 'sky',
@@ -162,15 +157,7 @@ export default class GPSHandler {
       this.clearErrorDirections()
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
-        // this.geolocate.trigger()
-        this.map.flyTo({
-          center: [
-            this.gps.coords.longitude,
-            this.gps.coords.latitude
-          ],
-          zoom: 19
-        })
-
+        this.geolocate.trigger()
         this.clearErrorDirections()
 
         this.mapData.removeAttribute('data-active')
@@ -183,33 +170,11 @@ export default class GPSHandler {
         this.getTravelInformations(routeData)
 
         this.mapStart.addEventListener('click', () => {
-          // this.geolocate.trigger()
-          this.map.flyTo({
-            center: [
-              this.gps.coords.longitude,
-              this.gps.coords.latitude
-            ],
-            zoom: 19
-          })
-
-          this.mapData.removeAttribute('data-active')
-
-          this.getStepTravelInformations(routeData)
+          this.setStepTravelInformations(routeData)
         })
 
         if (this.mapStep.hasAttribute('data-active')) {
-          // this.geolocate.trigger()
-          this.map.flyTo({
-            center: [
-              this.gps.coords.longitude,
-              this.gps.coords.latitude
-            ],
-            zoom: 19
-          })
-
-          this.mapData.removeAttribute('data-active')
-
-          this.getStepTravelInformations(routeData)
+          this.setStepTravelInformations(routeData)
         }
       }
     })
@@ -252,6 +217,14 @@ export default class GPSHandler {
 
     document.getElementById('map-step').classList.add(routeDataStep.maneuver.type)
     document.getElementById('map-step-instruction').textContent = routeDataStep.maneuver.instruction
+  }
+
+  setStepTravelInformations (routeData) {
+    // this.geolocate.trigger()
+
+    this.mapData.removeAttribute('data-active')
+
+    this.getStepTravelInformations(routeData)
   }
 
   onErrorDirections () {
