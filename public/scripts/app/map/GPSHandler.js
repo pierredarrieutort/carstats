@@ -10,6 +10,7 @@ import Utils from './methods/Utils.js'
 import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
 import NavigationWatcher from './methods/NavigationWatcher.js'
+import { BearingCalculator } from './methods/DistanceCalculator.js'
 
 const utils = new Utils()
 
@@ -37,6 +38,8 @@ export default class GPSHandler {
 
     this.socket = io()
     this.deviceMarkers = []
+
+    this.bearingCalculator = new BearingCalculator()
   }
 
   gpsInitialization (data) {
@@ -53,8 +56,13 @@ export default class GPSHandler {
   updateUserPosition (data) {
     this.gps = data
 
-    // this.map.setBearing(this.gps.coords.heading)
-    console.log(this.geolocate)
+    if (this.oldCoords) {
+      const bearing = this.bearingCalculator.bearing(this.oldCoords[0], this.oldCoords[0], this.gps.coords.latitude, this.gps.coords.longitude)
+      console.log(bearing, this.oldCoords, this.gps.coords)
+      this.map.setBearing(bearing)
+    }
+
+    this.oldCoords = [this.gps.coords.latitude, this.gps.coords.longitude]
 
     this.socketHandler()
 
