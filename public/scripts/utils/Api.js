@@ -61,7 +61,7 @@ export class AuthApi extends Api {
   async register (data) {
     const response = await this.request({
       method: 'POST',
-      route: '/auth/local',
+      route: '/auth/local/register',
       body: data
     })
 
