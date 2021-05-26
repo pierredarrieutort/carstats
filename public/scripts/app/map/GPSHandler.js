@@ -110,7 +110,7 @@ export default class GPSHandler {
           if (counter < loops) {
             counter += 0.01
             this.map.setBearing(nextBearing)
-            window.requestAnimationFrame(bearingEase)
+            window.requestAnimationFrame(bearingEase).bind(this)
           } else {
             latestBearing = nextBearing
             easing = false
@@ -118,7 +118,7 @@ export default class GPSHandler {
         }
 
         if (freshBearing < min || freshBearing > max) {
-          window.requestAnimationFrame(bearingEase)
+          window.requestAnimationFrame(bearingEase).bind(this)
         } else { easing = false }
       }
     }
