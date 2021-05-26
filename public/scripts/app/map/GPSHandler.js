@@ -111,6 +111,7 @@ export default class GPSHandler {
 
           if (counter < loops) {
             counter++
+            console.log(loops, counter)
             that.map.setBearing(nextBearing)
             window.requestAnimationFrame(bearingEase)
           } else {
