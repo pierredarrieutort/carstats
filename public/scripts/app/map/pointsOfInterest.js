@@ -56,7 +56,7 @@ class AlertExtractor {
 
   createMarker ({ nThumbsUp, type, lat, lng, id }) {
     const markerDOM = document.createElement('div')
-    markerDOM.className = 'marker'
+    markerDOM.className = 'marker-alert'
     markerDOM.id = id
     markerDOM.dataset.type = type
     markerDOM.dataset.thumbs = nThumbsUp

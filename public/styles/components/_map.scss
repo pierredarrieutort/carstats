@@ -485,3 +485,20 @@
 .mapbox-form-label {
   display: none;
 }
+
+// alert marker
+
+.marker-alert {
+  width: 34px;
+  height: 34px;
+  background: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  &[data-type="ROAD_CLOSED"] {
+    background-image: url("../images/icon-road-closed.png");
+  }
+  &[data-type="JAM"] {
+    background-image: url("../images/icon-jam.png");
+  }
+}

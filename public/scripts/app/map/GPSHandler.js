@@ -57,6 +57,8 @@ export default class GPSHandler {
 
     this.socketHandler()
 
+    this.map.getZoom()
+
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
 
