@@ -95,7 +95,7 @@ export default class GPSHandler {
       const min = this.map.bearing - 3
       const max = this.map.bearing + 3
 
-      console.log(freshBearing, this.map.bearing, min, max)
+      console.log(freshBearing, this.map, min, max)
 
       if (freshBearing < min || freshBearing > max) {
         console.log(freshBearing)
