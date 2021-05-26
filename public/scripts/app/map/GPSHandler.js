@@ -90,9 +90,9 @@ export default class GPSHandler {
   }
 
   setOrientationListener () {
-    window.addEventListener('deviceorientationabsolute', function (event) {
-      console.log(event.alpha)
-      this.map.setBearing(event.alpha)
+    window.addEventListener('deviceorientationabsolute', e => {
+      console.log(e.alpha)
+      this.map.setBearing(e.alpha)
     })
   }
 
