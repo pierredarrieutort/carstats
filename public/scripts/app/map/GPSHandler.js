@@ -62,7 +62,10 @@ export default class GPSHandler {
 
     this.speedLimit.updateSpeedLimit(this.gps.coords)
 
-    this.setOriginDirections()
+    if (this.mapData.hasAttribute('data-active') || this.mapStep.hasAttribute('data-active')) {
+      this.setOriginDirections()
+      this.geolocate.trigger()
+    }
   }
 
   setGeolocation () {
@@ -95,7 +98,6 @@ export default class GPSHandler {
     })
 
     this.geolocateUser()
-    this.addDirections()
   }
 
   geolocateUser () {
@@ -111,6 +113,8 @@ export default class GPSHandler {
 
     this.map.on('load', () => {
       this.geolocate.trigger()
+
+      this.addDirections()
 
       this.map.addLayer({
         id: 'sky',
@@ -142,6 +146,7 @@ export default class GPSHandler {
       }
     })
 
+    this.setOriginDirections()
     this.onRouteDirections()
     this.onErrorDirections()
 
