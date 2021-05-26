@@ -105,13 +105,12 @@ export default class GPSHandler {
 
         const loops = Math.abs(latestBearing - freshBearing)
         let counter = 0
-
+        console.log(freshBearing, loops)
         function bearingEase () {
           const nextBearing = latestBearing + counter
 
           if (counter < loops) {
-            counter += loops * 100
-            console.log(loops, counter)
+            counter++
             that.map.setBearing(nextBearing)
             window.requestAnimationFrame(bearingEase)
           } else {
