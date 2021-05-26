@@ -90,13 +90,9 @@ export default class GPSHandler {
   }
 
   setOrientationListener () {
-    window.addEventListener('deviceorientationabsolute', e => {
-      this.map.rotateTo(this.gps.coords.heading, {
-        duration: 1000,
-        animate: true,
-        essential: true
-      })
-    })
+    window.ondeviceorientationabsolute = e => {
+      this.map.setBearing(360 - e.alpha)
+    }
   }
 
   createMap () {
@@ -108,7 +104,8 @@ export default class GPSHandler {
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       zoom: 18,
       minZoom: 5,
-      maxZoom: 20
+      maxZoom: 20,
+      pitch: 60
     })
 
     this.geolocateUser()
