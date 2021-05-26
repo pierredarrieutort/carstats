@@ -110,7 +110,7 @@ export default class GPSHandler {
           const nextBearing = latestBearing + counter
 
           if (counter < loops) {
-            counter += 0.01
+            counter++
             that.map.setBearing(nextBearing)
             window.requestAnimationFrame(bearingEase)
           } else {
