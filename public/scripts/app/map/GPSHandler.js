@@ -90,14 +90,17 @@ export default class GPSHandler {
   }
 
   setOrientationListener () {
+    let latestBearing = 0
+
     window.ondeviceorientationabsolute = e => {
       const freshBearing = Math.round(360 - e.alpha)
-      const min = this.map.getBearing() - 10
-      const max = this.map.getBearing() + 10
+      const min = latestBearing - 10
+      const max = latestBearing + 10
 
       if (freshBearing < min || freshBearing > max) {
         console.log(freshBearing)
         this.map.setBearing(freshBearing)
+        latestBearing = freshBearing
       }
     }
   }
@@ -112,8 +115,7 @@ export default class GPSHandler {
       zoom: 18,
       minZoom: 5,
       maxZoom: 20,
-      pitch: 60,
-      bearing: 0
+      pitch: 60
     })
 
     this.geolocateUser()
