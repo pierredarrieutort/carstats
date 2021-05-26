@@ -91,16 +91,35 @@ export default class GPSHandler {
 
   setOrientationListener () {
     let latestBearing = 0
+    let easing = false
 
     window.ondeviceorientationabsolute = e => {
-      const freshBearing = Math.round(360 - e.alpha)
-      const min = latestBearing - 10
-      const max = latestBearing + 10
+      if (!easing) {
+        easing = true
 
-      if (freshBearing < min || freshBearing > max) {
-        console.log(freshBearing)
-        this.map.setBearing(freshBearing)
-        latestBearing = freshBearing
+        const freshBearing = Math.round(360 - e.alpha)
+        const min = latestBearing - 10
+        const max = latestBearing + 10
+
+        const loops = Math.abs(latestBearing - freshBearing)
+        let counter = 0
+
+        function bearingEase () {
+          const nextBearing = latestBearing + counter
+
+          if (counter < loops) {
+            counter += 0.01
+            this.map.setBearing(nextBearing)
+            window.requestAnimationFrame(bearingEase)
+          } else {
+            latestBearing = nextBearing
+            easing = false
+          }
+        }
+
+        if (freshBearing < min || freshBearing > max) {
+          window.requestAnimationFrame(bearingEase)
+        } else { easing = false }
       }
     }
   }
