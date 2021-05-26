@@ -62,7 +62,11 @@ export default class GPSHandler {
 
     this.speedLimit.updateSpeedLimit(this.gps.coords)
 
-    if (this.mapData.hasAttribute('data-active') || this.mapStep.hasAttribute('data-active')) {
+    if (this.mapData.hasAttribute('data-active')) {
+      this.setOriginDirections()
+    }
+
+    if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
       this.geolocate.trigger()
     }
@@ -188,8 +192,6 @@ export default class GPSHandler {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.geolocate.trigger()
           }
-
-          this.map.scrollZoom.disable()
 
           this.setStepTravelInformations(routeData)
         })
