@@ -95,6 +95,8 @@ export default class GPSHandler {
       const min = this.map.bearing - 3
       const max = this.map.bearing + 3
 
+      console.log(freshBearing, this.map.bearing, min, max)
+
       if (freshBearing < min || freshBearing > max) {
         console.log(freshBearing)
         this.map.setBearing(freshBearing)
@@ -112,7 +114,8 @@ export default class GPSHandler {
       zoom: 18,
       minZoom: 5,
       maxZoom: 20,
-      pitch: 60
+      pitch: 60,
+      bearing: 0
     })
 
     this.geolocateUser()
