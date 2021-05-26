@@ -91,7 +91,14 @@ export default class GPSHandler {
 
   setOrientationListener () {
     window.ondeviceorientationabsolute = e => {
-      this.map.setBearing(Math.round(360 - e.alpha))
+      const freshBearing = Math.round(360 - e.alpha)
+      const min = this.map.bearing - 3
+      const max = this.map.bearing + 3
+
+      if (freshBearing < min || freshBearing > max) {
+        console.log(freshBearing)
+        this.map.setBearing(freshBearing)
+      }
     }
   }
 
