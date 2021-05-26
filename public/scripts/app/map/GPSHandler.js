@@ -91,8 +91,11 @@ export default class GPSHandler {
 
   setOrientationListener () {
     window.addEventListener('deviceorientationabsolute', e => {
-      console.log(360 - e.alpha)
-      this.map.setBearing(360 - e.alpha)
+      this.map.rotateTo(this.gps.coords.heading, {
+        duration: 1000,
+        animate: true,
+        essential: true
+      })
     })
   }
 
