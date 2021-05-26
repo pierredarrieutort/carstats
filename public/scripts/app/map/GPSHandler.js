@@ -97,6 +97,8 @@ export default class GPSHandler {
       if (!easing) {
         easing = true
 
+        const that = this
+
         const freshBearing = Math.round(360 - e.alpha)
         const min = latestBearing - 10
         const max = latestBearing + 10
@@ -109,8 +111,8 @@ export default class GPSHandler {
 
           if (counter < loops) {
             counter += 0.01
-            this.map.setBearing(nextBearing)
-            window.requestAnimationFrame(bearingEase).bind(this)
+            that.map.setBearing(nextBearing)
+            window.requestAnimationFrame(bearingEase)
           } else {
             latestBearing = nextBearing
             easing = false
@@ -118,7 +120,7 @@ export default class GPSHandler {
         }
 
         if (freshBearing < min || freshBearing > max) {
-          window.requestAnimationFrame(bearingEase).bind(this)
+          window.requestAnimationFrame(bearingEase)
         } else { easing = false }
       }
     }
