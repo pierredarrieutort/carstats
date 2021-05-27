@@ -100,25 +100,22 @@ export default class GPSHandler {
         const that = this
 
         const freshBearing = Math.round(360 - e.alpha)
-        const min = latestBearing - 10
-        const max = latestBearing + 10
-
-        const loops = Math.abs(latestBearing - freshBearing)
         let counter = 0
-        console.log(freshBearing, loops)
-        function bearingEase () {
-          const nextBearing = latestBearing + counter
 
-          if (counter < loops) {
-            counter += 5
-            that.map.setBearing(nextBearing)
+        function bearingEase () {
+          console.log(freshBearing, latestBearing)
+          if (latestBearing < freshBearing) {
+            counter++
+            that.map.setBearing(latestBearing + counter)
             window.requestAnimationFrame(bearingEase)
           } else {
-            latestBearing = nextBearing
+            latestBearing = freshBearing
             easing = false
           }
         }
 
+        const min = latestBearing - 10
+        const max = latestBearing + 10
         if (freshBearing < min || freshBearing > max) {
           window.requestAnimationFrame(bearingEase)
         } else { easing = false }
