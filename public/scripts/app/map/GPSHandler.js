@@ -99,7 +99,7 @@ export default class GPSHandler {
         const prefeshBearing = Math.round(360 - e.alpha)
         const freshBearing = prefeshBearing < 180
           ? prefeshBearing
-          : -prefeshBearing
+          : -prefeshBearing + 180
 
         function bearingEase () {
           console.log(freshBearing, latestBearing)
