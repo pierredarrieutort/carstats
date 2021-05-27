@@ -89,6 +89,15 @@ export default class GPSHandler {
     }
   }
 
+  /**
+   * NOTE A SOI - MÊME :
+   * Il s'agit d'un méthode utilisable uniquement sous navigateur chromium/samsung : https://caniuse.com/mdn-api_window_ondeviceorientationabsolute
+   * La mise à jour du bearing fonctionne parfaitement sauf vers la gauche (à la base il tournait que dans le sens horaire, donc si un voiture tourne à droite : ça pivote, par contre à gauche ça faisait tout le tour).
+   * La solution a été via le ternaire de vérifier s'il ça faisait plus de la moitié du tour (180°).
+   * Aussi j'ai ajouté du throttling manuel de l'event et une progression de l'évènement via requestAnimationFrame.
+   * Le calcul du prefreshBearing arrondit (pour optimiser) et retire 360° d'office car montée dans le sens anti-horaire du cercle trigonométrique.
+   */
+
   setOrientationListener () {
     let latestBearing = 0
     let easing = false
@@ -96,10 +105,10 @@ export default class GPSHandler {
 
     window.ondeviceorientationabsolute = e => {
       if (!easing) {
-        const prefeshBearing = Math.round(360 - e.alpha)
-        const freshBearing = prefeshBearing < 180
-          ? prefeshBearing
-          : -prefeshBearing + 180
+        const prefreshBearing = Math.round(360 - e.alpha)
+        const freshBearing = prefreshBearing < 180
+          ? prefreshBearing
+          : -prefreshBearing + 180
 
         function bearingEase () {
           console.log(freshBearing, latestBearing)
