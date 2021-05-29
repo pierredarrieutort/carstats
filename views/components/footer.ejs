@@ -1,39 +1,6 @@
 </main>
 
 <footer>
-
-  <script>
-    // ios pwa installation instructions
-    function iOS() {
-      return ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-    }
-
-    if (iOS()) {
-      if (document.querySelector('.hero-btn')) {
-        document.querySelector('.hero-btn').addEventListener('click', () => {
-          document.querySelector('.add-app').classList.add('active')
-        })
-      }
-    } else {
-      const btnAdd = document.querySelector('.hero-btn')
-
-      if (btnAdd) {
-        let storedInstallEvent = null // Store to keep triggerable event after a first dismiss
-        window.addEventListener('beforeinstallprompt', e => {
-          e.preventDefault()
-          storedInstallEvent = e
-          btnAdd.addEventListener('click', function () {
-            storedInstallEvent.prompt()
-          })
-        })
-
-        window.addEventListener('appinstalled', evt => {
-          app.logEvent('a2hs', 'installed')
-        })
-      }
-    }
-  </script>
-
   <% if (typeof _endpoints_ !=='undefined' && _endpoints_.length) { const endpoints=_endpoints_.forEach(([namespace,
     target])=> { %>
     <script src="<%= `/scripts/${namespace}.js` %>" onload="<%= namespace %>.<%= target %>()" type="module"
