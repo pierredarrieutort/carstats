@@ -114,7 +114,7 @@ export default class GPSHandler {
       const max = this.latestBearing + 10
 
       if (freshBearing < min || freshBearing > max) {
-        this.easing = true
+        // this.easing = true
         bearingEase()
 
         document.getElementById('legalSpeed').textContent = Math.round(heading)
