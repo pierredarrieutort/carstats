@@ -90,7 +90,10 @@ module.exports = {
       swDest: 'sw.js',
       sourcemap: false,
       skipWaiting: true,
-      exclude: [/swagger-ui/],
+      exclude: [
+        /swagger-ui/,
+        'styles/index.js'
+      ],
       runtimeCaching: [{
         urlPattern: /\.(?:(jpe?|pn|sv)g|css|woff2)$/,
         handler: 'StaleWhileRevalidate',
