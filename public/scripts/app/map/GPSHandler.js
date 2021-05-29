@@ -60,7 +60,15 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener()
+    document.querySelector('.modal-statistics').style.color = 'green'
+
+    setTimeout(() => {
+      document.querySelector('.modal-statistics').removeAttribute('style')
+    }, 500)
+
+    setInterval(() => {
+      this.setOrientationListener()
+    }, 1000)
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
