@@ -109,9 +109,9 @@ export default class Modal {
     initSettings()
 
     const shareData = {
-      title: 'MDN',
-      text: 'Learn web development on MDN!',
-      url: 'https://developer.mozilla.org'
+      title: 'Carstats',
+      text: 'The new driving experience',
+      url: window.location.host
     }
 
     const btn = document.getElementById('share')
