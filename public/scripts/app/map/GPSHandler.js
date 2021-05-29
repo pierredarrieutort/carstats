@@ -60,7 +60,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener(this.gps.coords.heading)
+    this.setOrientationListener(Math.round(this.gps.coords.heading))
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
@@ -95,33 +95,35 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    document.getElementById('legalSpeed').textContent = Math.round(heading)
-    document.getElementById('legalSpeed').style.color = 'red'
+    if (!this.easing) {
+      const freshBearing = heading < 180
+        ? heading
+        : -heading + 180
 
-    setTimeout(() => {
-      document.getElementById('legalSpeed').removeAttribute('style')
-    }, 500)
-    // if (!this.easing) {
-    //   const freshBearing = heading < 180
-    //     ? heading
-    //     : -heading + 180
+      const bearingEase = () => {
+        if (this.latestBearing !== freshBearing) {
+          freshBearing > this.latestBearing
+            ? this.map.setBearing(++this.latestBearing)
+            : this.map.setBearing(--this.latestBearing)
+          window.requestAnimationFrame(bearingEase)
+        } else { this.easing = false }
+      }
 
-    //   const bearingEase = () => {
-    //     if (this.latestBearing !== freshBearing) {
-    //       freshBearing > this.latestBearing
-    //         ? this.map.setBearing(++this.latestBearing)
-    //         : this.map.setBearing(--this.latestBearing)
-    //       window.requestAnimationFrame(bearingEase)
-    //     } else { this.easing = false }
-    //   }
+      const min = this.latestBearing - 10
+      const max = this.latestBearing + 10
 
-    //   const min = this.latestBearing - 10
-    //   const max = this.latestBearing + 10
-    //   if (freshBearing < min || freshBearing > max) {
-    //     this.easing = true
-    //     window.requestAnimationFrame(bearingEase)
-    //   }
-    // }
+      if (freshBearing < min || freshBearing > max) {
+        this.easing = true
+        window.requestAnimationFrame(bearingEase)
+
+        document.getElementById('legalSpeed').textContent = Math.round(heading)
+        document.getElementById('legalSpeed').style.color = 'red'
+
+        setTimeout(() => {
+          document.getElementById('legalSpeed').removeAttribute('style')
+        }, 500)
+      }
+    }
   }
 
   createMap () {
