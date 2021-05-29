@@ -105,7 +105,12 @@ export default class GPSHandler {
 
   setOrientationListener () {
     if (!this.easing) {
-      document.getElementById('legalSpeed').textContent = this.gps.coords.heading
+      document.getElementById('legalSpeed').textContent = Math.round(this.gps.coords.heading)
+      document.getElementById('legalSpeed').style.color = 'red'
+
+      setTimeout(() => {
+        document.getElementById('legalSpeed').removeAttribute('style')
+      }, 500)
 
       const freshBearing = this.gps.coords.heading < 180
         ? this.gps.coords.heading
