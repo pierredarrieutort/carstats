@@ -67,7 +67,16 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener(this.gps.coords)
+    const traveledDistance = this.distanceCalculator.distance(
+      this.coordsValidator[1],
+      this.coordsValidator[0],
+      this.gps.coords.latitude,
+      this.gps.coords.longitude
+    )
+
+    if (traveledDistance > 0.002) {
+      this.setOrientationListener(Math.round(this.gps.coords.heading))
+    }
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
@@ -101,42 +110,32 @@ export default class GPSHandler {
     }
   }
 
-  setOrientationListener ({ heading, latitude, longitude }) {
-    const traveledDistance = this.distanceCalculator.distance(
-      this.coordsValidator[1],
-      this.coordsValidator[0],
-      latitude,
-      longitude
-    )
+  setOrientationListener (heading) {
+    // if (!this.easing) {
+    // const freshBearing = heading < 180
+    //   ? heading
+    //   : -heading + 180
 
-    if (traveledDistance < 0.002) {
-      return
-    }
+    // const bearingEase = () => {
+    //   if (this.latestBearing !== freshBearing) {
+    this.map.setBearing(heading)
 
-    if (!this.easing) {
-      const roundedHeading = Math.round(heading)
-      const freshBearing = roundedHeading < 180
-        ? roundedHeading
-        : -roundedHeading + 180
+    // freshBearing > this.latestBearing
+    //   ? this.map.setBearing(++this.latestBearing)
+    //   : this.map.setBearing(--this.latestBearing)
 
-      const bearingEase = () => {
-        if (this.latestBearing !== freshBearing) {
-          freshBearing > this.latestBearing
-            ? this.map.setBearing(++this.latestBearing)
-            : this.map.setBearing(--this.latestBearing)
+    //     window.requestAnimationFrame(bearingEase)
+    //   } else { this.easing = false }
+    // }
 
-          window.requestAnimationFrame(bearingEase)
-        } else { this.easing = false }
-      }
+    // const min = this.latestBearing - 10
+    // const max = this.latestBearing + 10
 
-      const min = this.latestBearing - 10
-      const max = this.latestBearing + 10
-
-      if (freshBearing < min || freshBearing > max) {
-        this.easing = true
-        bearingEase()
-      }
-    }
+    // if (freshBearing < min || freshBearing > max) {
+    //   this.easing = true
+    //   bearingEase()
+    // }
+    // }
   }
 
   createMap () {
