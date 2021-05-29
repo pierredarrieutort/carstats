@@ -60,9 +60,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    setInterval(() => {
-      this.setOrientationListener(this.gps.coords.heading)
-    }, 1000)
+    this.setOrientationListener(this.gps.coords.heading)
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
