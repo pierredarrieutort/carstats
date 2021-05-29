@@ -10,6 +10,16 @@ export default class Modal {
     this.focusing = 'navigation'
   }
 
+  modal (focusing, e) {
+    this.focusing = focusing
+    this.menuItems.forEach(item => {
+      item.classList.remove('active')
+    })
+    this.closeModal()
+    e.currentTarget.classList.add('active')
+    document.body.classList.add('activeModal')
+  }
+
   openModal () {
     document.querySelector('.modal-navigation').addEventListener('click', e => {
       if (this.focusing !== 'navigation') {
@@ -21,39 +31,24 @@ export default class Modal {
         e.currentTarget.classList.add('active')
       }
     })
+
     document.querySelector('.modal-statistics').addEventListener('click', e => {
       if (this.focusing !== 'statistics') {
-        this.focusing = 'statistics'
-        this.menuItems.forEach(item => {
-          item.classList.remove('active')
-        })
-        this.closeModal()
-        e.currentTarget.classList.add('active')
-        document.body.classList.add('activeModal')
+        this.modal('statistics', e)
         this.statistics()
       }
     })
+
     document.querySelector('.modal-driving').addEventListener('click', e => {
       if (this.focusing !== 'driving') {
-        this.focusing = 'driving'
-        this.menuItems.forEach(item => {
-          item.classList.remove('active')
-        })
-        this.closeModal()
-        e.currentTarget.classList.add('active')
-        document.body.classList.add('activeModal')
+        this.modal('driving', e)
         this.driving()
       }
     })
+
     document.querySelector('.modal-settings').addEventListener('click', e => {
       if (this.focusing !== 'settings') {
-        this.focusing = 'settings'
-        this.menuItems.forEach(item => {
-          item.classList.remove('active')
-        })
-        this.closeModal()
-        e.currentTarget.classList.add('active')
-        document.body.classList.add('activeModal')
+        this.modal('settings', e)
         this.settings()
       }
     })
@@ -65,13 +60,12 @@ export default class Modal {
   }
 
   statistics () {
-    const title = document.createElement('h1')
-    title.textContent = 'Statistics'
-
     const content = document.createElement('div')
-    content.id = 'leaderboards'
+    content.innerHTML = `
+      <h1>Statistics</h1>
+      <div id="leaderboards"></div>`
 
-    this.modalContent.append(title, content)
+    this.modalContent.append(content)
     initStatistics()
   }
 
@@ -119,7 +113,6 @@ export default class Modal {
     btn.addEventListener('click', async () => {
       try {
         await navigator.share(shareData)
-        console.log('MDN shared successfully')
       } catch (err) {
         console.log('Error: ' + err)
       }
