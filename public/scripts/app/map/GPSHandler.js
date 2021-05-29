@@ -95,33 +95,33 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    if (!this.easing) {
-      const freshBearing = heading < 180
-        ? heading
-        : -heading + 180
+    document.getElementById('legalSpeed').textContent = Math.round(heading)
+    document.getElementById('legalSpeed').style.color = 'red'
 
-      const bearingEase = () => {
-        if (this.latestBearing !== freshBearing) {
-          document.getElementById('legalSpeed').textContent = Math.round(heading)
-          document.getElementById('legalSpeed').style.color = 'red'
+    setTimeout(() => {
+      document.getElementById('legalSpeed').removeAttribute('style')
+    }, 500)
+    // if (!this.easing) {
+    //   const freshBearing = heading < 180
+    //     ? heading
+    //     : -heading + 180
 
-          setTimeout(() => {
-            document.getElementById('legalSpeed').removeAttribute('style')
-          }, 500)
-          freshBearing > this.latestBearing
-            ? this.map.setBearing(++this.latestBearing)
-            : this.map.setBearing(--this.latestBearing)
-          window.requestAnimationFrame(bearingEase)
-        } else { this.easing = false }
-      }
+    //   const bearingEase = () => {
+    //     if (this.latestBearing !== freshBearing) {
+    //       freshBearing > this.latestBearing
+    //         ? this.map.setBearing(++this.latestBearing)
+    //         : this.map.setBearing(--this.latestBearing)
+    //       window.requestAnimationFrame(bearingEase)
+    //     } else { this.easing = false }
+    //   }
 
-      const min = this.latestBearing - 10
-      const max = this.latestBearing + 10
-      if (freshBearing < min || freshBearing > max) {
-        this.easing = true
-        window.requestAnimationFrame(bearingEase)
-      }
-    }
+    //   const min = this.latestBearing - 10
+    //   const max = this.latestBearing + 10
+    //   if (freshBearing < min || freshBearing > max) {
+    //     this.easing = true
+    //     window.requestAnimationFrame(bearingEase)
+    //   }
+    // }
   }
 
   createMap () {
