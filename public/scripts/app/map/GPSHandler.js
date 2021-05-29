@@ -60,7 +60,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener(Math.round(this.map.getBearing()))
+    this.setOrientationListener(Math.round(this.gps.coords.heading))
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
@@ -114,14 +114,9 @@ export default class GPSHandler {
 
       if (freshBearing < min || freshBearing > max) {
         this.easing = true
-        window.requestAnimationFrame(bearingEase)
+        bearingEase()
 
         document.getElementById('legalSpeed').textContent = Math.round(heading)
-        document.getElementById('legalSpeed').style.color = 'red'
-
-        setTimeout(() => {
-          document.getElementById('legalSpeed').removeAttribute('style')
-        }, 500)
       }
     }
   }
