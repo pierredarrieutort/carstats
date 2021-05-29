@@ -3,7 +3,8 @@ export default class Swiper {
     this.xDown = 0
     this.yDown = 0
 
-    this.currentPageBtn = document.querySelector('#main-menu .active')
+    this.currentPage = document.querySelector('#main-menu .active')
+    this.pageMap = document.querySelector('#main-menu .modal-navigation')
   }
 
   start () {
@@ -24,10 +25,10 @@ export default class Swiper {
       const xDiff = this.xDown - clientX
       const yDiff = this.yDown - clientY
 
-      if (Math.abs(xDiff) > Math.abs(yDiff) && !this.currentPageBtn.classList.contains('modal-navigation')) {
+      if (Math.abs(xDiff) > Math.abs(yDiff) && !this.pageMap.classList.contains('active')) {
         xDiff > 0
-          ? this.currentPageBtn.nextElementSibling?.click()
-          : this.currentPageBtn.previousElementSibling?.click()
+          ? this.currentPage.nextElementSibling?.click()
+          : this.currentPage.previousElementSibling?.click()
       }
 
       this.xDown = 0
