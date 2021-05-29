@@ -3,13 +3,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 const webmanifest = require('./webmanifest.js')
 const { GenerateSW } = require('workbox-webpack-plugin')
-const CopyPlugin = require("copy-webpack-plugin")
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
     'styles/index': './public/styles/index.scss',
     'scripts/auth': './public/scripts/auth/index.js',
-    'scripts/app': './public/scripts/app/index.js'
+    'scripts/app': './public/scripts/app/index.js',
+    'scripts/home': './public/scripts/home.js'
   },
   output: {
     path: path.resolve('dist'),
