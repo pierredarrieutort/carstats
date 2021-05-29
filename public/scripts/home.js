@@ -4,7 +4,7 @@ window.home = {
 }
 
 function standaloneDetection () {
-  if (window.matchMedia('(display-mode: standalone)').matches) {
+  if (navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches) {
     const topRightCTA = document.querySelector('#page-home nav .container a.btn')
     topRightCTA.textContent = 'Sign up'
     topRightCTA.href = '/auth/sign-up'
