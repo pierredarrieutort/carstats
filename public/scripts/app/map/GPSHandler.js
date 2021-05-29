@@ -10,6 +10,7 @@ import Utils from './methods/Utils.js'
 import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
 import NavigationWatcher from './methods/NavigationWatcher.js'
+import DistanceCalculator from './methods/DistanceCalculator.js'
 
 const utils = new Utils()
 
@@ -23,6 +24,7 @@ export default class GPSHandler {
       // enableHighAccuracy: true
     }
 
+    this.coordsValidator = []
     this.latestBearing = 0
     this.easing = false
 
@@ -37,6 +39,7 @@ export default class GPSHandler {
     this.mapStart = document.getElementById('map-data-start')
 
     this.speedLimit = new SpeedLimit()
+    this.distanceCalculator = new DistanceCalculator()
 
     this.socket = io()
     this.deviceMarkers = []
@@ -51,6 +54,10 @@ export default class GPSHandler {
     poiManager.start()
 
     this.speedLimit.createComponent(this.gps.coords)
+
+    setInterval(() => {
+      this.coordsValidator = [this.gps.coords.longitude, this.gps.coords.latitude]
+    }, 1000)
   }
 
   updateUserPosition (data) {
@@ -60,7 +67,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener(Math.round(this.gps.coords.heading))
+    this.setOrientationListener(this.gps.coords)
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
@@ -94,11 +101,23 @@ export default class GPSHandler {
     }
   }
 
-  setOrientationListener (heading) {
+  setOrientationListener ({ heading, latitude, longitude }) {
+    const traveledDistance = this.distanceCalculator.distance(
+      this.coordsValidator[1],
+      this.coordsValidator[0],
+      latitude,
+      longitude
+    )
+
+    if (traveledDistance < 0.002) {
+      return
+    }
+
     if (!this.easing) {
-      const freshBearing = heading < 180
-        ? heading
-        : -heading + 180
+      const roundedHeading = Math.round(heading)
+      const freshBearing = roundedHeading < 180
+        ? roundedHeading
+        : -roundedHeading + 180
 
       const bearingEase = () => {
         if (this.latestBearing !== freshBearing) {
