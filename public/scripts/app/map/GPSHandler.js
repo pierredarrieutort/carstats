@@ -23,6 +23,9 @@ export default class GPSHandler {
       enableHighAccuracy: true
     }
 
+    this.latestBearing = 0
+    this.easing = false
+
     this.map = null
 
     this.geolocate = null
@@ -101,33 +104,27 @@ export default class GPSHandler {
    */
 
   setOrientationListener () {
-    let latestBearing = 0
-    let easing = false
-    const that = this
-
-    // window.ondeviceorientationabsolute = e => {
-    if (!easing) {
-      const prefreshBearing = Math.round(360 - this.gps.coords.heading)
-      const freshBearing = prefreshBearing < 180
-        ? prefreshBearing
-        : -prefreshBearing + 180
+    if (!this.easing) {
+      const freshBearing = this.gps.coords.heading < 180
+        ? this.gps.coords.heading
+        : -this.gps.coords.heading + 180
 
       function bearingEase () {
-        console.log(freshBearing, latestBearing)
-        if (latestBearing < freshBearing) {
-          that.map.setBearing(latestBearing++)
+        if (this.latestBearing !== freshBearing) {
+          freshBearing > this.latestBearing
+            ? this.map.setBearing(++this.latestBearing)
+            : this.map.setBearing(--this.latestBearing)
           window.requestAnimationFrame(bearingEase)
-        } else { easing = false }
+        } else { this.easing = false }
       }
 
-      const min = latestBearing - 10
-      const max = latestBearing + 10
+      const min = this.latestBearing - 10
+      const max = this.latestBearing + 10
       if (freshBearing < min || freshBearing > max) {
-        easing = true
+        this.easing = true
         window.requestAnimationFrame(bearingEase)
       }
     }
-    // }
   }
 
   createMap () {

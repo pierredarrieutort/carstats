@@ -5,7 +5,7 @@ export default function initMap () {
   const gpsHandler = new GPSHandler()
   gpsHandler.setGeolocation()
   gpsHandler.setWakeLock()
-  // gpsHandler.setOrientationListener()
+  gpsHandler.setOrientationListener()
 
   const modal = new Modal()
   modal.openModal()
