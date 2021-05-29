@@ -122,7 +122,7 @@ export default class GPSHandler {
 
         this.map.easeTo({
           bearing: heading,
-          duration: 500
+          duration: 200
         })
 
         // freshBearing > this.latestBearing
