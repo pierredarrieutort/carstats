@@ -116,24 +116,24 @@ export default class GPSHandler {
     //   ? heading
     //   : -heading + 180
 
-    // const bearingEase = () => {
-    //   if (this.latestBearing !== freshBearing) {
-    this.map.setBearing(heading)
+    const bearingEase = () => {
+      if (this.latestBearing !== heading) {
+        this.map.setBearing(heading)
 
-    // freshBearing > this.latestBearing
-    //   ? this.map.setBearing(++this.latestBearing)
-    //   : this.map.setBearing(--this.latestBearing)
+        // freshBearing > this.latestBearing
+        //   ? this.map.setBearing(++this.latestBearing)
+        //   : this.map.setBearing(--this.latestBearing)
 
-    //     window.requestAnimationFrame(bearingEase)
-    //   } else { this.easing = false }
-    // }
+        window.requestAnimationFrame(bearingEase)
+      } else { this.easing = false }
+    }
 
     // const min = this.latestBearing - 10
     // const max = this.latestBearing + 10
 
     // if (freshBearing < min || freshBearing > max) {
     //   this.easing = true
-    //   bearingEase()
+    bearingEase()
     // }
     // }
   }
