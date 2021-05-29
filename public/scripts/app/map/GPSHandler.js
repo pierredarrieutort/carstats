@@ -101,11 +101,12 @@ export default class GPSHandler {
         : -heading + 180
 
       const bearingEase = () => {
+        this.map.setBearing(freshBearing)
         if (this.latestBearing !== freshBearing) {
-          freshBearing > this.latestBearing
-            ? this.map.setBearing(++this.latestBearing)
-            : this.map.setBearing(--this.latestBearing)
-          window.requestAnimationFrame(bearingEase)
+          // freshBearing > this.latestBearing
+          //   ? this.map.setBearing(++this.latestBearing)
+          //   : this.map.setBearing(--this.latestBearing)
+          // window.requestAnimationFrame(bearingEase)
         } else { this.easing = false }
       }
 
