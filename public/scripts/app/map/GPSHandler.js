@@ -20,7 +20,7 @@ export default class GPSHandler {
 
     this.gps = {}
     this.gpsOptions = {
-      enableHighAccuracy: true
+      // enableHighAccuracy: true
     }
 
     this.latestBearing = 0
@@ -105,6 +105,7 @@ export default class GPSHandler {
           freshBearing > this.latestBearing
             ? this.map.setBearing(++this.latestBearing)
             : this.map.setBearing(--this.latestBearing)
+
           window.requestAnimationFrame(bearingEase)
         } else { this.easing = false }
       }
@@ -138,7 +139,7 @@ export default class GPSHandler {
   geolocateUser () {
     this.geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
-        enableHighAccuracy: true
+        // enableHighAccuracy: true
       },
       showAccuracyCircle: false,
       trackUserLocation: true
