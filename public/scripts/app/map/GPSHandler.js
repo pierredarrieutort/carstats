@@ -57,6 +57,8 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
+    this.setOrientationListener()
+
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
 
@@ -103,29 +105,29 @@ export default class GPSHandler {
     let easing = false
     const that = this
 
-    window.ondeviceorientationabsolute = e => {
-      if (!easing) {
-        const prefreshBearing = Math.round(360 - e.alpha)
-        const freshBearing = prefreshBearing < 180
-          ? prefreshBearing
-          : -prefreshBearing + 180
+    // window.ondeviceorientationabsolute = e => {
+    if (!easing) {
+      const prefreshBearing = Math.round(360 - this.gps.coords.heading)
+      const freshBearing = prefreshBearing < 180
+        ? prefreshBearing
+        : -prefreshBearing + 180
 
-        function bearingEase () {
-          console.log(freshBearing, latestBearing)
-          if (latestBearing < freshBearing) {
-            that.map.setBearing(latestBearing++)
-            window.requestAnimationFrame(bearingEase)
-          } else { easing = false }
-        }
-
-        const min = latestBearing - 10
-        const max = latestBearing + 10
-        if (freshBearing < min || freshBearing > max) {
-          easing = true
+      function bearingEase () {
+        console.log(freshBearing, latestBearing)
+        if (latestBearing < freshBearing) {
+          that.map.setBearing(latestBearing++)
           window.requestAnimationFrame(bearingEase)
-        }
+        } else { easing = false }
+      }
+
+      const min = latestBearing - 10
+      const max = latestBearing + 10
+      if (freshBearing < min || freshBearing > max) {
+        easing = true
+        window.requestAnimationFrame(bearingEase)
       }
     }
+    // }
   }
 
   createMap () {
