@@ -102,7 +102,7 @@ export default class GPSHandler {
         ? heading
         : -heading + 180
 
-      function bearingEase () {
+      const bearingEase = () => {
         if (this.latestBearing !== freshBearing) {
           document.getElementById('legalSpeed').textContent = Math.round(heading)
           document.getElementById('legalSpeed').style.color = 'red'
