@@ -2,22 +2,26 @@
   height: 6rem;
   display: flex;
   align-items: flex-end;
+
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   .logo {
     display: flex;
     align-items: center;
     font-family: $f-title;
     font-size: 1.4rem;
     text-transform: lowercase;
+
     img {
       width: 3.5rem;
       margin-right: 1rem;
     }
   }
+
   .btn {
     max-width: 8rem;
     margin: 0;
@@ -28,6 +32,7 @@
 .hero {
   padding-top: 4rem;
   text-align: center;
+
   span {
     color: $c-primary;
     margin-bottom: 1rem;
@@ -37,10 +42,12 @@
     border-radius: 5px;
     font-family: $f-title;
   }
+
   h1 {
     line-height: 1.1;
     font-size: 2.8rem;
   }
+
   p {
     color: #9aa0a7;
     max-width: 24rem;
@@ -48,10 +55,12 @@
     font-size: 1.2rem;
     line-height: 1.4;
   }
+
   .btn {
     display: block;
     max-width: 24rem;
     margin: 0 auto;
+    user-select: none;
   }
 }
 
@@ -70,10 +79,12 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+
   &.active {
     opacity: 1;
     visibility: visible;
   }
+
   img {
     margin: 0 0.25rem;
   }
