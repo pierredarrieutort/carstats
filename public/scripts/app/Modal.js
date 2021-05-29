@@ -111,7 +111,7 @@ export default class Modal {
     const shareData = {
       title: 'Carstats',
       text: 'The new driving experience',
-      url: window.location.host
+      url: window.location.origin
     }
 
     const btn = document.getElementById('share')
