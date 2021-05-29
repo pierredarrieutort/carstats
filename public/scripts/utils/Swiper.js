@@ -1,38 +1,42 @@
-export default class Swiper {
-  constructor () {
-    this.xDown = 0
-    this.yDown = 0
+export default function swiper () {
+  document.addEventListener('touchstart', handleTouchStart, false)
+  document.addEventListener('touchmove', handleTouchMove, false)
 
-    this.currentPage = document.querySelector('#main-menu .active')
-    this.pageMap = document.querySelector('#main-menu .modal-navigation')
+  let xDown = null
+  let yDown = null
+
+  function getTouches (e) {
+    return e.touches || e.originalEvent.touches
   }
 
-  start () {
-    document.addEventListener('touchstart', this.handleTouchStart.bind(this))
-    document.addEventListener('touchmove', this.handleTouchMove.bind(this))
-  }
+  function handleTouchStart (e) {
+    const firstTouch = getTouches(e)[0]
+    xDown = firstTouch.clientX
+    yDown = firstTouch.clientY
+  };
 
-  handleTouchStart (e) {
-    const [firstTouch] = e.touches || e.originalEvent.touches
-    this.xDown = firstTouch.clientX
-    this.yDown = firstTouch.clientY
-  }
-
-  handleTouchMove (e) {
-    if (this.xDown && this.yDown) {
-      const [{ clientX, clientY }] = e.touches
-
-      const xDiff = this.xDown - clientX
-      const yDiff = this.yDown - clientY
-
-      if (Math.abs(xDiff) > Math.abs(yDiff) && !this.pageMap.classList.contains('active')) {
-        xDiff > 0
-          ? this.currentPage.nextElementSibling?.click()
-          : this.currentPage.previousElementSibling?.click()
-      }
-
-      this.xDown = 0
-      this.yDown = 0
+  function handleTouchMove (e) {
+    if (!xDown || !yDown) {
+      return
     }
+
+    const xUp = e.touches[0].clientX
+    const yUp = e.touches[0].clientY
+
+    const xDiff = xDown - xUp
+    const yDiff = yDown - yUp
+
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      const currentPageBtn = document.querySelector('#main-menu .active')
+
+      if (!document.querySelector('#main-menu .modal-navigation').classList.contains('active')) {
+        xDiff > 0
+          ? currentPageBtn.nextElementSibling?.click()
+          : currentPageBtn.previousElementSibling?.click()
+      }
+    }
+
+    xDown = null
+    yDown = null
   }
 }
