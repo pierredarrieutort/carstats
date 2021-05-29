@@ -501,4 +501,10 @@
   &[data-type="JAM"] {
     background-image: url("../images/icon-jam.png");
   }
+  &[data-type="POLICE"] {
+    background-image: url("../images/icon-police.png");
+  }
+  &[data-type="HAZARD"] {
+    background-image: url("../images/icon-danger.png");
+  }
 }
