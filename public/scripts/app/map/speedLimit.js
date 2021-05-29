@@ -40,7 +40,7 @@ export default class SpeedLimit {
 
     const formattedSpeed = Math.round(speedLimit * 3.6)
 
-    // this.legalSpeedItem.textContent = formattedSpeed
+    this.legalSpeedItem.textContent = formattedSpeed
     this.legalSpeed.classList.add('active')
   }
 }
