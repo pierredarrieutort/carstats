@@ -60,7 +60,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    this.setOrientationListener(Math.round(this.gps.coords.heading))
+    this.setOrientationListener(Math.round(this.map.getBearing()))
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
