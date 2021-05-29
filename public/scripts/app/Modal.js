@@ -76,14 +76,10 @@ export default class Modal {
   }
 
   driving () {
-    const title = document.createElement('h1')
-    title.textContent = 'My driving stats'
-
-    const subtitle = document.createElement('h2')
-    subtitle.textContent = 'My statistics'
-
     const content = document.createElement('div')
     content.innerHTML = `
+      <h1>My driving stats</h1>
+      <h2>My statistics</h2>
       <div class="stats-global">
           <div>
             <p>Total kilometers</p>
@@ -98,20 +94,35 @@ export default class Modal {
         <h2>Latest travels</h2>
         <div class="driving-stats"></div>`
 
-    this.modalContent.append(title, subtitle, content)
+    this.modalContent.append(content)
     initDriving()
   }
 
   settings () {
-    const title = document.createElement('h1')
-    title.textContent = 'Settings'
+    const content = document.createElement('div')
+    content.innerHTML = `
+      <h1>Settings</h1>
+      <button id="share" class="btn">Share the app</button>
+      <button id="disconnect" class="btn">Log out</button>`
 
-    const content = document.createElement('button')
-    content.id = 'disconnect'
-    content.className = 'btn'
-    content.textContent = 'Log out'
-
-    this.modalContent.append(title, content)
+    this.modalContent.append(content)
     initSettings()
+
+    const shareData = {
+      title: 'MDN',
+      text: 'Learn web development on MDN!',
+      url: 'https://developer.mozilla.org'
+    }
+
+    const btn = document.getElementById('share')
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.share(shareData)
+        console.log('MDN shared successfully')
+      } catch (err) {
+        console.log('Error: ' + err)
+      }
+    })
   }
 }
