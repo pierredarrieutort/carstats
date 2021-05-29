@@ -18,7 +18,7 @@ function standaloneDetection () {
 function pwaInstaller () {
   // ios pwa installation instructions
   function iOS () {
-    return ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    return ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
   }
 
   const btnAdd = document.querySelector('.hero-btn')
@@ -38,10 +38,6 @@ function pwaInstaller () {
         btnAdd.addEventListener('click', function () {
           storedInstallEvent.prompt()
         })
-      })
-
-      window.addEventListener('appinstalled', evt => {
-        app.logEvent('a2hs', 'installed')
       })
     }
   }
