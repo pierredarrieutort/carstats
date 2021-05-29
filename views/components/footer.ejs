@@ -18,16 +18,12 @@
       const btnAdd = document.querySelector('.hero-btn')
 
       if (btnAdd) {
-        let deferredPrompt
+        let storedInstallEvent = null // Store to keep triggerable event after a first dismiss
         window.addEventListener('beforeinstallprompt', e => {
           e.preventDefault()
-          deferredPrompt = e
-        })
-
-        btnAdd.addEventListener('click', e => {
-          deferredPrompt.prompt()
-          deferredPrompt.userChoice.then(choiceResult => {
-            deferredPrompt = null
+          storedInstallEvent = e
+          btnAdd.addEventListener('click', function () {
+            storedInstallEvent.prompt()
           })
         })
 
