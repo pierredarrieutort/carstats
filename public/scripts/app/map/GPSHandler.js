@@ -21,7 +21,7 @@ export default class GPSHandler {
 
     this.gps = {}
     this.gpsOptions = {
-      // enableHighAccuracy: true
+      enableHighAccuracy: true
     }
 
     this.coordsValidator = []
@@ -157,7 +157,7 @@ export default class GPSHandler {
   geolocateUser () {
     this.geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
-        // enableHighAccuracy: true
+        enableHighAccuracy: true
       },
       showAccuracyCircle: false,
       trackUserLocation: true
