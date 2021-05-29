@@ -67,16 +67,16 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    const traveledDistance = this.distanceCalculator.distance(
-      this.coordsValidator[1],
-      this.coordsValidator[0],
-      this.gps.coords.latitude,
-      this.gps.coords.longitude
-    )
+    // const traveledDistance = this.distanceCalculator.distance(
+    //   this.coordsValidator[1],
+    //   this.coordsValidator[0],
+    //   this.gps.coords.latitude,
+    //   this.gps.coords.longitude
+    // )
 
-    if (traveledDistance > 0.002) {
-      this.setOrientationListener(Math.round(this.gps.coords.heading))
-    }
+    // if (traveledDistance > 0.002) {
+    this.setOrientationListener(Math.round(this.gps.coords.heading))
+    // }
 
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
@@ -118,7 +118,12 @@ export default class GPSHandler {
 
     const bearingEase = () => {
       if (this.latestBearing !== heading) {
-        this.map.setBearing(heading)
+        // this.map.setBearing(heading)
+
+        this.map.easeTo({
+          bearing: heading,
+          duration: 500
+        })
 
         // freshBearing > this.latestBearing
         //   ? this.map.setBearing(++this.latestBearing)
