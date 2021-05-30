@@ -166,34 +166,44 @@ export class FriendsApi extends Api {
   }
 
   async blockUser (friendshipID) {
-
+    return await this.request({
+      method: 'PUT',
+      route: `/friends/${friendshipID}`,
+      headersOverride: this.authorization,
+      body: { status: 'blocked' }
+    })
   }
 
   async blockUserByUsername (username) {
-
-  }
-
-  async unblockUser (friendshipID) {
-
+    return await this.request({
+      method: '',
+      route: '',
+      headersOverride: this.authorization
+    })
   }
 
   async addFriendByUsername (username) {
-
+    return await this.request({
+      method: '',
+      route: '',
+      headersOverride: this.authorization
+    })
   }
 
-  async removeFriend (friendshipID) {
-
-  }
-
-  async cancelFriendRequest (friendshipID) {
-
+  async removeFriendshipRelation (friendshipID) {
+    return await this.request({
+      method: 'DELETE',
+      route: `/friends/${friendshipID}`,
+      headersOverride: this.authorization
+    })
   }
 
   async acceptFriendRequest (friendshipID) {
-
-  }
-
-  async ignoreFriendRequest (friendshipID) {
-
+    return await this.request({
+      method: 'PUT',
+      route: `/friends/${friendshipID}`,
+      headersOverride: this.authorization,
+      body: { status: 'accepted' }
+    })
   }
 }
