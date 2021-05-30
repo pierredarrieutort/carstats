@@ -1,0 +1,70 @@
+#modal-alert {
+  width: 100vw;
+  height: 100vh;
+  background: rgba($c-bg, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal-alert-content {
+    width: 90vw;
+    max-width: 500px;
+    background: $c-bg;
+    border-radius: 10px;
+    padding: 2rem;
+    color: $c-white;
+    position: relative;
+    #modal-alert-close {
+      width: 3.5rem;
+      height: 3.5rem;
+      background: $c-white;
+      border-radius: 0 10px 0 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+    .modal-alert-title {
+      display: flex;
+      align-items: center;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid lighten($c-bg, 10%);
+      span {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-right: s(2);
+      }
+      p {
+        font-size: 1.1rem;
+        font-family: $f-title;
+      }
+    }
+    #modal-alert-distance {
+      font-size: 1.1rem;
+      font-family: $f-title;
+      margin-bottom: 0.5rem;
+    }
+  }
+}

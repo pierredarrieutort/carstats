@@ -50,7 +50,7 @@ export default class GPSHandler {
 
     this.createMap()
 
-    const poiManager = new PoiManager(this.map)
+    const poiManager = new PoiManager(this.map, this.gps)
     poiManager.start()
 
     this.speedLimit.createComponent(this.gps.coords)

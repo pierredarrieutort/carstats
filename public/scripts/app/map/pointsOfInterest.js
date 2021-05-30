@@ -1,19 +1,29 @@
 import mapboxgl from 'mapbox-gl'
 
+import DistanceCalculator from './methods/DistanceCalculator.js'
+
+import iconJam from '../../../images/icon-jam.png'
+import iconRoadClosed from '../../../images/icon-road-closed.png'
+import iconPolice from '../../../images/icon-police.png'
+import iconHazard from '../../../images/icon-danger.png'
+
 export default class PoiManager {
-  constructor (map) {
+  constructor (map, gps) {
     this.map = map
+    this.gps = gps
   }
 
   start () {
-    this.alertExtractor = new AlertExtractor(this.map)
+    this.alertExtractor = new AlertExtractor(this.map, this.gps)
     this.alertExtractor.start()
   }
 }
 
 class AlertExtractor {
-  constructor (map) {
+  constructor (map, gps) {
     this.map = map
+    this.gps = gps
+
     this.isReady = true
     this.domAlerts = {}
   }
@@ -35,17 +45,20 @@ class AlertExtractor {
 
         const domAlertsKeys = Object.keys(this.domAlerts)
 
-        fetchedAlerts.alerts?.forEach(({ nThumbsUp = 0, type, location, id }) => {
+        fetchedAlerts.alerts?.forEach(({ nThumbsUp = 0, type, location, id, street, city }) => {
           const marker = {
             nThumbsUp,
             type,
             lat: location.y,
             lng: location.x,
-            id
+            id,
+            street,
+            city
           }
 
           if (!domAlertsKeys.includes(id)) {
             this.createMarker(marker)
+            this.modal()
           }
         })
 
@@ -54,11 +67,54 @@ class AlertExtractor {
     }.bind(this))
   }
 
-  createMarker ({ nThumbsUp, type, lat, lng, id }) {
+  modal () {
+    const modalAlert = document.getElementById('modal-alert')
+
+    this.map.on('click', () => {
+      document.querySelectorAll('.marker-alert').forEach(marker => {
+        marker.addEventListener('click', element => {
+          const modalAlertElement = element.currentTarget.dataset
+          const modalAlertIcon = document.getElementById('modal-alert-icon')
+          const modalAlertType = document.getElementById('modal-alert-type')
+          const modalAlertLocation = document.getElementById('modal-alert-location')
+          const modalAlertDistance = document.getElementById('modal-alert-distance')
+
+          if (modalAlertElement.type === 'JAM') modalAlertIcon.style.backgroundImage = `url("${iconJam}")`
+          else if (modalAlertElement.type === 'ROAD_CLOSED') modalAlertIcon.style.backgroundImage = `url("${iconRoadClosed}")`
+          else if (modalAlertElement.type === 'POLICE') modalAlertIcon.style.backgroundImage = `url("${iconPolice}")`
+          else if (modalAlertElement.type === 'HAZARD') modalAlertIcon.style.backgroundImage = `url("${iconHazard}")`
+
+          modalAlertType.textContent = modalAlertElement.type.replace('_', ' ')
+          modalAlertLocation.textContent = `${modalAlertElement.street}, ${modalAlertElement.city}`
+
+          this.distanceCalculator = new DistanceCalculator()
+          const traveledDistance = this.distanceCalculator.distance(
+            this.gps.coords.latitude,
+            this.gps.coords.longitude,
+            modalAlertElement.lat,
+            modalAlertElement.lng
+          )
+          modalAlertDistance.textContent = `${Math.round(traveledDistance)} km`
+
+          modalAlert.classList.add('active')
+        })
+      })
+    })
+
+    document.getElementById('modal-alert-close').addEventListener('click', () => {
+      modalAlert.classList.remove('active')
+    })
+  }
+
+  createMarker ({ nThumbsUp, type, lat, lng, id, street, city }) {
     const markerDOM = document.createElement('div')
     markerDOM.className = 'marker-alert'
     markerDOM.id = id
     markerDOM.dataset.type = type
+    markerDOM.dataset.street = street
+    markerDOM.dataset.city = city
+    markerDOM.dataset.lat = lat
+    markerDOM.dataset.lng = lng
     markerDOM.dataset.thumbs = nThumbsUp
 
     const glMarker = new mapboxgl

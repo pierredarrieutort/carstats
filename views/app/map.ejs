@@ -49,4 +49,20 @@
     </div>
   </div>
 
+  <div id="modal-alert">
+    <div class="modal-alert-content">
+      <div id="modal-alert-close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="269.255" height="269.255" viewBox="0 0 269.255 269.255">
+          <path id="close-outline" d="M368,368,144,144m224,0L144,368" transform="translate(-121.373 -121.373)" fill="none" stroke="#32373e" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+        </svg>        
+      </div>
+      <div class="modal-alert-title">
+        <span id="modal-alert-icon"></span>
+        <p id="modal-alert-type"></p>
+      </div>
+      <p id="modal-alert-distance"></p>
+      <p id="modal-alert-location"></p>
+    </div>
+  </div>
+
   <%- include('../components/footer.ejs', { _endpoints_: [ ['app', 'map' ] ] }) %>
