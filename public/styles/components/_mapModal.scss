@@ -6,7 +6,6 @@
   top: 0;
   left: 0;
   z-index: 10;
-  display: flex;
   align-items: center;
   justify-content: center;
   display: none;
@@ -14,7 +13,7 @@
   visibility: hidden;
   transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
   &.active {
-    display: block;
+    display: flex;
     opacity: 1;
     visibility: visible;
   }
