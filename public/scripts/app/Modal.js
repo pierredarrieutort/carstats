@@ -185,39 +185,63 @@ async function friendsInitialization () {
   const friendsApi = new FriendsApi()
   const { myFriends, sendedRequests, pendingRequests, blockedUsers } = await friendsApi.getFriendships()
 
-  myFriends.forEach(({ from, to }) => {
+  myFriends.forEach(({ friendshipID, from, to }) => {
     const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
 
-    const verifUsername = from.id === id ? to.username : from.username
-    const verifId = from.id === id ? to.id : from.id
+    const verifUsername = from.id === id
+      ? to.username
+      : from.username
 
     const listItem = document.createElement('li')
     listItem.textContent = verifUsername
-    listItem.dataset.id = verifId
+    listItem.dataset.frienshipId = friendshipID
+
+    const button = document.createElement('button')
+    button.textContent = 'Remove'
+
+    listItem.append(button)
 
     myFriendsList.append(listItem)
   })
 
-  sendedRequests.forEach(({ to }) => {
+  sendedRequests.forEach(({ friendshipID, to }) => {
     const listItem = document.createElement('li')
     listItem.textContent = to.username
-    listItem.dataset.id = to.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const button = document.createElement('button')
+    button.textContent = 'Cancel'
+
+    listItem.append(button)
 
     sendedRequestsList.append(listItem)
   })
 
-  pendingRequests.forEach(({ from }) => {
+  pendingRequests.forEach(({ friendshipID, from }) => {
     const listItem = document.createElement('li')
     listItem.textContent = from.username
-    listItem.dataset.id = from.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const buttonAccept = document.createElement('button')
+    buttonAccept.textContent = 'Accept'
+
+    const buttonIgnore = document.createElement('button')
+    buttonIgnore.textContent = 'Ignore'
+
+    listItem.append(buttonAccept, buttonIgnore)
 
     pendingRequestsList.append(listItem)
   })
 
-  blockedUsers.forEach(({ to }) => {
+  blockedUsers.forEach(({ friendshipID, to }) => {
     const listItem = document.createElement('li')
     listItem.textContent = to.username
-    listItem.dataset.id = to.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const button = document.createElement('button')
+    button.textContent = 'Unblock'
+
+    listItem.append(button)
 
     blockedUsersList.append(listItem)
   })
