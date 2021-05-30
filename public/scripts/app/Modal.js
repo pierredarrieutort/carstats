@@ -1,6 +1,7 @@
 import initStatistics from './statistics.js'
 import initDriving from './driving.js'
 import initSettings from './settings.js'
+import { FriendsApi } from '../utils/Api.js'
 
 export default class Modal {
   constructor () {
@@ -97,7 +98,9 @@ export default class Modal {
     content.innerHTML = `
       <h1>Settings</h1>
       <button id="share" class="btn">Share the app</button>
-      <button id="disconnect" class="btn">Log out</button>`
+      <button id="disconnect" class="btn">Log out</button>
+      <section id="friendships"></section>
+    `
 
     this.modalContent.append(content)
     initSettings()
@@ -117,5 +120,110 @@ export default class Modal {
         console.log('Error: ' + err)
       }
     })
+
+    friendsInitialization()
   }
 }
+
+async function friendsInitialization () {
+  const friendshipsContainer = document.getElementById('friendships')
+
+  const myFriendsItem = document.createElement('section')
+  const sendedRequestsItem = document.createElement('section')
+  const pendingRequestsItem = document.createElement('section')
+  const blockedUsersItem = document.createElement('section')
+
+  /* --------------------------------------------- */
+
+  const myFriendsTitle = document.createElement('h2')
+  myFriendsTitle.textContent = 'My friends'
+
+  const myFriendsList = document.createElement('ul')
+  myFriendsList.id = 'blocked-users-list'
+
+  myFriendsItem.append(myFriendsTitle, myFriendsList)
+
+  /* --------------------------------------------- */
+
+  const sendedRequestsTitle = document.createElement('h2')
+  sendedRequestsTitle.textContent = 'Sended requests'
+
+  const sendedRequestsList = document.createElement('ul')
+  sendedRequestsList.id = 'blocked-users-list'
+
+  sendedRequestsItem.append(sendedRequestsTitle, sendedRequestsList)
+
+  /* --------------------------------------------- */
+
+  const pendingRequestsTitle = document.createElement('h2')
+  pendingRequestsTitle.textContent = 'Pending requests'
+
+  const pendingRequestsList = document.createElement('ul')
+  pendingRequestsList.id = 'blocked-users-list'
+
+  pendingRequestsItem.append(pendingRequestsTitle, pendingRequestsList)
+
+  /* --------------------------------------------- */
+
+  const blockedUsersTitle = document.createElement('h2')
+  blockedUsersTitle.textContent = 'Blocked users'
+
+  const blockedUsersList = document.createElement('ul')
+  blockedUsersList.id = 'blocked-users-list'
+
+  blockedUsersItem.append(blockedUsersTitle, blockedUsersList)
+
+  /* --------------------------------------------- */
+
+  friendshipsContainer.append(
+    myFriendsItem,
+    sendedRequestsItem,
+    pendingRequestsItem,
+    blockedUsersItem
+  )
+
+  const friendsApi = new FriendsApi()
+  const { myFriends, sendedRequests, pendingRequests, blockedUsers } = await friendsApi.getFriendships()
+
+  myFriends.forEach(({ from, to }) => {
+    const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
+
+    const verifUsername = from.id === id ? to.username : from.username
+    const verifId = from.id === id ? to.id : from.id
+
+    const listItem = document.createElement('li')
+    listItem.textContent = verifUsername
+    listItem.dataset.id = verifId
+
+    myFriendsList.append(listItem)
+  })
+
+  sendedRequests.forEach(({ to }) => {
+    const listItem = document.createElement('li')
+    listItem.textContent = to.username
+    listItem.dataset.id = to.id
+
+    sendedRequestsList.append(listItem)
+  })
+
+  pendingRequests.forEach(({ from }) => {
+    const listItem = document.createElement('li')
+    listItem.textContent = from.username
+    listItem.dataset.id = from.id
+
+    pendingRequestsList.append(listItem)
+  })
+
+  blockedUsers.forEach(({ to }) => {
+    const listItem = document.createElement('li')
+    listItem.textContent = to.username
+    listItem.dataset.id = to.id
+
+    blockedUsersList.append(listItem)
+  })
+}
+
+// myFriends
+// sendedRequests
+// pendingRequests
+// blockedUsers

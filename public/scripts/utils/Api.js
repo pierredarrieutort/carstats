@@ -148,3 +148,20 @@ export class StatsApi extends Api {
     })
   }
 }
+
+export class FriendsApi extends Api {
+  constructor () {
+    super()
+
+    this.cookies = new Cookie()
+    this.jwt = this.cookies.get('jwt')
+    this.authorization = { Authorization: `Bearer ${this.jwt}` }
+  }
+
+  async getFriendships () {
+    return await this.request({
+      route: '/friends/me',
+      headersOverride: this.authorization
+    })
+  }
+}
