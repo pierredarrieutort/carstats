@@ -126,6 +126,8 @@ export default class Modal {
 }
 
 async function friendsInitialization () {
+  const friendsApi = new FriendsApi()
+
   const friendshipsContainer = document.getElementById('friendships')
 
   const myFriendsItem = document.createElement('section')
@@ -148,10 +150,13 @@ async function friendsInitialization () {
   const sendedRequestsTitle = document.createElement('h2')
   sendedRequestsTitle.textContent = 'Sended requests'
 
+  const addFriendButton = document.createElement('button')
+  addFriendButton.textContent = 'Add a friend'
+
   const sendedRequestsList = document.createElement('ul')
   sendedRequestsList.id = 'blocked-users-list'
 
-  sendedRequestsItem.append(sendedRequestsTitle, sendedRequestsList)
+  sendedRequestsItem.append(sendedRequestsTitle, addFriendButton, sendedRequestsList)
 
   /* --------------------------------------------- */
 
@@ -168,10 +173,13 @@ async function friendsInitialization () {
   const blockedUsersTitle = document.createElement('h2')
   blockedUsersTitle.textContent = 'Blocked users'
 
+  const blockUserButton = document.createElement('button')
+  blockUserButton.textContent = 'Block a user'
+
   const blockedUsersList = document.createElement('ul')
   blockedUsersList.id = 'blocked-users-list'
 
-  blockedUsersItem.append(blockedUsersTitle, blockedUsersList)
+  blockedUsersItem.append(blockedUsersTitle, blockUserButton, blockedUsersList)
 
   /* --------------------------------------------- */
 
@@ -182,48 +190,93 @@ async function friendsInitialization () {
     blockedUsersItem
   )
 
-  const friendsApi = new FriendsApi()
   const { myFriends, sendedRequests, pendingRequests, blockedUsers } = await friendsApi.getFriendships()
 
-  myFriends.forEach(({ from, to }) => {
+  myFriends.forEach(({ friendshipID, from, to }) => {
     const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
 
-    const verifUsername = from.id === id ? to.username : from.username
-    const verifId = from.id === id ? to.id : from.id
+    const verifUsername = from.id === id
+      ? to.username
+      : from.username
 
     const listItem = document.createElement('li')
     listItem.textContent = verifUsername
-    listItem.dataset.id = verifId
+    listItem.dataset.frienshipId = friendshipID
+
+    const buttonRemove = document.createElement('button')
+    buttonRemove.textContent = 'Remove'
+    buttonRemove.addEventListener('click', async function () {
+      await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+    })
+
+    const buttonBlock = document.createElement('button')
+    buttonBlock.textContent = 'Block'
+    buttonBlock.addEventListener('click', async function () {
+      await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
+    })
+
+    listItem.append(buttonRemove, buttonBlock)
 
     myFriendsList.append(listItem)
   })
 
-  sendedRequests.forEach(({ to }) => {
+  sendedRequests.forEach(({ friendshipID, to }) => {
     const listItem = document.createElement('li')
     listItem.textContent = to.username
-    listItem.dataset.id = to.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const buttonCancel = document.createElement('button')
+    buttonCancel.textContent = 'Cancel'
+    buttonCancel.addEventListener('click', async function () {
+      await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+    })
+
+    listItem.append(buttonCancel)
 
     sendedRequestsList.append(listItem)
   })
 
-  pendingRequests.forEach(({ from }) => {
+  pendingRequests.forEach(({ friendshipID, from }) => {
     const listItem = document.createElement('li')
     listItem.textContent = from.username
-    listItem.dataset.id = from.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const buttonAccept = document.createElement('button')
+    buttonAccept.textContent = 'Accept'
+    buttonAccept.addEventListener('click', async function () {
+      await friendsApi.acceptFriendRequest(this.parentElement.dataset.frienshipId)
+    })
+
+    const buttonIgnore = document.createElement('button')
+    buttonIgnore.textContent = 'Ignore'
+    buttonIgnore.addEventListener('click', async function () {
+      await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+    })
+
+    const buttonBlock = document.createElement('button')
+    buttonBlock.textContent = 'Block'
+    buttonBlock.addEventListener('click', async function () {
+      await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
+    })
+
+    listItem.append(buttonAccept, buttonIgnore, buttonBlock)
 
     pendingRequestsList.append(listItem)
   })
 
-  blockedUsers.forEach(({ to }) => {
+  blockedUsers.forEach(({ friendshipID, to }) => {
     const listItem = document.createElement('li')
     listItem.textContent = to.username
-    listItem.dataset.id = to.id
+    listItem.dataset.frienshipId = friendshipID
+
+    const buttonUnblock = document.createElement('button')
+    buttonUnblock.textContent = 'Unblock'
+    buttonUnblock.addEventListener('click', async function () {
+      await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+    })
+
+    listItem.append(buttonUnblock)
 
     blockedUsersList.append(listItem)
   })
 }
-
-// myFriends
-// sendedRequests
-// pendingRequests
-// blockedUsers
