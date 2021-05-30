@@ -164,4 +164,36 @@ export class FriendsApi extends Api {
       headersOverride: this.authorization
     })
   }
+
+  async blockUser (friendshipID) {
+
+  }
+
+  async blockUserByUsername (username) {
+
+  }
+
+  async unblockUser (friendshipID) {
+
+  }
+
+  async addFriendByUsername (username) {
+
+  }
+
+  async removeFriend (friendshipID) {
+
+  }
+
+  async cancelFriendRequest (friendshipID) {
+
+  }
+
+  async acceptFriendRequest (friendshipID) {
+
+  }
+
+  async ignoreFriendRequest (friendshipID) {
+
+  }
 }

@@ -148,10 +148,13 @@ async function friendsInitialization () {
   const sendedRequestsTitle = document.createElement('h2')
   sendedRequestsTitle.textContent = 'Sended requests'
 
+  const addFriendButton = document.createElement('button')
+  addFriendButton.textContent = 'Add a friend'
+
   const sendedRequestsList = document.createElement('ul')
   sendedRequestsList.id = 'blocked-users-list'
 
-  sendedRequestsItem.append(sendedRequestsTitle, sendedRequestsList)
+  sendedRequestsItem.append(sendedRequestsTitle, addFriendButton, sendedRequestsList)
 
   /* --------------------------------------------- */
 
@@ -168,10 +171,13 @@ async function friendsInitialization () {
   const blockedUsersTitle = document.createElement('h2')
   blockedUsersTitle.textContent = 'Blocked users'
 
+  const blockUserButton = document.createElement('button')
+  blockUserButton.textContent = 'Block a user'
+
   const blockedUsersList = document.createElement('ul')
   blockedUsersList.id = 'blocked-users-list'
 
-  blockedUsersItem.append(blockedUsersTitle, blockedUsersList)
+  blockedUsersItem.append(blockedUsersTitle, blockUserButton, blockedUsersList)
 
   /* --------------------------------------------- */
 
