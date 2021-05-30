@@ -199,7 +199,10 @@ async function friendsInitialization () {
     const button = document.createElement('button')
     button.textContent = 'Remove'
 
-    listItem.append(button)
+    const buttonBlock = document.createElement('button')
+    buttonBlock.textContent = 'Block'
+
+    listItem.append(button, buttonBlock)
 
     myFriendsList.append(listItem)
   })
@@ -228,7 +231,10 @@ async function friendsInitialization () {
     const buttonIgnore = document.createElement('button')
     buttonIgnore.textContent = 'Ignore'
 
-    listItem.append(buttonAccept, buttonIgnore)
+    const buttonBlock = document.createElement('button')
+    buttonBlock.textContent = 'Block'
+
+    listItem.append(buttonAccept, buttonIgnore, buttonBlock)
 
     pendingRequestsList.append(listItem)
   })
