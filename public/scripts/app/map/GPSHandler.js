@@ -111,36 +111,17 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    // if (!this.easing) {
-    // const freshBearing = heading < 180
-    //   ? heading
-    //   : -heading + 180
-
     const bearingEase = () => {
       if (this.latestBearing !== heading) {
-        // this.map.setBearing(heading)
-
         this.map.easeTo({
           bearing: heading,
           duration: 200
         })
-
-        // freshBearing > this.latestBearing
-        //   ? this.map.setBearing(++this.latestBearing)
-        //   : this.map.setBearing(--this.latestBearing)
-
         window.requestAnimationFrame(bearingEase)
       } else { this.easing = false }
     }
 
-    // const min = this.latestBearing - 10
-    // const max = this.latestBearing + 10
-
-    // if (freshBearing < min || freshBearing > max) {
-    //   this.easing = true
     bearingEase()
-    // }
-    // }
   }
 
   createMap () {
@@ -336,6 +317,7 @@ export default class GPSHandler {
         } else {
           this.createMarker(id, { lat, lon })
         }
+        this.modal(id, usersPosition)
       })
 
       this.socket.on('deleteMarker', userId => {
@@ -363,7 +345,7 @@ export default class GPSHandler {
 
   createMarker (id, coords) {
     const markerDOM = document.createElement('div')
-    markerDOM.className = 'marker'
+    markerDOM.className = 'marker-friend'
     markerDOM.id = `marker${id}`
 
     const glMarker = new mapboxgl
@@ -372,6 +354,30 @@ export default class GPSHandler {
       .addTo(this.map)
 
     this.deviceMarkers.push(glMarker)
+  }
+
+  modal (id, usersPosition) {
+    const markerFriend = document.querySelectorAll('.marker-friend')
+
+    if (markerFriend) {
+      const modalFriend = document.getElementById('modal-friend')
+
+      this.map.on('click', () => {
+        markerFriend.forEach(marker => {
+          marker.addEventListener('click', () => {
+            const modalFriendUsername = document.getElementById('modal-friend-name')
+
+            modalFriendUsername.textContent = usersPosition[id][2]
+
+            modalFriend.classList.add('active')
+          })
+
+          document.getElementById('modal-friend-close').addEventListener('click', () => {
+            modalFriend.classList.remove('active')
+          })
+        })
+      })
+    }
   }
 
   error (err) {

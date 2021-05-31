@@ -58,17 +58,17 @@ io.on('connection', async socket => {
     console.error(response.error)
     authApi.disconnect()
   } else {
-    responseHandling(response.id)
+    responseHandling(response.id, response.username)
   }
 
-  function responseHandling (userId) {
+  function responseHandling (userId, username) {
     /**
      * Creates all users position object.
      * Requester will get it except his position
      */
     socket.on('sendPosition', ([latitude, longitude]) => {
       let filteredUsersPosition = usersPosition
-      usersPosition[userId] = [latitude, longitude]
+      usersPosition[userId] = [latitude, longitude, username]
 
       filteredUsersPosition = Object.assign({}, usersPosition)
       delete filteredUsersPosition[userId]
