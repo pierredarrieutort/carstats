@@ -120,13 +120,9 @@ export default class GPSHandler {
       if (this.latestBearing !== heading) {
         // this.map.setBearing(heading)
 
-        // this.map.easeTo({
-        //   bearing: heading,
-        //   duration: 200
-        // })
-
-        this.map.flyTo({
-          bearing: heading
+        this.map.easeTo({
+          bearing: heading,
+          duration: 200
         })
 
         // freshBearing > this.latestBearing
