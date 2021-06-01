@@ -366,8 +366,17 @@ export default class GPSHandler {
         markerFriend.forEach(marker => {
           marker.addEventListener('click', () => {
             const modalFriendUsername = document.getElementById('modal-friend-name')
+            const modalFriendDistance = document.getElementById('modal-friend-distance')
 
             modalFriendUsername.textContent = usersPosition[id][2]
+
+            const traveledDistance = this.distanceCalculator.distance(
+              this.gps.coords.latitude,
+              this.gps.coords.longitude,
+              usersPosition[id][0],
+              usersPosition[id][1]
+            )
+            modalFriendDistance.textContent = `(${Math.round(traveledDistance)} km)`
 
             modalFriend.classList.add('active')
           })

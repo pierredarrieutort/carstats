@@ -55,11 +55,16 @@
 
 #modal-friend {
   .modal-title {
+    gap: 0.5rem;
     p {
       font-size: 1.1rem;
       font-family: $f-title;
       text-transform: uppercase;
     }
+  }
+  #modal-friend-distance {
+    font-family: "pg-light";
+    font-size: 1rem;
   }
   .modal-btns {
     display: flex;
