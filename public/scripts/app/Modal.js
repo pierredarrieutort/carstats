@@ -189,7 +189,9 @@ async function friendsInitialization () {
   blockedUsersTitle.textContent = 'Blocked users'
 
   const blockUserInput = document.createElement('input')
+  blockUserInput.name = 'username'
   blockUserInput.placeholder = 'username'
+  blockUserInput.required = true
 
   const blockUserButton = document.createElement('button')
   blockUserButton.textContent = 'Block a user'
@@ -198,6 +200,11 @@ async function friendsInitialization () {
   const blockUserForm = document.createElement('form')
   blockUserForm.autocomplete = 'off'
   blockUserForm.append(blockUserInput, blockUserButton)
+  blockUserForm.addEventListener('submit', async function (e) {
+    e.preventDefault()
+    const formData = new window.FormData(e.target)
+    await friendsApi.blockUserByUsername(formData.get('username'))
+  })
 
   const blockedUsersList = document.createElement('ul')
   blockedUsersList.id = 'blocked-users-list'

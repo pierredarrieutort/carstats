@@ -176,7 +176,7 @@ export class FriendsApi extends Api {
 
   async blockUserByUsername (username) {
     return await this.request({
-      method: 'DELETE',
+      method: 'POST',
       route: '/friendships/block-by-username',
       headersOverride: this.authorization,
       body: { username }
