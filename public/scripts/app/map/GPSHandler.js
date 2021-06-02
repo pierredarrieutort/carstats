@@ -117,10 +117,6 @@ export default class GPSHandler {
           duration: 200
         })
         window.requestAnimationFrame(bearingEase)
-      } else {
-        setTimeout(() => {
-          window.cancelAnimationFrame(bearingEase)
-        }, 300)
       }
     }
 
