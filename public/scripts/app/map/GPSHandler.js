@@ -390,7 +390,7 @@ export default class GPSHandler {
 
           document.getElementById('modal-add-to-friend').onclick = async function () {
             const friendsApi = new FriendsApi()
-            await friendsApi.addFriendByUsername(id)
+            await friendsApi.addFriendById(id)
           }
 
           document.getElementById('modal-friend-join').addEventListener('click', () => {
