@@ -112,13 +112,12 @@ export default class GPSHandler {
   setOrientationListener (heading) {
     const bearingEase = () => {
       if (this.latestBearing !== heading) {
-        // this.map.easeTo({
-        //   bearing: heading,
-        //   duration: 200
-        // })
-        this.map.rotateTo(heading, { duration: 200 })
+        this.map.easeTo({
+          bearing: heading,
+          duration: 200
+        })
 
-        window.requestAnimationFrame(bearingEase)
+        // window.requestAnimationFrame(bearingEase)
       }
     }
 
