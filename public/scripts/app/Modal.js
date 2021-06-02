@@ -151,14 +151,22 @@ async function friendsInitialization () {
   sendedRequestsTitle.textContent = 'Sended requests'
 
   const addFriendInput = document.createElement('input')
+  addFriendInput.name = 'username'
   addFriendInput.placeholder = 'username'
+  addFriendInput.required = true
 
   const addFriendButton = document.createElement('button')
   addFriendButton.textContent = 'Add a friend'
   addFriendButton.type = 'submit'
 
   const addFriendForm = document.createElement('form')
+  addFriendForm.autocomplete = 'off'
   addFriendForm.append(addFriendInput, addFriendButton)
+  addFriendForm.addEventListener('submit', async function (e) {
+    e.preventDefault()
+    const formData = new window.FormData(e.target)
+    await friendsApi.addFriendByUsername(formData.get('username'))
+  })
 
   const sendedRequestsList = document.createElement('ul')
   sendedRequestsList.id = 'blocked-users-list'
@@ -188,6 +196,7 @@ async function friendsInitialization () {
   blockUserButton.type = 'submit'
 
   const blockUserForm = document.createElement('form')
+  blockUserForm.autocomplete = 'off'
   blockUserForm.append(blockUserInput, blockUserButton)
 
   const blockedUsersList = document.createElement('ul')

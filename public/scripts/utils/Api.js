@@ -160,7 +160,7 @@ export class FriendsApi extends Api {
 
   async getFriendships () {
     return await this.request({
-      route: '/friends/me',
+      route: '/friendships/me',
       headersOverride: this.authorization
     })
   }
@@ -168,7 +168,7 @@ export class FriendsApi extends Api {
   async blockUser (friendshipID) {
     return await this.request({
       method: 'PUT',
-      route: `/friends/${friendshipID}`,
+      route: `/friendships/${friendshipID}`,
       headersOverride: this.authorization,
       body: { status: 'blocked' }
     })
@@ -178,22 +178,24 @@ export class FriendsApi extends Api {
     return await this.request({
       method: '',
       route: '',
-      headersOverride: this.authorization
+      headersOverride: this.authorization,
+      body: { username }
     })
   }
 
   async addFriendByUsername (username) {
     return await this.request({
-      method: '',
-      route: '',
-      headersOverride: this.authorization
+      method: 'POST',
+      route: '/friendships/create-via-id',
+      headersOverride: this.authorization,
+      body: { username }
     })
   }
 
   async removeFriendshipRelation (friendshipID) {
     return await this.request({
       method: 'DELETE',
-      route: `/friends/${friendshipID}`,
+      route: `/friendships/${friendshipID}`,
       headersOverride: this.authorization
     })
   }
@@ -201,7 +203,7 @@ export class FriendsApi extends Api {
   async acceptFriendRequest (friendshipID) {
     return await this.request({
       method: 'PUT',
-      route: `/friends/${friendshipID}`,
+      route: `/friendships/${friendshipID}`,
       headersOverride: this.authorization,
       body: { status: 'accepted' }
     })
