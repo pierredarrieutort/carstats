@@ -84,7 +84,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       if (traveledDistance > 0.002) {
-        this.setOrientationListener(Math.round(this.gps.coords.heading))
+        // this.setOrientationListener(Math.round(this.gps.coords.heading))
       }
       this.setOriginDirections()
       this.geolocate.trigger()
@@ -155,6 +155,11 @@ export default class GPSHandler {
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
+
+      this.map.easeTo({
+        bearing: 120,
+        duration: 200
+      })
 
       this.addDirections()
 
