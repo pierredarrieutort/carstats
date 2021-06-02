@@ -11,6 +11,7 @@ import SpeedLimit from './speedLimit.js'
 import PoiManager from './pointsOfInterest.js'
 import NavigationWatcher from './methods/NavigationWatcher.js'
 import DistanceCalculator from './methods/DistanceCalculator.js'
+import { FriendsApi } from '../../utils/Api.js'
 
 const utils = new Utils()
 
@@ -380,6 +381,11 @@ export default class GPSHandler {
           document.getElementById('modal-friend-close').addEventListener('click', () => {
             modalFriend.classList.remove('active')
           })
+
+          document.getElementById('modal-add-to-friend').onclick = async function () {
+            const friendsApi = new FriendsApi()
+            await friendsApi.addFriendByUsername(id)
+          }
 
           document.getElementById('modal-friend-join').addEventListener('click', () => {
             this.directions.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
