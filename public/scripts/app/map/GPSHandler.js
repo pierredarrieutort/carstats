@@ -74,10 +74,6 @@ export default class GPSHandler {
       this.gps.coords.longitude
     )
 
-    if (traveledDistance > 0.002) {
-      // this.setOrientationListener(Math.round(this.gps.coords.heading))
-    }
-
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
 
@@ -88,6 +84,9 @@ export default class GPSHandler {
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
+      if (traveledDistance > 0.002) {
+        this.setOrientationListener(Math.round(this.gps.coords.heading))
+      }
       this.setOriginDirections()
       this.geolocate.trigger()
     }
@@ -382,6 +381,12 @@ export default class GPSHandler {
           })
 
           document.getElementById('modal-friend-close').addEventListener('click', () => {
+            modalFriend.classList.remove('active')
+          })
+
+          document.getElementById('modal-friend-join').addEventListener('click', () => {
+            this.directions.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+            this.directions.setDestination([usersPosition[id][1], usersPosition[id][0]])
             modalFriend.classList.remove('active')
           })
         })
