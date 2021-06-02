@@ -82,13 +82,14 @@ export default class GPSHandler {
       this.setOriginDirections()
     }
 
-    this.map.easeTo({
-      bearing: 120,
-      duration: 200
-    })
-
     if (this.mapStep.hasAttribute('data-active')) {
       if (traveledDistance > 0.002) {
+        if (this.latestBearing !== this.gps.coords.heading) {
+          this.map.easeTo({
+            bearing: this.gps.coords.heading,
+            duration: 200
+          })
+        }
         // this.setOrientationListener(Math.round(this.gps.coords.heading))
       }
       this.setOriginDirections()
