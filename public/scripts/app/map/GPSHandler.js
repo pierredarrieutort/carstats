@@ -84,13 +84,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       if (traveledDistance > 0.002) {
-        if (this.latestBearing !== this.gps.coords.heading) {
-          this.map.easeTo({
-            bearing: this.gps.coords.heading,
-            duration: 200
-          })
-        }
-        // this.setOrientationListener(Math.round(this.gps.coords.heading))
+        this.setOrientationListener(Math.round(this.gps.coords.heading))
       }
       this.setOriginDirections()
       this.geolocate.trigger()
@@ -115,17 +109,17 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    // const bearingEase = () => {
-    if (this.latestBearing !== heading) {
-      this.map.easeTo({
-        bearing: heading,
-        duration: 200
-      })
-      // window.requestAnimationFrame(bearingEase)
+    const bearingEase = () => {
+      if (this.latestBearing !== heading) {
+        this.map.easeTo({
+          bearing: heading,
+          duration: 200
+        })
+        window.requestAnimationFrame(bearingEase)
+      }
     }
-    // }
 
-    // bearingEase()
+    bearingEase()
   }
 
   createMap () {
