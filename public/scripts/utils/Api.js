@@ -176,8 +176,8 @@ export class FriendsApi extends Api {
 
   async blockUserByUsername (username) {
     return await this.request({
-      method: '',
-      route: '',
+      method: 'DELETE',
+      route: '/friendships/block-by-username',
       headersOverride: this.authorization,
       body: { username }
     })
@@ -186,7 +186,7 @@ export class FriendsApi extends Api {
   async addFriendByUsername (username) {
     return await this.request({
       method: 'POST',
-      route: '/friendships/create-via-username',
+      route: '/friendships/create-by-username',
       headersOverride: this.authorization,
       body: { username }
     })
