@@ -154,6 +154,9 @@ export default class GPSHandler {
     this.map.on('load', () => {
       this.geolocate.trigger()
 
+      this.map.doubleClickZoom.disable()
+      this.map.keyboard.disable()
+
       this.addDirections()
 
       document.querySelector('.mapboxgl-ctrl-bottom-left').remove()
