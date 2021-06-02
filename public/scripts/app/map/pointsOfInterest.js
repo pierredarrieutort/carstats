@@ -62,7 +62,7 @@ class AlertExtractor {
           }
         })
 
-        setTimeout(function () { this.isReady = true }.bind(this), 5000)
+        setTimeout(function () { this.isReady = true }.bind(this), 30000)
       }
     }.bind(this))
   }
