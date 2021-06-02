@@ -121,10 +121,6 @@ export default class GPSHandler {
     }
 
     bearingEase()
-
-    this.map.addEventListener('click', () => {
-      window.cancelAnimationFrame(bearingEase)
-    })
   }
 
   createMap () {
