@@ -156,10 +156,12 @@ export default class GPSHandler {
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
 
-      this.map.easeTo({
-        bearing: 120,
-        duration: 200
-      })
+      if (this.latestBearing !== this.gps.coords.heading) {
+        this.map.easeTo({
+          bearing: this.gps.coords.heading,
+          duration: 200
+        })
+      }
 
       this.addDirections()
 
