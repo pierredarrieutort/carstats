@@ -186,7 +186,7 @@ export class FriendsApi extends Api {
   async addFriendByUsername (username) {
     return await this.request({
       method: 'POST',
-      route: '/friendships/create-via-id',
+      route: '/friendships/create-via-username',
       headersOverride: this.authorization,
       body: { username }
     })
