@@ -75,7 +75,7 @@ export default class GPSHandler {
     )
 
     if (traveledDistance > 0.002) {
-      this.setOrientationListener(Math.round(this.gps.coords.heading))
+      // this.setOrientationListener(Math.round(this.gps.coords.heading))
     }
 
     const navigationWatcher = new NavigationWatcher()
