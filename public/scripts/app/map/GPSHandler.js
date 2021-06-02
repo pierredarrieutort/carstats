@@ -131,7 +131,7 @@ export default class GPSHandler {
       style: this.mapStyle,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       zoom: 18,
-      minZoom: 5,
+      minZoom: 8,
       maxZoom: 20,
       pitch: 60,
       maxPitch: 60
