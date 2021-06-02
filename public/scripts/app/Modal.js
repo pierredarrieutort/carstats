@@ -296,9 +296,17 @@ async function friendsInitialization () {
     pendingRequestsList.append(listItem)
   })
 
-  blockedUsers.forEach(({ friendshipID, to }) => {
+  blockedUsers.forEach(({ friendshipID, from, to }) => {
+    const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
+
     const listItem = document.createElement('li')
-    listItem.textContent = to.username
+
+    if (from.id === id) {
+      listItem.textContent = to.username
+    } else {
+      listItem.textContent = from.username
+    }
+
     listItem.dataset.frienshipId = friendshipID
 
     const buttonUnblock = document.createElement('button')
