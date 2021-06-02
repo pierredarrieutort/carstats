@@ -133,7 +133,8 @@ export default class GPSHandler {
       zoom: 18,
       minZoom: 5,
       maxZoom: 20,
-      pitch: 60
+      pitch: 60,
+      maxPitch: 60
     })
 
     this.geolocateUser()
@@ -154,14 +155,6 @@ export default class GPSHandler {
       this.geolocate.trigger()
 
       this.addDirections()
-
-      this.map.addLayer({
-        id: 'sky',
-        type: 'sky',
-        paint: {
-          'sky-type': 'atmosphere'
-        }
-      })
 
       document.querySelector('.mapboxgl-ctrl-bottom-left').remove()
       document.querySelector('.mapboxgl-ctrl-bottom-right').remove()
