@@ -58,13 +58,6 @@ export default class GPSHandler {
     setInterval(() => {
       this.coordsValidator = [this.gps.coords.longitude, this.gps.coords.latitude]
     }, 1000)
-
-    setTimeout(() => {
-      this.map.easeTo({
-        bearing: 120,
-        duration: 200
-      })
-    }, 2000)
   }
 
   updateUserPosition (data) {
@@ -92,7 +85,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       if (traveledDistance > 0.002) {
-        // this.setOrientationListener(Math.round(this.gps.coords.heading))
+        this.setOrientationListener(Math.round(this.gps.coords.heading))
       }
       this.setOriginDirections()
       this.geolocate.trigger()
@@ -117,18 +110,18 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    // const bearingEase = () => {
+    const bearingEase = () => {
+      if (this.latestBearing !== heading) {
+        this.map.easeTo({
+          bearing: heading,
+          duration: 200
+        })
 
-    // if (this.latestBearing !== heading) {
-    // this.map.easeTo({
-    //   bearing: i,
-    //   duration: 200
-    // })
-    // window.requestAnimationFrame(bearingEase)
-    // }
-    // }
+        // window.requestAnimationFrame(bearingEase)
+      }
+    }
 
-    // bearingEase()
+    bearingEase()
   }
 
   createMap () {
