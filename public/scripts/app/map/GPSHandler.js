@@ -40,6 +40,7 @@ export default class GPSHandler {
 
     this.speedLimit = new SpeedLimit()
     this.distanceCalculator = new DistanceCalculator()
+    this.friendsApi = new FriendsApi()
 
     this.socket = io()
     this.deviceMarkers = []
@@ -350,6 +351,13 @@ export default class GPSHandler {
       .addTo(this.map)
 
     this.deviceMarkers.push(glMarker)
+
+    this.friendsApi.isFriend(id)
+      .then(isFriend => {
+        if (isFriend) {
+          markerDOM.classList.add('isFriend')
+        }
+      })
   }
 
   modal (id, usersPosition) {
@@ -381,9 +389,8 @@ export default class GPSHandler {
             modalFriend.classList.remove('active')
           })
 
-          document.getElementById('modal-add-to-friend').onclick = async function () {
-            const friendsApi = new FriendsApi()
-            await friendsApi.addFriendById(id)
+          document.getElementById('modal-add-to-friend').onclick = async () => {
+            await this.friendsApi.addFriendById(id)
           }
 
           document.getElementById('modal-friend-join').addEventListener('click', () => {

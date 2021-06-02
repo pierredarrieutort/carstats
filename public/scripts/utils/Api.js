@@ -217,4 +217,13 @@ export class FriendsApi extends Api {
       body: { status: 'accepted' }
     })
   }
+
+  async isFriend (id) {
+    return await this.request({
+      method: 'POST',
+      route: '/friendships/is-friend',
+      headersOverride: this.authorization,
+      body: { id }
+    })
+  }
 }
