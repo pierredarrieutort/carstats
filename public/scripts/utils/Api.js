@@ -192,6 +192,15 @@ export class FriendsApi extends Api {
     })
   }
 
+  async addFriendById (id) {
+    return await this.request({
+      method: 'POST',
+      route: '/friendships/create-by-id',
+      headersOverride: this.authorization,
+      body: { id }
+    })
+  }
+
   async removeFriendshipRelation (friendshipID) {
     return await this.request({
       method: 'DELETE',
