@@ -111,17 +111,17 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    const bearingEase = () => {
-      if (this.latestBearing !== heading) {
-        this.map.easeTo({
-          bearing: heading,
-          duration: 200
-        })
-        // window.requestAnimationFrame(bearingEase)
-      }
+    // const bearingEase = () => {
+    if (this.latestBearing !== heading) {
+      this.map.easeTo({
+        bearing: heading,
+        duration: 200
+      })
+      // window.requestAnimationFrame(bearingEase)
     }
+    // }
 
-    bearingEase()
+    // bearingEase()
   }
 
   createMap () {
