@@ -58,6 +58,13 @@ export default class GPSHandler {
     setInterval(() => {
       this.coordsValidator = [this.gps.coords.longitude, this.gps.coords.latitude]
     }, 1000)
+
+    setTimeout(() => {
+      this.map.easeTo({
+        bearing: 120,
+        duration: 200
+      })
+    }, 2000)
   }
 
   updateUserPosition (data) {
@@ -110,17 +117,18 @@ export default class GPSHandler {
   }
 
   setOrientationListener (heading) {
-    const bearingEase = () => {
-      if (this.latestBearing !== heading) {
-        this.map.easeTo({
-          bearing: heading,
-          duration: 200
-        })
-        window.requestAnimationFrame(bearingEase)
-      }
-    }
+    // const bearingEase = () => {
 
-    bearingEase()
+    // if (this.latestBearing !== heading) {
+    // this.map.easeTo({
+    //   bearing: i,
+    //   duration: 200
+    // })
+    // window.requestAnimationFrame(bearingEase)
+    // }
+    // }
+
+    // bearingEase()
   }
 
   createMap () {
@@ -156,11 +164,6 @@ export default class GPSHandler {
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
-
-      this.map.easeTo({
-        bearing: 120,
-        duration: 200
-      })
 
       this.addDirections()
 
