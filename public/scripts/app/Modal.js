@@ -166,6 +166,7 @@ async function friendsInitialization () {
     e.preventDefault()
     const formData = new window.FormData(e.target)
     await friendsApi.addFriendByUsername(formData.get('username'))
+    e.target.reset()
   })
 
   const sendedRequestsList = document.createElement('ul')
@@ -204,6 +205,7 @@ async function friendsInitialization () {
     e.preventDefault()
     const formData = new window.FormData(e.target)
     await friendsApi.blockUserByUsername(formData.get('username'))
+    e.target.reset()
   })
 
   const blockedUsersList = document.createElement('ul')
