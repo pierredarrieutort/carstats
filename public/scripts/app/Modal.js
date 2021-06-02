@@ -96,7 +96,7 @@ export default class Modal {
   settings () {
     const content = document.createElement('div')
     content.innerHTML = `
-      <h1>Settings</h1>
+      <h1>Profile</h1>
       <button id="share" class="btn">Share the app</button>
       <button id="disconnect" class="btn">Log out</button>
       <section id="friendships"></section>
