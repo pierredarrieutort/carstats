@@ -26,7 +26,6 @@ export default class GPSHandler {
 
     this.coordsValidator = []
     this.latestBearing = 0
-    this.easing = false
 
     this.map = null
 
@@ -119,7 +118,7 @@ export default class GPSHandler {
           duration: 200
         })
         window.requestAnimationFrame(bearingEase)
-      } else { this.easing = false }
+      }
     }
 
     bearingEase()
