@@ -498,6 +498,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
   &[data-type="ROAD_CLOSED"] {
     background-image: url("../images/icon-road-closed.png");
   }

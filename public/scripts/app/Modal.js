@@ -97,8 +97,10 @@ export default class Modal {
     const content = document.createElement('div')
     content.innerHTML = `
       <h1>Profile</h1>
-      <button id="share" class="btn">Share the app</button>
-      <button id="disconnect" class="btn">Log out</button>
+      <div class="profile-btns">
+        <button id="share" class="btn">Share the app</button>
+        <button id="disconnect" class="btn">Log out</button>
+      </div>
       <section id="friendships"></section>
     `
 
@@ -151,16 +153,19 @@ async function friendsInitialization () {
   sendedRequestsTitle.textContent = 'Sended requests'
 
   const addFriendInput = document.createElement('input')
+  addFriendInput.classList.add('input-search')
   addFriendInput.name = 'username'
-  addFriendInput.placeholder = 'username'
+  addFriendInput.placeholder = 'Username'
   addFriendInput.required = true
 
   const addFriendButton = document.createElement('button')
+  addFriendButton.classList.add('btn-add')
   addFriendButton.textContent = 'Add a friend'
   addFriendButton.type = 'submit'
 
   const addFriendForm = document.createElement('form')
   addFriendForm.autocomplete = 'off'
+  addFriendForm.classList.add('form-content')
   addFriendForm.append(addFriendInput, addFriendButton)
   addFriendForm.addEventListener('submit', async function (e) {
     e.preventDefault()
@@ -232,16 +237,19 @@ async function friendsInitialization () {
       : from.username
 
     const listItem = document.createElement('li')
+    listItem.classList.add('friend-item')
     listItem.textContent = verifUsername
     listItem.dataset.frienshipId = friendshipID
 
     const buttonRemove = document.createElement('button')
+    buttonRemove.classList.add('btn-add')
     buttonRemove.textContent = 'Remove'
     buttonRemove.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
     })
 
     const buttonBlock = document.createElement('button')
+    buttonBlock.classList.add('btn-block')
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
@@ -286,6 +294,7 @@ async function friendsInitialization () {
     })
 
     const buttonBlock = document.createElement('button')
+    buttonBlock.classList.add('btn-block')
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)

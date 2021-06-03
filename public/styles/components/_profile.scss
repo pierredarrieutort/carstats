@@ -1,0 +1,56 @@
+.profile-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#friendships {
+  section {
+    &:not(:last-of-type) {
+      border-bottom: 1px solid lighten($c-bg, 20%);
+      padding-bottom: 1rem;
+    }
+  }
+  .form-content {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+  .friend-item {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    text-transform: capitalize;
+  }
+  .input-search {
+    background: $c-white;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    box-shadow: none;
+    border: none;
+  }
+  .btn-add {
+    background: $c-primary;
+    color: $c-white;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-block {
+    background: #f22e2e;
+    color: $c-white;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+  }
+}

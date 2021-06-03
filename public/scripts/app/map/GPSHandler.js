@@ -366,38 +366,40 @@ export default class GPSHandler {
     if (markerFriend) {
       const modalFriend = document.getElementById('modal-friend')
 
-      this.map.on('click', () => {
-        markerFriend.forEach(marker => {
-          marker.addEventListener('click', () => {
-            const modalFriendUsername = document.getElementById('modal-friend-name')
-            const modalFriendDistance = document.getElementById('modal-friend-distance')
+      markerFriend.forEach(marker => {
+        marker.addEventListener('click', () => {
+          const modalFriendUsername = document.getElementById('modal-friend-name')
+          const modalFriendDistance = document.getElementById('modal-friend-distance')
 
-            modalFriendUsername.textContent = usersPosition[id][2]
+          modalFriendUsername.textContent = usersPosition[id][2]
 
-            const traveledDistance = this.distanceCalculator.distance(
-              this.gps.coords.latitude,
-              this.gps.coords.longitude,
-              usersPosition[id][0],
-              usersPosition[id][1]
-            )
-            modalFriendDistance.textContent = `(${Math.round(traveledDistance)} km)`
+          const traveledDistance = this.distanceCalculator.distance(
+            this.gps.coords.latitude,
+            this.gps.coords.longitude,
+            usersPosition[id][0],
+            usersPosition[id][1]
+          )
+          modalFriendDistance.textContent = `(${Math.round(traveledDistance)} km)`
 
-            modalFriend.classList.add('active')
-          })
+          modalFriend.classList.add('active')
+        })
 
-          document.getElementById('modal-friend-close').addEventListener('click', () => {
-            modalFriend.classList.remove('active')
-          })
+        document.getElementById('modal-friend-close').addEventListener('click', () => {
+          modalFriend.classList.remove('active')
+        })
 
-          document.getElementById('modal-add-to-friend').onclick = async () => {
-            await this.friendsApi.addFriendById(id)
-          }
+        document.getElementById('modal-add-to-friend').onclick = async () => {
+          await this.friendsApi.addFriendById(id)
+        }
 
-          document.getElementById('modal-friend-join').addEventListener('click', () => {
-            this.directions.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
-            this.directions.setDestination([usersPosition[id][1], usersPosition[id][0]])
-            modalFriend.classList.remove('active')
-          })
+        if (marker.classList.contains('isFriend')) {
+          document.getElementById('modal-add-to-friend').style.display = 'none'
+        }
+
+        document.getElementById('modal-friend-join').addEventListener('click', () => {
+          this.directions.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
+          this.directions.setDestination([usersPosition[id][1], usersPosition[id][0]])
+          modalFriend.classList.remove('active')
         })
       })
     }
