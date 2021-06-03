@@ -226,6 +226,8 @@ export default class GPSHandler {
             this.geolocate.trigger()
           }
 
+          document.body.classList.add('isTravelling')
+
           this.setStepTravelInformations(routeData)
         })
       }
@@ -253,6 +255,12 @@ export default class GPSHandler {
 
   getStepTravelInformations (routeData) {
     this.mapStep.setAttribute('data-active', true)
+
+    document.getElementById('map-step-recap-duration').textContent = utils.convertSecondsToDuration(routeData.duration)
+
+    const date = new Date()
+    date.setSeconds(date.getSeconds() + routeData.duration)
+    document.getElementById('map-step-recap-time').textContent = new Intl.DateTimeFormat('fr-FR', { hour: 'numeric', minute: 'numeric' }).format(date)
 
     const routeDataStep = routeData.legs[0].steps[0]
 
