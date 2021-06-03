@@ -159,7 +159,7 @@ async function friendsInitialization () {
   addFriendInput.required = true
 
   const addFriendButton = document.createElement('button')
-  addFriendButton.classList.add('btn-add')
+  addFriendButton.classList.add('btn-blue')
   addFriendButton.textContent = 'Add a friend'
   addFriendButton.type = 'submit'
 
@@ -195,15 +195,18 @@ async function friendsInitialization () {
   blockedUsersTitle.textContent = 'Blocked users'
 
   const blockUserInput = document.createElement('input')
+  blockUserInput.classList.add('input-search')
   blockUserInput.name = 'username'
-  blockUserInput.placeholder = 'username'
+  blockUserInput.placeholder = 'Username'
   blockUserInput.required = true
 
   const blockUserButton = document.createElement('button')
+  blockUserButton.classList.add('btn-blue')
   blockUserButton.textContent = 'Block a user'
   blockUserButton.type = 'submit'
 
   const blockUserForm = document.createElement('form')
+  blockUserForm.classList.add('form-content')
   blockUserForm.autocomplete = 'off'
   blockUserForm.append(blockUserInput, blockUserButton)
   blockUserForm.addEventListener('submit', async function (e) {
@@ -242,14 +245,14 @@ async function friendsInitialization () {
     listItem.dataset.frienshipId = friendshipID
 
     const buttonRemove = document.createElement('button')
-    buttonRemove.classList.add('btn-add')
+    buttonRemove.classList.add('btn-white')
     buttonRemove.textContent = 'Remove'
     buttonRemove.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
     })
 
     const buttonBlock = document.createElement('button')
-    buttonBlock.classList.add('btn-block')
+    buttonBlock.classList.add('btn-red')
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
@@ -262,10 +265,12 @@ async function friendsInitialization () {
 
   sendedRequests.forEach(({ friendshipID, to }) => {
     const listItem = document.createElement('li')
+    listItem.classList.add('friend-item-send')
     listItem.textContent = to.username
     listItem.dataset.frienshipId = friendshipID
 
     const buttonCancel = document.createElement('button')
+    buttonCancel.classList.add('btn-red')
     buttonCancel.textContent = 'Cancel'
     buttonCancel.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
@@ -278,23 +283,27 @@ async function friendsInitialization () {
 
   pendingRequests.forEach(({ friendshipID, from }) => {
     const listItem = document.createElement('li')
+    listItem.classList.add('friend-item-pending')
     listItem.textContent = from.username
     listItem.dataset.frienshipId = friendshipID
 
     const buttonAccept = document.createElement('button')
+    buttonAccept.classList.add('btn-white')
     buttonAccept.textContent = 'Accept'
     buttonAccept.addEventListener('click', async function () {
       await friendsApi.acceptFriendRequest(this.parentElement.dataset.frienshipId)
     })
 
     const buttonIgnore = document.createElement('button')
+    buttonIgnore.classList.add('btn-white')
     buttonIgnore.textContent = 'Ignore'
     buttonIgnore.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
     })
 
     const buttonBlock = document.createElement('button')
-    buttonBlock.classList.add('btn-block')
+    buttonBlock.classList.add('btn-red')
+    buttonBlock.classList.add('btn-red')
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
@@ -309,6 +318,7 @@ async function friendsInitialization () {
     const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
 
     const listItem = document.createElement('li')
+    listItem.classList.add('friend-item-send')
 
     if (from.id === id) {
       listItem.textContent = to.username
@@ -319,6 +329,7 @@ async function friendsInitialization () {
     listItem.dataset.frienshipId = friendshipID
 
     const buttonUnblock = document.createElement('button')
+    buttonUnblock.classList.add('btn-white')
     buttonUnblock.textContent = 'Unblock'
     buttonUnblock.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
