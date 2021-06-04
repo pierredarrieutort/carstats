@@ -88,12 +88,11 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       if (traveledDistance > 0.002) {
-        if (this.geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-          this.setOrientationListener(Math.round(this.gps.coords.heading))
-        }
+        this.setOrientationListener(Math.round(this.gps.coords.heading))
       }
       this.setOriginDirections()
       this.geolocate.trigger()
+      this.map.zoomTo(19)
     }
   }
 
@@ -137,8 +136,8 @@ export default class GPSHandler {
       style: this.mapStyle,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       zoom: 18,
-      // minZoom: 8,
-      // maxZoom: 20,
+      minZoom: 8,
+      maxZoom: 20,
       pitch: 60,
       maxPitch: 60
     })
@@ -159,6 +158,7 @@ export default class GPSHandler {
 
     this.map.on('load', () => {
       this.geolocate.trigger()
+      this.map.zoomTo(19)
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
@@ -207,6 +207,7 @@ export default class GPSHandler {
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
           this.geolocate.trigger()
+          this.map.zoomTo(19)
           this.map.scrollZoom.enable()
         }
 
@@ -229,6 +230,7 @@ export default class GPSHandler {
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.geolocate.trigger()
+            this.map.zoomTo(19)
           }
 
           document.body.classList.add('isTravelling')
