@@ -226,6 +226,7 @@ export default class GPSHandler {
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             if (this.traveledDistance > 0.002) {
+              this.map.zoomTo(19)
               this.setTrigger(Math.round(this.gps.coords.heading))
             }
           }
