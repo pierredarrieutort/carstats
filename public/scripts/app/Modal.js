@@ -144,7 +144,7 @@ async function friendsInitialization () {
   myFriendsTitle.textContent = 'My friends'
 
   const myFriendsList = document.createElement('ul')
-  myFriendsList.id = 'blocked-users-list'
+  myFriendsList.id = 'my-friends-list'
 
   myFriendsItem.append(myFriendsTitle, myFriendsList)
 
@@ -173,10 +173,11 @@ async function friendsInitialization () {
     const formData = new window.FormData(e.target)
     await friendsApi.addFriendByUsername(formData.get('username'))
     e.target.reset()
+    refreshDomFriendships(true)
   })
 
   const sendedRequestsList = document.createElement('ul')
-  sendedRequestsList.id = 'blocked-users-list'
+  sendedRequestsList.id = 'sended-requests-list'
 
   sendedRequestsItem.append(sendedRequestsTitle, addFriendForm, sendedRequestsList)
 
@@ -186,7 +187,7 @@ async function friendsInitialization () {
   pendingRequestsTitle.textContent = 'Pending requests'
 
   const pendingRequestsList = document.createElement('ul')
-  pendingRequestsList.id = 'blocked-users-list'
+  pendingRequestsList.id = 'pending-requests-list'
 
   pendingRequestsItem.append(pendingRequestsTitle, pendingRequestsList)
 
@@ -215,6 +216,7 @@ async function friendsInitialization () {
     const formData = new window.FormData(e.target)
     await friendsApi.blockUserByUsername(formData.get('username'))
     e.target.reset()
+    refreshDomFriendships(true)
   })
 
   const blockedUsersList = document.createElement('ul')
@@ -231,9 +233,29 @@ async function friendsInitialization () {
     blockedUsersItem
   )
 
+  refreshDomFriendships()
+}
+
+async function refreshDomFriendships (refreshing = false) {
+  const friendsApi = new FriendsApi()
+
+  const myFriendsList = document.getElementById('my-friends-list')
+  const sendedRequestsList = document.getElementById('sended-requests-list')
+  const pendingRequestsList = document.getElementById('pending-requests-list')
+  const blockedUsersList = document.getElementById('blocked-users-list')
+
+  if (refreshing) {
+    [
+      myFriendsList,
+      sendedRequestsList,
+      pendingRequestsList,
+      blockedUsersList
+    ].forEach(list => { list.innerHTML = '' })
+  }
+
   const { myFriends, sendedRequests, pendingRequests, blockedUsers } = await friendsApi.getFriendships()
 
-  myFriends.forEach(({ friendshipID, from, to }) => {
+  const myfriendsDomInjection = (friendshipID, from, to) => {
     const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
 
     const verifUsername = from.id === id
@@ -250,6 +272,7 @@ async function friendsInitialization () {
     buttonRemove.textContent = 'Remove'
     buttonRemove.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     const buttonBlock = document.createElement('button')
@@ -257,14 +280,17 @@ async function friendsInitialization () {
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     listItem.append(buttonRemove, buttonBlock)
 
     myFriendsList.append(listItem)
-  })
+  }
 
-  sendedRequests.forEach(({ friendshipID, to }) => {
+  myFriends.forEach(({ friendshipID, from, to }) => myfriendsDomInjection(friendshipID, from, to))
+
+  const sendedRequestsDomInjection = (friendshipID, to) => {
     const listItem = document.createElement('li')
     listItem.classList.add('friend-item-send')
     listItem.textContent = to.username
@@ -275,14 +301,17 @@ async function friendsInitialization () {
     buttonCancel.textContent = 'Cancel'
     buttonCancel.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     listItem.append(buttonCancel)
 
     sendedRequestsList.append(listItem)
-  })
+  }
 
-  pendingRequests.forEach(({ friendshipID, from }) => {
+  sendedRequests.forEach(({ friendshipID, to }) => sendedRequestsDomInjection(friendshipID, to))
+
+  const pendingRequestsDomInjection = (friendshipID, from) => {
     const listItem = document.createElement('li')
     listItem.classList.add('friend-item-pending')
     listItem.textContent = from.username
@@ -293,6 +322,7 @@ async function friendsInitialization () {
     buttonAccept.textContent = 'Accept'
     buttonAccept.addEventListener('click', async function () {
       await friendsApi.acceptFriendRequest(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     const buttonIgnore = document.createElement('button')
@@ -300,6 +330,7 @@ async function friendsInitialization () {
     buttonIgnore.textContent = 'Ignore'
     buttonIgnore.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     const buttonBlock = document.createElement('button')
@@ -308,14 +339,17 @@ async function friendsInitialization () {
     buttonBlock.textContent = 'Block'
     buttonBlock.addEventListener('click', async function () {
       await friendsApi.blockUser(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     listItem.append(buttonAccept, buttonIgnore, buttonBlock)
 
     pendingRequestsList.append(listItem)
-  })
+  }
 
-  blockedUsers.forEach(({ friendshipID, from, to }) => {
+  pendingRequests.forEach(({ friendshipID, from }) => pendingRequestsDomInjection(friendshipID, from))
+
+  const blockedUsersDomInjection = (friendshipID, from, to) => {
     const { id } = JSON.parse(window.atob(document.cookie.split('jwt=')[1].split('.')[1].replace('-', '+').replace('_', '/')))
 
     const listItem = document.createElement('li')
@@ -334,10 +368,13 @@ async function friendsInitialization () {
     buttonUnblock.textContent = 'Unblock'
     buttonUnblock.addEventListener('click', async function () {
       await friendsApi.removeFriendshipRelation(this.parentElement.dataset.frienshipId)
+      refreshDomFriendships(true)
     })
 
     listItem.append(buttonUnblock)
 
     blockedUsersList.append(listItem)
-  })
+  }
+
+  blockedUsers.forEach(({ friendshipID, from, to }) => blockedUsersDomInjection(friendshipID, from, to))
 }
