@@ -355,17 +355,23 @@ export default class GPSHandler {
   }
 
   updateMarker (id, coords) {
-    const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id === `marker${id}`)
-    this.deviceMarkers[indexToUpdate].setLngLat(coords)
+    const indexToUpdate = this.deviceMarkers.findIndex(e => e?._element.id === `marker${id}`)
 
-    if (this.joiningFriend === id) {
-      this.directions.setDestination([coords.lon, coords.lat])
+    if (indexToUpdate !== -1) {
+      this.deviceMarkers[indexToUpdate].setLngLat(coords)
+
+      if (this.joiningFriend === id) {
+        this.directions.setDestination([coords.lon, coords.lat])
+      }
+
+      console.log(this.deviceMarkers[indexToUpdate])
+      this.friendMarker(id, this.deviceMarkers[indexToUpdate]._element)
     }
   }
 
   createMarker (id, coords) {
     const markerDOM = document.createElement('div')
-    markerDOM.className = 'marker-friend'
+    markerDOM.classList.add('marker-friend')
     markerDOM.id = `marker${id}`
 
     const glMarker = new mapboxgl
@@ -375,11 +381,15 @@ export default class GPSHandler {
 
     this.deviceMarkers.push(glMarker)
 
+    this.friendMarker(id, markerDOM)
+  }
+
+  friendMarker (id, marker) {
     this.friendsApi.isFriend(id)
       .then(isFriend => {
         if (isFriend) {
-          markerDOM.classList.add('isFriend')
-          markerDOM.style.background = '#2ef290'
+          marker.classList.add('isFriend')
+          marker.style.background = '#2ef290'
         }
       })
   }
