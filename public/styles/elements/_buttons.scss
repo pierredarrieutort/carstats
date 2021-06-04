@@ -22,10 +22,16 @@
   opacity: 0;
   visibility: hidden;
   display: none;
+  &::first-letter {
+    text-transform: uppercase;
+  }
   &.active {
     opacity: 1;
     visibility: visible;
     display: block;
+    position: sticky;
+    top: 2rem;
+    left: 0;
   }
   &-error {
     background: #f22e2e;

@@ -70,34 +70,32 @@ class AlertExtractor {
   modal () {
     const modalAlert = document.getElementById('modal-alert')
 
-    this.map.on('click', () => {
-      document.querySelectorAll('.marker-alert').forEach(marker => {
-        marker.addEventListener('click', element => {
-          const modalAlertElement = element.currentTarget.dataset
-          const modalAlertIcon = document.getElementById('modal-alert-icon')
-          const modalAlertType = document.getElementById('modal-alert-type')
-          const modalAlertLocation = document.getElementById('modal-alert-location')
-          const modalAlertDistance = document.getElementById('modal-alert-distance')
+    document.querySelectorAll('.marker-alert').forEach(marker => {
+      marker.addEventListener('click', element => {
+        const modalAlertElement = element.currentTarget.dataset
+        const modalAlertIcon = document.getElementById('modal-alert-icon')
+        const modalAlertType = document.getElementById('modal-alert-type')
+        const modalAlertLocation = document.getElementById('modal-alert-location')
+        const modalAlertDistance = document.getElementById('modal-alert-distance')
 
-          if (modalAlertElement.type === 'JAM') modalAlertIcon.style.backgroundImage = `url("${iconJam}")`
-          else if (modalAlertElement.type === 'ROAD_CLOSED') modalAlertIcon.style.backgroundImage = `url("${iconRoadClosed}")`
-          else if (modalAlertElement.type === 'POLICE') modalAlertIcon.style.backgroundImage = `url("${iconPolice}")`
-          else if (modalAlertElement.type === 'HAZARD') modalAlertIcon.style.backgroundImage = `url("${iconHazard}")`
+        if (modalAlertElement.type === 'JAM') modalAlertIcon.style.backgroundImage = `url("${iconJam}")`
+        else if (modalAlertElement.type === 'ROAD_CLOSED') modalAlertIcon.style.backgroundImage = `url("${iconRoadClosed}")`
+        else if (modalAlertElement.type === 'POLICE') modalAlertIcon.style.backgroundImage = `url("${iconPolice}")`
+        else if (modalAlertElement.type === 'HAZARD') modalAlertIcon.style.backgroundImage = `url("${iconHazard}")`
 
-          modalAlertType.textContent = modalAlertElement.type.replace('_', ' ')
-          modalAlertLocation.textContent = `${modalAlertElement.street}, ${modalAlertElement.city}`
+        modalAlertType.textContent = modalAlertElement.type.replace('_', ' ')
+        modalAlertLocation.textContent = `${modalAlertElement.street}, ${modalAlertElement.city}`
 
-          this.distanceCalculator = new DistanceCalculator()
-          const traveledDistance = this.distanceCalculator.distance(
-            this.gps.coords.latitude,
-            this.gps.coords.longitude,
-            modalAlertElement.lat,
-            modalAlertElement.lng
-          )
-          modalAlertDistance.textContent = `${Math.round(traveledDistance)} km`
+        this.distanceCalculator = new DistanceCalculator()
+        const traveledDistance = this.distanceCalculator.distance(
+          this.gps.coords.latitude,
+          this.gps.coords.longitude,
+          modalAlertElement.lat,
+          modalAlertElement.lng
+        )
+        modalAlertDistance.textContent = `${Math.round(traveledDistance)} km`
 
-          modalAlert.classList.add('active')
-        })
+        modalAlert.classList.add('active')
       })
     })
 

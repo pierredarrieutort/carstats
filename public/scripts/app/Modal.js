@@ -101,6 +101,7 @@ export default class Modal {
         <button id="share" class="btn">Share the app</button>
         <button id="disconnect" class="btn">Log out</button>
       </div>
+      <div class="msg"></div>
       <section id="friendships"></section>
     `
 

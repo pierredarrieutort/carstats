@@ -156,6 +156,8 @@ export class FriendsApi extends Api {
     this.cookies = new Cookie()
     this.jwt = this.cookies.get('jwt')
     this.authorization = { Authorization: `Bearer ${this.jwt}` }
+
+    this.msg = document.querySelector('.msg')
   }
 
   async getFriendships () {
@@ -181,6 +183,7 @@ export class FriendsApi extends Api {
       headersOverride: this.authorization,
       body: { username }
     })
+      .then(err => displayMessage('error', this.msg, err.message))
   }
 
   async addFriendByUsername (username) {
@@ -190,6 +193,7 @@ export class FriendsApi extends Api {
       headersOverride: this.authorization,
       body: { username }
     })
+      .then(err => displayMessage('error', this.msg, err.message))
   }
 
   async addFriendById (id) {
