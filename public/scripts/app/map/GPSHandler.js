@@ -92,9 +92,7 @@ export default class GPSHandler {
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
-      if (this.traveledDistance > 0.002) {
-        this.setTrigger(Math.round(this.gps.coords.heading))
-      }
+      this.setTrigger(Math.round(this.gps.coords.heading))
       this.setOriginDirections()
       this.geolocate.trigger()
     }
@@ -229,9 +227,7 @@ export default class GPSHandler {
             this.geolocate.trigger()
           }
 
-          if (this.traveledDistance > 0.002) {
-            this.setTrigger(Math.round(this.gps.coords.heading))
-          }
+          this.setTrigger(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
