@@ -87,12 +87,12 @@ export default class GPSHandler {
     }
 
     if (traveledDistance > 0.002) {
-      this.setOrientationListener(Math.round(this.gps.coords.heading))
+      this.setTrigger(Math.round(this.gps.coords.heading))
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      // this.geolocate.trigger()
+      this.setTrigger(Math.round(this.gps.coords.heading))
     }
   }
 
@@ -113,7 +113,7 @@ export default class GPSHandler {
     }
   }
 
-  setOrientationListener (heading) {
+  setTrigger (heading) {
     this.map.easeTo({
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       bearing: heading,
@@ -202,7 +202,7 @@ export default class GPSHandler {
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-          this.geolocate.trigger()
+          this.setTrigger(Math.round(this.gps.coords.heading))
           this.map.scrollZoom.enable()
         }
 
@@ -224,10 +224,8 @@ export default class GPSHandler {
 
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-            // this.geolocate.trigger()
+            this.setTrigger(Math.round(this.gps.coords.heading))
           }
-
-          this.setOrientationListener(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
