@@ -112,13 +112,26 @@ export default class GPSHandler {
   }
 
   setTrigger (heading) {
-    this.map.easeTo({
-      bearing: heading,
-      duration: 400,
-      options: {
-        essentials: true
-      }
-    })
+    // this.map.easeTo({
+    //   bearing: heading,
+    //   duration: 400,
+    //   options: {
+    //     essentials: true
+    //   }
+    // })
+    const bearingEase = () => {
+      this.map.easeTo({
+        bearing: heading,
+        duration: 200,
+        options: {
+          essentials: true
+        }
+      })
+
+      window.requestAnimationFrame(bearingEase)
+    }
+
+    bearingEase()
   }
 
   createMap () {
