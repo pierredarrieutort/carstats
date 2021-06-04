@@ -87,8 +87,9 @@ export default class GPSHandler {
       this.gps.coords.longitude
     )
 
+    this.setTrigger(Math.round(this.gps.coords.heading))
+
     if (this.mapStep.hasAttribute('data-active')) {
-      this.setTrigger(Math.round(this.gps.coords.heading))
       this.setOriginDirections()
       this.geolocate.trigger()
     }
@@ -112,26 +113,14 @@ export default class GPSHandler {
   }
 
   setTrigger (heading) {
-    // this.map.easeTo({
-    //   bearing: heading,
-    //   duration: 400,
-    //   options: {
-    //     essentials: true
-    //   }
-    // })
-    const bearingEase = () => {
-      this.map.easeTo({
-        bearing: heading,
-        duration: 200,
-        options: {
-          essentials: true
-        }
-      })
-
-      window.requestAnimationFrame(bearingEase)
-    }
-
-    bearingEase()
+    console.log('oui')
+    this.map.easeTo({
+      bearing: heading,
+      duration: 200,
+      options: {
+        essentials: true
+      }
+    })
   }
 
   createMap () {
@@ -164,6 +153,7 @@ export default class GPSHandler {
 
     this.map.on('load', () => {
       this.geolocate.trigger()
+      this.setTrigger(Math.round(this.gps.coords.heading))
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
