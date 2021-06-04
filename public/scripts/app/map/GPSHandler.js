@@ -229,6 +229,10 @@ export default class GPSHandler {
             this.geolocate.trigger()
           }
 
+          if (this.traveledDistance > 0.002) {
+            this.setTrigger(Math.round(this.gps.coords.heading))
+          }
+
           document.body.classList.add('isTravelling')
 
           this.setStepTravelInformations(routeData)
