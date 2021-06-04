@@ -93,6 +93,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
+      this.setTrigger(Math.round(this.gps.coords.heading))
     }
   }
 
