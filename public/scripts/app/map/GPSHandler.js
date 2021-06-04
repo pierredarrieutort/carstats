@@ -360,8 +360,6 @@ export default class GPSHandler {
       if (this.joiningFriend === id) {
         this.directions.setDestination([coords.lon, coords.lat])
       }
-
-      this.friendMarker(id, this.deviceMarkers[indexToUpdate]._element)
     }
   }
 
@@ -385,7 +383,6 @@ export default class GPSHandler {
       .then(isFriend => {
         if (isFriend) {
           marker.classList.add('isFriend')
-          marker.style.background = '#2ef290'
         }
       })
   }
