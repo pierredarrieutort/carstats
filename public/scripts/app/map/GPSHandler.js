@@ -93,7 +93,6 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      // this.geolocate.trigger()
     }
   }
 
@@ -114,7 +113,7 @@ export default class GPSHandler {
     }
   }
 
-  setOrientationListener (heading) {
+  setTrigger (heading) {
     this.map.easeTo({
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       bearing: heading,
@@ -227,8 +226,6 @@ export default class GPSHandler {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.setTrigger(Math.round(this.gps.coords.heading))
           }
-
-          this.setOrientationListener(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
