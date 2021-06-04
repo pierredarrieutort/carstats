@@ -87,8 +87,6 @@ export default class GPSHandler {
       this.gps.coords.longitude
     )
 
-    this.setTrigger(Math.round(this.gps.coords.heading))
-
     if (this.mapStep.hasAttribute('data-active')) {
       this.setTrigger(Math.round(this.gps.coords.heading))
       this.setOriginDirections()
@@ -224,8 +222,6 @@ export default class GPSHandler {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.geolocate.trigger()
           }
-
-          this.setTrigger(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
