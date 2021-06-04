@@ -224,8 +224,6 @@ export default class GPSHandler {
             this.geolocate.trigger()
           }
 
-          this.setTrigger(Math.round(this.gps.coords.heading))
-
           document.body.classList.add('isTravelling')
 
           this.setStepTravelInformations(routeData)
