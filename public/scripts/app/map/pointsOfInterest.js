@@ -84,7 +84,7 @@ class AlertExtractor {
         else if (modalAlertElement.type === 'HAZARD') modalAlertIcon.style.backgroundImage = `url("${iconHazard}")`
 
         modalAlertType.textContent = modalAlertElement.type.replace('_', ' ')
-        modalAlertLocation.textContent = `${modalAlertElement.street}, ${modalAlertElement.city}`
+        modalAlertLocation.textContent = `${modalAlertElement.street !== 'undefined' ? modalAlertElement.street + ', ' : ''} ${modalAlertElement.city !== 'undefined' ? modalAlertElement.city : ''}`
 
         this.distanceCalculator = new DistanceCalculator()
         const traveledDistance = this.distanceCalculator.distance(
@@ -93,7 +93,7 @@ class AlertExtractor {
           modalAlertElement.lat,
           modalAlertElement.lng
         )
-        modalAlertDistance.textContent = `${Math.round(traveledDistance)} km`
+        modalAlertDistance.textContent = `${Math.round(traveledDistance) > 0 ? Math.round(traveledDistance) + ' km' : 'Near'}`
 
         modalAlert.classList.add('active')
       })

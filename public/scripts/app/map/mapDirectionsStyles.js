@@ -147,7 +147,7 @@ export default [{
   type: 'circle',
   source: 'directions',
   paint: {
-    'circle-radius': 14,
+    'circle-radius': 10,
     'circle-color': '#4882c5'
   },
   filter: [

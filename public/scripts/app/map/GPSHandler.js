@@ -44,6 +44,8 @@ export default class GPSHandler {
 
     this.socket = io()
     this.deviceMarkers = []
+
+    this.joiningFriend = ''
   }
 
   gpsInitialization (data) {
@@ -135,8 +137,8 @@ export default class GPSHandler {
       style: this.mapStyle,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       zoom: 18,
-      minZoom: 8,
-      maxZoom: 20,
+      // minZoom: 8,
+      // maxZoom: 20,
       pitch: 60,
       maxPitch: 60
     })
@@ -212,6 +214,7 @@ export default class GPSHandler {
 
         this.mapData.removeAttribute('data-active')
         this.mapStep.removeAttribute('data-active')
+        document.body.classList.remove('isTravelling')
       })
 
       routeData = route.route[0]
@@ -250,9 +253,13 @@ export default class GPSHandler {
     date.setSeconds(date.getSeconds() + routeData.duration)
     document.getElementById('map-data-time').textContent = new Intl.DateTimeFormat('fr-FR', { hour: 'numeric', minute: 'numeric' }).format(date)
 
-    document.querySelector('#map-data-origin span').textContent = routeData.legs[0].steps.shift().name || 'Undefined place'
+    routeData.legs[0].steps.shift().name
+      ? document.querySelector('#map-data-origin span').textContent = routeData.legs[0].steps.shift().name
+      : document.getElementById('map-data-origin').style.display = 'none'
 
-    document.querySelector('#map-data-destination span').textContent = routeData.legs[0].steps.pop().name || 'Undefined place'
+    routeData.legs[0].steps.pop().name
+      ? document.querySelector('#map-data-destination span').textContent = routeData.legs[0].steps.pop().name
+      : document.getElementById('map-data-destination').style.display = 'none'
   }
 
   getStepTravelInformations (routeData) {
@@ -348,6 +355,10 @@ export default class GPSHandler {
   updateMarker (id, coords) {
     const indexToUpdate = this.deviceMarkers.findIndex(({ _element }) => _element.id === `marker${id}`)
     this.deviceMarkers[indexToUpdate].setLngLat(coords)
+
+    if (this.joiningFriend === id) {
+      this.directions.setDestination([coords.lon, coords.lat])
+    }
   }
 
   createMarker (id, coords) {
@@ -410,6 +421,7 @@ export default class GPSHandler {
         document.getElementById('modal-friend-join').addEventListener('click', () => {
           this.directions.setOrigin([this.gps.coords.longitude, this.gps.coords.latitude])
           this.directions.setDestination([usersPosition[id][1], usersPosition[id][0]])
+          this.joiningFriend = id
           modalFriend.classList.remove('active')
         })
       })
