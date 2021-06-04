@@ -93,9 +93,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      setInterval(() => {
-        this.setTrigger(Math.round(this.gps.coords.heading))
-      }, 2000)
+      this.setTrigger(Math.round(this.gps.coords.heading))
     }
   }
 
