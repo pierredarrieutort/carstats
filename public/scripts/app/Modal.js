@@ -271,6 +271,10 @@ async function refreshDomFriendships (refreshing = false) {
       ? to.username
       : from.username
 
+    const verifId = from.id === id ? to.id : from.id
+
+    document.getElementById(`marker${verifId}`)?.classList.add('isFriend')
+
     const listItem = document.createElement('li')
     listItem.classList.add('friend-item')
     listItem.textContent = verifUsername
