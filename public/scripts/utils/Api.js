@@ -183,7 +183,6 @@ export class FriendsApi extends Api {
       headersOverride: this.authorization,
       body: { username }
     })
-      .then(err => displayMessage('error', this.msg, err.message))
   }
 
   async addFriendByUsername (username) {
@@ -193,7 +192,6 @@ export class FriendsApi extends Api {
       headersOverride: this.authorization,
       body: { username }
     })
-      .then(err => displayMessage('error', this.msg, err.message))
   }
 
   async addFriendById (id) {

@@ -2,6 +2,7 @@ import initStatistics from './statistics.js'
 import initDriving from './driving.js'
 import initSettings from './settings.js'
 import { FriendsApi } from '../utils/Api.js'
+import displayMessage from '../utils/Message.js'
 
 export default class Modal {
   constructor () {
@@ -131,6 +132,8 @@ export default class Modal {
 async function friendsInitialization () {
   const friendsApi = new FriendsApi()
 
+  const msgItem = document.querySelector('.msg')
+
   const friendshipsContainer = document.getElementById('friendships')
 
   const myFriendsItem = document.createElement('section')
@@ -171,7 +174,10 @@ async function friendsInitialization () {
   addFriendForm.addEventListener('submit', async function (e) {
     e.preventDefault()
     const formData = new window.FormData(e.target)
-    await friendsApi.addFriendByUsername(formData.get('username'))
+    const friendReq = await friendsApi.addFriendByUsername(formData.get('username'))
+    friendReq.statusCode
+      ? displayMessage('error', msgItem, friendReq.message)
+      : displayMessage('success', msgItem, friendReq.message)
     e.target.reset()
   })
 
@@ -213,7 +219,10 @@ async function friendsInitialization () {
   blockUserForm.addEventListener('submit', async function (e) {
     e.preventDefault()
     const formData = new window.FormData(e.target)
-    await friendsApi.blockUserByUsername(formData.get('username'))
+    const friendReq = await friendsApi.blockUserByUsername(formData.get('username'))
+    friendReq.statusCode
+      ? displayMessage('error', msgItem, friendReq.message)
+      : displayMessage('success', msgItem, friendReq.message)
     e.target.reset()
   })
 
