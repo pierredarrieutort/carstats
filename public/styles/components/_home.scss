@@ -89,3 +89,15 @@
     margin: 0 0.25rem;
   }
 }
+
+.home-img {
+  padding: 4rem 0;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    width: 80%;
+  }
+}
