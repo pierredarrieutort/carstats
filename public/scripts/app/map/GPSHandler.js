@@ -225,7 +225,9 @@ export default class GPSHandler {
 
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-            this.setTrigger(Math.round(this.gps.coords.heading))
+            if (this.traveledDistance > 0.002) {
+              this.setTrigger(Math.round(this.gps.coords.heading))
+            }
           }
 
           document.body.classList.add('isTravelling')
