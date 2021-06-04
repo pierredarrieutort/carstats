@@ -93,7 +93,6 @@ export default class GPSHandler {
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
       this.geolocate.trigger()
-      this.map.zoomTo(19)
     }
   }
 
@@ -116,6 +115,7 @@ export default class GPSHandler {
 
   setOrientationListener (heading) {
     this.map.easeTo({
+      center: [this.gps.coords.longitude, this.gps.coords.latitude],
       bearing: heading,
       zoom: 19,
       duration: 400,
