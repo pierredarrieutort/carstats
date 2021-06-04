@@ -121,7 +121,7 @@ export default class GPSHandler {
           duration: 200
         })
 
-        window.requestAnimationFrame(bearingEase)
+        // window.requestAnimationFrame(bearingEase)
       }
     }
 
