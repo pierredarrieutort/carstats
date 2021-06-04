@@ -87,12 +87,12 @@ export default class GPSHandler {
     }
 
     if (traveledDistance > 0.002) {
-      this.setTrigger(Math.round(this.gps.coords.heading))
+      this.setOrientationListener(Math.round(this.gps.coords.heading))
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      this.setTrigger(Math.round(this.gps.coords.heading))
+      // this.geolocate.trigger()
     }
   }
 
@@ -113,7 +113,7 @@ export default class GPSHandler {
     }
   }
 
-  setTrigger (heading) {
+  setOrientationListener (heading) {
     this.map.easeTo({
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
       bearing: heading,
@@ -202,7 +202,7 @@ export default class GPSHandler {
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-          this.setTrigger(Math.round(this.gps.coords.heading))
+          this.geolocate.trigger()
           this.map.scrollZoom.enable()
         }
 
@@ -224,8 +224,10 @@ export default class GPSHandler {
 
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-            this.setTrigger(Math.round(this.gps.coords.heading))
+            // this.geolocate.trigger()
           }
+
+          this.setOrientationListener(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
@@ -356,6 +358,14 @@ export default class GPSHandler {
 
       if (this.joiningFriend === id) {
         this.directions.setDestination([coords.lon, coords.lat])
+      }
+
+      const DOMMarker = this.deviceMarkers[indexToUpdate]._element
+
+      if (!DOMMarker.classList.contains('isFriendChecked')) {
+        this.friendMarker(id, DOMMarker)
+        DOMMarker.classList.add('isFriendChecked')
+        window.setTimeout(() => { DOMMarker.classList.remove('isFriendChecked') }, 60000)
       }
     }
   }
