@@ -113,7 +113,6 @@ export default class GPSHandler {
   }
 
   setTrigger (heading) {
-    console.log('oui')
     this.map.easeTo({
       bearing: heading,
       duration: 200,
@@ -153,7 +152,6 @@ export default class GPSHandler {
 
     this.map.on('load', () => {
       this.geolocate.trigger()
-      this.setTrigger(Math.round(this.gps.coords.heading))
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
@@ -225,6 +223,8 @@ export default class GPSHandler {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
             this.geolocate.trigger()
           }
+
+          this.setTrigger(Math.round(this.gps.coords.heading))
 
           document.body.classList.add('isTravelling')
 
