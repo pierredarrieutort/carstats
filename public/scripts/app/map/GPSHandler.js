@@ -27,6 +27,7 @@ export default class GPSHandler {
 
     this.coordsValidator = []
     this.latestBearing = 0
+    this.traveledDistance = 0
 
     this.map = null
 
@@ -70,13 +71,6 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    const traveledDistance = this.distanceCalculator.distance(
-      this.coordsValidator[1],
-      this.coordsValidator[0],
-      this.gps.coords.latitude,
-      this.gps.coords.longitude
-    )
-
     const navigationWatcher = new NavigationWatcher()
     navigationWatcher.update(this.gps.coords)
 
@@ -86,13 +80,22 @@ export default class GPSHandler {
       this.setOriginDirections()
     }
 
-    if (traveledDistance > 0.002) {
+    this.traveledDistance = this.distanceCalculator.distance(
+      this.coordsValidator[1],
+      this.coordsValidator[0],
+      this.gps.coords.latitude,
+      this.gps.coords.longitude
+    )
+
+    if (this.traveledDistance > 0.002) {
       this.setTrigger(Math.round(this.gps.coords.heading))
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      this.setTrigger(Math.round(this.gps.coords.heading))
+      if (this.traveledDistance > 0.002) {
+        this.setTrigger(Math.round(this.gps.coords.heading))
+      }
     }
   }
 
