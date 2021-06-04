@@ -92,7 +92,7 @@ export default class GPSHandler {
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setOriginDirections()
-      this.geolocate.trigger()
+      // this.geolocate.trigger()
     }
   }
 
@@ -224,7 +224,7 @@ export default class GPSHandler {
 
         this.mapStart.addEventListener('click', () => {
           if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-            this.geolocate.trigger()
+            // this.geolocate.trigger()
           }
 
           this.setOrientationListener(Math.round(this.gps.coords.heading))
