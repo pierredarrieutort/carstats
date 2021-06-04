@@ -203,7 +203,7 @@ export default class GPSHandler {
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-          this.setTrigger(Math.round(this.gps.coords.heading))
+          this.geolocate.trigger()
           this.map.scrollZoom.enable()
         }
 
