@@ -87,9 +87,7 @@ export default class GPSHandler {
       this.gps.coords.longitude
     )
 
-    if (this.traveledDistance > 0.002) {
-      this.setTrigger(Math.round(this.gps.coords.heading))
-    }
+    this.setTrigger(Math.round(this.gps.coords.heading))
 
     if (this.mapStep.hasAttribute('data-active')) {
       this.setTrigger(Math.round(this.gps.coords.heading))
