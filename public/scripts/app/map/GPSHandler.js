@@ -42,6 +42,7 @@ export default class GPSHandler {
     this.speedLimit = new SpeedLimit()
     this.distanceCalculator = new DistanceCalculator()
     this.friendsApi = new FriendsApi()
+    this.navigationWatcher = new NavigationWatcher()
 
     this.socket = io()
     this.deviceMarkers = []
@@ -71,8 +72,7 @@ export default class GPSHandler {
 
     this.map.getZoom()
 
-    const navigationWatcher = new NavigationWatcher()
-    navigationWatcher.update(this.gps.coords)
+    this.navigationWatcher.update(this.gps.coords)
 
     this.speedLimit.updateSpeedLimit(this.gps.coords)
 
