@@ -366,6 +366,7 @@ export default class GPSHandler {
       .then(isFriend => {
         if (isFriend) {
           markerDOM.classList.add('isFriend')
+          markerDOM.style.background = '#2ef290'
         }
       })
   }
