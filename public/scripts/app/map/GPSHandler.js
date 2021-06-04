@@ -154,7 +154,7 @@ export default class GPSHandler {
     this.map.addControl(this.geolocate)
 
     this.map.on('load', () => {
-      this.setTrigger(Math.round(this.gps.coords.heading))
+      this.geolocate.trigger()
 
       this.map.doubleClickZoom.disable()
       this.map.keyboard.disable()
