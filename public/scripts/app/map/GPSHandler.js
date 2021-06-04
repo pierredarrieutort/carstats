@@ -88,6 +88,7 @@ export default class GPSHandler {
 
     if (traveledDistance > 0.002) {
       this.setOrientationListener(Math.round(this.gps.coords.heading))
+      this.map.zoomTo(19)
     }
 
     if (this.mapStep.hasAttribute('data-active')) {
@@ -202,7 +203,7 @@ export default class GPSHandler {
 
       document.querySelector('.geocoder-icon.geocoder-icon-close').addEventListener('click', () => {
         if (!geolocate.classList.contains('mapboxgl-ctrl-geolocate-active')) {
-          this.geolocate.trigger()
+          // this.geolocate.trigger()
           this.map.scrollZoom.enable()
         }
 
@@ -228,6 +229,7 @@ export default class GPSHandler {
           }
 
           this.setOrientationListener(Math.round(this.gps.coords.heading))
+          this.map.zoomTo(19)
 
           document.body.classList.add('isTravelling')
 
