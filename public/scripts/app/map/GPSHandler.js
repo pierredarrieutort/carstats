@@ -17,10 +17,15 @@ const utils = new Utils()
 
 export default class GPSHandler {
   constructor () {
-    this.token = CONFIG.MAPBOXGL.ACCESS_TOKEN
+    mapboxgl.accessToken = CONFIG.MAPBOXGL.ACCESS_TOKEN
     this.mapStyle = CONFIG.MAPBOXGL.STYLE
 
-    this.gps = {}
+    this.gps = {
+      coords: {
+        latitude: 0,
+        longitude: 0
+      }
+    }
     this.gpsOptions = {
       enableHighAccuracy: true
     }
@@ -50,19 +55,19 @@ export default class GPSHandler {
     this.joiningFriend = ''
   }
 
-  gpsInitialization (data) {
-    this.gps = data
+  gpsInitialization () {
+    this.geolocateUser()
 
     this.createMap()
 
-    const poiManager = new PoiManager(this.map, this.gps)
-    poiManager.start()
+    // const poiManager = new PoiManager(this.map, this.gps)
+    // poiManager.start()
 
-    this.speedLimit.createComponent(this.gps.coords)
+    // this.speedLimit.createComponent(this.gps.coords)
 
-    setInterval(() => {
-      this.coordsValidator = [this.gps.coords.longitude, this.gps.coords.latitude]
-    }, 1000)
+    // setInterval(() => {
+    //   this.coordsValidator = [this.gps.coords.longitude, this.gps.coords.latitude]
+    // }, 1000)
   }
 
   updateUserPosition (data) {
@@ -96,20 +101,15 @@ export default class GPSHandler {
   }
 
   setGeolocation () {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(this.gpsInitialization.bind(this), this.error, this.gpsOptions)
-      navigator.geolocation.watchPosition(this.updateUserPosition.bind(this), this.error, this.gpsOptions)
-    } else {
-      console.error('Geolocation is not supported by this browser.')
-    }
+    'geolocation' in navigator
+      ? this.gpsInitialization()
+      : console.error('Geolocation is not supported by this browser.')
   }
 
   setWakeLock () {
-    if ('wakeLock' in navigator) {
-      navigator.wakeLock.request('screen')
-    } else {
-      console.error('WakeLock is not supported by this browser.')
-    }
+    'wakeLock' in navigator
+      ? navigator.wakeLock.request('screen')
+      : console.error('WakeLock is not supported by this browser.')
   }
 
   setTrigger (heading) {
@@ -122,10 +122,23 @@ export default class GPSHandler {
     })
   }
 
-  createMap () {
-    mapboxgl.accessToken = this.token
+  geolocateUser () {
+    this.geolocate = new mapboxgl.GeolocateControl({
+      // TODO check if these options are up-to-date with last mapbox version.
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      showAccuracyCircle: true,
+      trackUserLocation: true,
+      showUserHeading: true
+    })
 
+    this.geolocate.on('geolocate', e => Object.assign(this.gps.coords, e.coords))
+  }
+
+  createMap () {
     this.map = new mapboxgl.Map({
+      // TODO check if these options are up-to-date with last mapbox version.
       container: 'map',
       style: this.mapStyle,
       center: [this.gps.coords.longitude, this.gps.coords.latitude],
@@ -134,18 +147,6 @@ export default class GPSHandler {
       maxZoom: 20,
       pitch: 60,
       maxPitch: 60
-    })
-
-    this.geolocateUser()
-  }
-
-  geolocateUser () {
-    this.geolocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      showAccuracyCircle: false,
-      trackUserLocation: true
     })
 
     this.map.addControl(this.geolocate)
@@ -158,11 +159,13 @@ export default class GPSHandler {
 
       this.addDirections()
 
-      document.querySelector('.mapboxgl-ctrl-bottom-left').remove()
-      document.querySelector('.mapboxgl-ctrl-bottom-right').remove()
-      document.querySelector('.mapbox-directions-origin').remove()
-      document.querySelector('.directions-icon.directions-icon-reverse.directions-reverse').remove()
-      document.querySelector('.mapbox-form-label').remove()
+      document.querySelectorAll([
+        '.mapboxgl-ctrl-bottom-left',
+        '.mapboxgl-ctrl-bottom-right',
+        '.mapbox-directions-origin',
+        '.directions-icon.directions-icon-reverse.directions-reverse',
+        '.mapbox-form-label'
+      ]).forEach(el => el.remove())
     })
   }
 
