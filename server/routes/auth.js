@@ -1,6 +1,6 @@
 import express from 'express'
-import Cookie from '../public/scripts/utils/Cookie'
-import ServerApi from '../public/scripts/utils/ServerApi'
+import Cookie from '../../client/public/scripts/utils/Cookie'
+import ServerApi from '../../client/public/scripts/utils/ServerApi'
 
 const authRouter = express()
 

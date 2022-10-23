@@ -4,11 +4,12 @@ import path from 'path'
 import authRouter from './routes/auth'
 import appRouter from './routes/app'
 
-import Cookie from './public/scripts/utils/Cookie'
-import ServerApi from './public/scripts/utils/ServerApi'
-import AuthApi from './public/scripts/utils/Api'
+import Cookie from '../client/public/scripts/utils/Cookie'
+import ServerApi from '../client/public/scripts/utils/ServerApi'
+import AuthApi from '../client/public/scripts/utils/Api'
 
-import manifest from './dist/manifest.json'
+//? Currently requires a first client-side build to generate manifest & favicon.
+import manifest from '../client/dist/manifest.json'
 import favicon from 'serve-favicon'
 
 const app = express()
@@ -22,7 +23,7 @@ app.use((req, res, next) => req.secure || req.ip === '127.0.0.1'
 app.set('views', path.resolve('views'))
 app.set('view engine', 'ejs')
 
-app.use(express.static('dist'))
+app.use(express.static('../client/dist'))
 
 app.get('/', (req, res) => {
   if (req.headers.cookie) {
@@ -101,4 +102,4 @@ app.get('/sw.js', (request, response) => {
 })
 
 app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
-app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '../client/public/images', 'favicon.ico')))

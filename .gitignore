@@ -1,9 +1,9 @@
-/node_modules
+node_modules
 package-lock.json
 yarn.lock
 *.map
-/public/styles/*.css
+public/styles/*.css
 .DS_Store
-/.cache
-/dist
+.cache
+dist
 .cjsescache

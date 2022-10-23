@@ -1,0 +1,22 @@
+{
+  "name": "back",
+  "engines": {
+    "node": ">=18.11.x"
+  },
+  "scripts": {
+    "start": "node -r esm server.js",
+    "serve": "node --watch -r esm server.js"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^17.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
+    "esm": "^3.2.25",
+    "express": "5.0.0-beta.1",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^4.5.3"
+  }
+}
