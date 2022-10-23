@@ -11,8 +11,6 @@ import AuthApi from './public/scripts/utils/Api'
 import manifest from './dist/manifest.json'
 import favicon from 'serve-favicon'
 
-// import cron from 'node-cron'
-
 const app = express()
 
 app.enable('trust proxy')
@@ -98,17 +96,9 @@ server.listen(process.env.PORT || 3000, '0.0.0.0', err => {
   console.log(`Server listening on ${server.address().port}`)
 })
 
-// app.get('/', (request, response) => {
-//   response.sendFile(path.resolve('index.html'));
-// });
-
 app.get('/sw.js', (request, response) => {
   response.sendFile(path.resolve('sw.js'))
 })
 
 app.get('/manifest.webmanifest', (req, res) => res.json(manifest))
 app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))
-
-// cron.schedule('*/2 * * * *', function () {
-//   console.log('running a task every two minutes keeping ON Heroku app.')
-// })

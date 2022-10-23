@@ -1,5 +1,4 @@
 import CONFIG from '../../../config.js'
-import nodeFetch from 'node-fetch'
 
 export default class ServerApi {
   /**
@@ -19,14 +18,14 @@ export default class ServerApi {
 
     const options = Object.assign(
       {
-        method: method,
+        method,
         headers: _headers,
         redirect: 'follow'
       },
-      reqAdditional
+      _reqAdditional
     )
 
-    const response = await nodeFetch(CONFIG.DOMAIN_URL + route, options)
+    const response = await fetch(CONFIG.DOMAIN_URL + route, options)
     return await response.json()
   }
 
@@ -34,7 +33,7 @@ export default class ServerApi {
     return await this.request({
       route: '/users/me',
       headersOverride: {
-        'Authorization': `Bearer ${data.bearer}`
+        Authorization: `Bearer ${data.bearer}`
       }
     })
   }

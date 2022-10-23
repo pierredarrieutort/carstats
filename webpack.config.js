@@ -23,9 +23,6 @@ module.exports = {
   experiments: {
     outputModule: true
   },
-  devServer: {
-    writeToDisk: true
-  },
   devtool: 'eval-cheap-source-map',
   module: {
     rules: [
@@ -41,8 +38,7 @@ module.exports = {
                 ['@babel/plugin-transform-runtime']
               ]
             }
-          },
-          'standard-loader'
+          }
         ]
       },
       {
