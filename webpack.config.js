@@ -89,7 +89,7 @@ module.exports = {
     new WebpackPwaManifest(webmanifest),
     new GenerateSW({
       swDest: 'sw.js',
-      sourcemap: false,
+      sourcemap: true,
       skipWaiting: true,
       exclude: [
         /swagger-ui/,
