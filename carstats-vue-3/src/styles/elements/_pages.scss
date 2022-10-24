@@ -1,0 +1,18 @@
+html {
+  font-size: 15px;
+}
+
+body {
+  font-family: $f-text;
+  background: $c-bg;
+  color: $c-white;
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: $container;
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+}

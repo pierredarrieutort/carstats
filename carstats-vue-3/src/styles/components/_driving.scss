@@ -1,0 +1,115 @@
+h2 {
+  font-size: 1.4rem;
+  margin: 2rem 0 1rem;
+}
+
+.stats-global {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  div {
+    border: 1px solid lighten($c-bg, 20%);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      &:first-of-type {
+        font-size: 0.9rem;
+      }
+
+      &:last-of-type {
+        font-size: 1.2rem;
+        font-family: $f-title;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+
+.driving-stats {
+  > div {
+    padding: 2rem;
+    border-radius: 10px;
+    background: darken($c-bg, 5%);
+
+    &:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+
+    > div {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+      > div {
+        &:first-of-type {
+          div {
+            background-image: url("@/assets/images/icon-speed-max.png");
+          }
+        }
+        &:nth-of-type(2) {
+          div {
+            background-image: url("@/assets/images/icon-speed-avg.png");
+          }
+        }
+        &:nth-of-type(3) {
+          div {
+            background-image: url("@/assets/images/icon-distance.png");
+          }
+        }
+        &:last-of-type {
+          div {
+            background-image: url("@/assets/images/icon-duration.png");
+          }
+        }
+      }
+      div div {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 0 auto 1rem;
+      }
+      p {
+        font-family: $f-title;
+        font-size: f(1);
+        margin-bottom: 0.25rem;
+      }
+      span {
+        color: $c-darkGray;
+        font-size: f(0.9);
+      }
+    }
+
+    p {
+      &.travel-date {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: lighten($c-darkGray, 20%);
+      }
+      &.travel-name {
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid lighten($c-bg, 10%);
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  > p {
+    background: $c-gray;
+    border-radius: 6px;
+    padding: 1rem;
+    color: $c-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+}

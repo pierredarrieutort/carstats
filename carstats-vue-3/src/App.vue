@@ -19,5 +19,5 @@
 </script>
 
 <style lang="scss">
-@import '@/styles/main.scss';
+@import '@/styles/index.scss';
 </style>

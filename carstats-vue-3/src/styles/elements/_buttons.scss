@@ -1,0 +1,56 @@
+.btn {
+  width: 100%;
+  background: $c-primary;
+  color: $c-white;
+  padding: s(1);
+  border-radius: 100px;
+  border: none;
+  margin: s(1) 0 0;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgb($c-primary, 35%);
+}
+
+.msg {
+  color: #fff;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin: 2rem 0;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    position: sticky;
+    top: 2rem;
+    left: 0;
+  }
+  &-error {
+    background: #f22e2e;
+  }
+  &-success {
+    background: #47bf5b;
+  }
+}
+
+#map-error {
+  color: #fff;
+  background: #f22e2e;
+  width: 90vw;
+  max-width: 500px;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  position: absolute;
+  top: 6rem;
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}

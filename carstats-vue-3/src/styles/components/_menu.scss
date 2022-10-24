@@ -1,0 +1,60 @@
+.main-menu {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  padding: 0 0 1.5rem;
+}
+
+#main-menu {
+  border-radius: 100px;
+  background: $c-white;
+  color: $c-bg;
+  user-select: none;
+
+  ul {
+    display: grid;
+    grid-template: auto / repeat(4, 1fr);
+    padding: 0 1.6em;
+    gap: 0.2em;
+    align-items: center;
+  }
+
+  li.active {
+    a {
+      color: $c-primary;
+    }
+    path {
+      fill: $c-primary;
+    }
+  }
+
+  li:last-of-type {
+    a {
+      svg {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.55em;
+    margin: 0;
+    font-size: 0.8em;
+    border-radius: 30em;
+    height: 4.5rem;
+    cursor: pointer;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      display: block;
+    }
+  }
+}

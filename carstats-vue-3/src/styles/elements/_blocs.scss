@@ -1,0 +1,15 @@
+.bloc {
+    &-default {
+        padding: s(1.5) 0;
+    }
+    &-full {
+        padding-top: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &-full-map {
+        padding-top: 0;
+        height: 100vh;
+    }
+}
